@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
   <img src="https://img.shields.io/badge/node-%3E%3D18-blue.svg" alt="Node.js Version">
-  <a href="https://railway.com/deploy/2Vz0lw?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a>
+  <a href="https://railway.com/deploy/lightcrawl?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a>
   <a href="https://github.com/sponsors/yosuke1024"><img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=github-sponsors" alt="Sponsor"></a>
 </p>
 
@@ -192,7 +192,7 @@ To build and run LightCrawl inside a Docker container:
 
 The fastest way to deploy LightCrawl is using **Railway**. With zero configuration needed, it automatically builds and runs the container.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/2Vz0lw?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/lightcrawl?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
 ---
 
