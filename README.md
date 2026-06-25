@@ -117,7 +117,7 @@ Add the following to your `claude_desktop_config.json`:
   "mcpServers": {
     "lightcrawl": {
       "command": "node",
-      "args": ["/Users/suzukiyousuke/Lightcrawl/dist/index.js"]
+      "args": ["/path/to/Lightcrawl/dist/index.js"]
     }
   }
 }
