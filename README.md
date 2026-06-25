@@ -18,6 +18,15 @@ LightCrawl is a lightweight, single-container, self-hostable Web scraping API an
 - **Hybrid Interface**: Acts as both a standard Express-based HTTP API and an MCP Server (stdio-based) simultaneously, ensuring all logs go to `stderr` to avoid interfering with the JSON-RPC stdout stream.
 - **Dockerized & Resource-Optimized**: Multistage build optimized for Playwright, downloading only the Chromium browser binary to minimize memory usage and container footprint.
 
+## Security & Sandboxing Benefits
+
+When AI agents or local tools need to scrape unknown, untrusted web pages, directly loading them in local browsers poses severe security risks. LightCrawl acts as a secure, sandboxed proxy:
+
+- **Client Environment Protection**: By fetching and converting web pages into static Markdown, it completely eliminates the risk of client-side browser exploits (e.g., drive-by downloads, malicious JavaScript execution) infecting your host machine.
+- **IP Address & Location Anonymization**: The target website only sees the IP address of the LightCrawl server (e.g., hosted on Railway or Docker), shielding your local development machine's IP and location from malicious hosts or honeypots.
+- **Containerized Isolation**: Operating within a single Docker container, even if a zero-day browser exploit compromises the headless Chromium process, the threat remains isolated in an ephemeral, easily-disposable container sandbox.
+- **Prompt Injection Mitigation**: By filtering out scripts, styles, and non-content elements via the `Readability` parser, it delivers clean semantic text, reducing the risk of hidden adversarial prompt injections targeting your LLM pipelines.
+
 ---
 
 ## Prerequisites
