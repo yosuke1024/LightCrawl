@@ -1,5 +1,12 @@
 # Lightcrawl
 
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  <img src="https://img.shields.io/badge/node-%3E%3D18-blue.svg" alt="Node.js Version">
+  <a href="https://railway.app/new/template?template=https://github.com/yosuke1024/Lightcrawl"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a>
+  <a href="https://github.com/sponsors/yosuke1024"><img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=github-sponsors" alt="Sponsor"></a>
+</p>
+
 Lightcrawl is a lightweight, single-container, self-hostable Web scraping API and Model Context Protocol (MCP) server that converts any web page into clean Markdown. It serves as a minimal, low-cost alternative to Firecrawl, optimized for local development and low-resource environments (e.g., $3-$5/month hosting).
 
 ## Features
@@ -73,6 +80,17 @@ Lightcrawl runs as a hybrid server. When started, it opens an Express port for H
 
 By default, the HTTP server listens on port `3000` (can be configured via `PORT` environment variable).
 
+#### Access Control & Security (Optional)
+
+##### 1. API Key Authentication
+If the `API_KEY` environment variable is set on the server, clients must authenticate by providing the API key in one of the following ways:
+- **Authorization Header**: `Authorization: Bearer <API_KEY>`
+- **Query Parameter**: `/scrape?url=...&key=<API_KEY>`
+
+##### 2. IP Address Whitelisting
+If the `ALLOWED_IPS` environment variable is set (as a comma-separated list, e.g., `127.0.0.1,203.0.113.50`), the server will block any requests originating from non-whitelisted IP addresses with a `403 Forbidden` response.
+This feature automatically parses the `x-forwarded-for` proxy header to determine the correct client IP when deployed behind a reverse proxy (e.g., Railway).
+
 #### Get Health Status
 - **Endpoint**: `GET /health`
 - **Request**:
@@ -87,9 +105,17 @@ By default, the HTTP server listens on port `3000` (can be configured via `PORT`
 #### Scrape Web Page
 - **Endpoint**: `GET /scrape`
 - **Query Parameter**: `url` (string, required)
-- **Request**:
+- **Request (No Authentication)**:
   ```bash
   curl "http://localhost:3000/scrape?url=https://example.com"
+  ```
+- **Request (With Authentication)**:
+  ```bash
+  # Using Authorization Header (Recommended)
+  curl -H "Authorization: Bearer YOUR_API_KEY" "http://localhost:3000/scrape?url=https://example.com"
+
+  # Or using Query Parameter
+  curl "http://localhost:3000/scrape?url=https://example.com&key=YOUR_API_KEY"
   ```
 - **Response**:
   ```json
@@ -147,6 +173,25 @@ To build and run Lightcrawl inside a Docker container:
 
 ---
 
+## Deployment
+
+### Deploy to Railway
+
+The fastest way to deploy Lightcrawl is using **Railway**. With zero configuration needed, it automatically builds and runs the container.
+
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.app/new/template?template=https://github.com/yosuke1024/Lightcrawl)
+
+---
+
+## Sponsors
+
+If you find this project useful, please consider supporting its development:
+
+- [GitHub Sponsors](https://github.com/sponsors/yosuke1024)
+- [PixApps](https://pixapps.ai/)
+
+---
+
 ## License
 
-MIT
+This project is licensed under the [MIT License](LICENSE).

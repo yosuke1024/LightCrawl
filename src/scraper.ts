@@ -1,4 +1,4 @@
-import { Page, BrowserContext } from 'playwright';
+import { Page, BrowserContext, Browser } from 'playwright';
 import { chromium } from 'playwright-extra';
 import stealthPlugin from 'puppeteer-extra-plugin-stealth';
 import UserAgent from 'user-agents';
@@ -9,12 +9,93 @@ import TurndownService from 'turndown';
 // Register the stealth plugin to bypass simple scraper detection
 chromium.use(stealthPlugin());
 
+let sharedBrowser: Browser | null = null;
+let isInitializing = false;
+
+/**
+ * Get or initialize the shared headless browser instance (singleton).
+ */
+async function getBrowserInstance(): Promise<Browser> {
+  if (sharedBrowser && sharedBrowser.isConnected()) {
+    return sharedBrowser;
+  }
+
+  if (isInitializing) {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    return getBrowserInstance();
+  }
+
+  isInitializing = true;
+  try {
+    if (sharedBrowser) {
+      await sharedBrowser.close().catch(() => {});
+    }
+    sharedBrowser = await chromium.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage', // Critical for Docker/Railway resource limits
+        '--disable-gpu',
+      ],
+    });
+    isInitializing = false;
+    return sharedBrowser;
+  } catch (error) {
+    isInitializing = false;
+    throw error;
+  }
+}
+
+// Clean up browser instance on process exit
+process.on('exit', () => {
+  if (sharedBrowser) {
+    sharedBrowser.close().catch(() => {});
+  }
+});
+
+/**
+ * Concurrency limiter using a simple semaphore queue
+ */
+class ConcurrencyLimiter {
+  private active = 0;
+  private queue: (() => void)[] = [];
+
+  constructor() {}
+
+  private get maxConcurrency(): number {
+    return parseInt(process.env.MAX_CONCURRENCY || '5', 10);
+  }
+
+  async acquire(): Promise<void> {
+    if (this.active < this.maxConcurrency) {
+      this.active++;
+      return;
+    }
+    return new Promise<void>((resolve) => {
+      this.queue.push(resolve);
+    });
+  }
+
+  release(): void {
+    this.active--;
+    const next = this.queue.shift();
+    if (next) {
+      this.active++;
+      next();
+    }
+  }
+}
+
+const limiter = new ConcurrencyLimiter();
+
 export interface ScrapeResult {
   success: boolean;
   url: string;
   title: string;
   markdown: string;
 }
+
 
 /**
  * Perform a smooth scroll to trigger lazy-loaded content.
@@ -48,19 +129,16 @@ async function autoScroll(page: Page): Promise<void> {
  * @returns ScrapeResult object
  */
 export async function scrapeUrl(url: string): Promise<ScrapeResult> {
-  // Generate a random user agent to mimic a real browser
-  const userAgentGenerator = new UserAgent({ deviceCategory: 'desktop' });
-  const userAgent = userAgentGenerator.toString();
-
-  // Launch headless Chromium
-  const browser = await chromium.launch({
-    headless: true,
-  });
+  await limiter.acquire();
 
   let context: BrowserContext | undefined;
   let page: Page | undefined;
 
   try {
+    const browser = await getBrowserInstance();
+    const userAgentGenerator = new UserAgent({ deviceCategory: 'desktop' });
+    const userAgent = userAgentGenerator.toString();
+
     context = await browser.newContext({
       userAgent,
       viewport: { width: 1280, height: 800 },
@@ -83,10 +161,9 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
     // Retrieve HTML content
     const html = await page.content();
 
-    // Close page, context and browser in orderly fashion to avoid unhandled CDP errors
+    // Close page and context in orderly fashion to avoid unhandled CDP errors
     await page.close();
     await context.close();
-    await browser.close();
 
     // Reset references to prevent double close in catch block
     page = undefined;
@@ -134,11 +211,8 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
         // Safe to ignore
       }
     }
-    try {
-      await browser.close();
-    } catch (e) {
-      // Safe to ignore
-    }
     throw error;
+  } finally {
+    limiter.release();
   }
 }

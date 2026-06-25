@@ -16,8 +16,75 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// API Key authentication middleware
+const authenticateApiKey = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const configuredApiKey = process.env.API_KEY;
+  if (!configuredApiKey) {
+    return next();
+  }
+
+  const authHeader = req.headers.authorization;
+  let providedKey: string | undefined;
+
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    providedKey = authHeader.substring(7);
+  }
+
+  if (!providedKey && req.query.key) {
+    providedKey = req.query.key as string;
+  }
+
+  if (providedKey === configuredApiKey) {
+    return next();
+  }
+
+  return res.status(401).json({
+    success: false,
+    error: 'Unauthorized: Invalid or missing API key',
+  });
+};
+
+// IP Address authorization middleware
+const authorizeIpAddress = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const allowedIpsEnv = process.env.ALLOWED_IPS;
+  if (!allowedIpsEnv) {
+    return next();
+  }
+
+  const allowedIps = allowedIpsEnv.split(',').map((ip) => ip.trim());
+  const xForwardedFor = req.headers['x-forwarded-for'] as string;
+  let clientIp = '';
+
+  if (xForwardedFor) {
+    clientIp = xForwardedFor.split(',')[0].trim();
+  } else {
+    clientIp = req.socket.remoteAddress || '';
+  }
+
+  if (clientIp.startsWith('::ffff:')) {
+    clientIp = clientIp.substring(7);
+  }
+
+  if (allowedIps.includes(clientIp)) {
+    return next();
+  }
+
+  return res.status(403).json({
+    success: false,
+    error: 'Forbidden: Access denied from IP address',
+  });
+};
+
 // HTTP API: /scrape
-app.get('/scrape', async (req, res) => {
+app.get('/scrape', authorizeIpAddress, authenticateApiKey, async (req, res) => {
   const url = req.query.url as string;
   if (!url) {
     return res.status(400).json({ success: false, error: 'URL is required' });
