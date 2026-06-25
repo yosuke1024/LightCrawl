@@ -1,13 +1,13 @@
-# Lightcrawl
+# LightCrawl
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
   <img src="https://img.shields.io/badge/node-%3E%3D18-blue.svg" alt="Node.js Version">
-  <a href="https://railway.app/new/template?template=https://github.com/yosuke1024/Lightcrawl"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a>
+  <a href="https://railway.app/new/template?template=https://github.com/yosuke1024/LightCrawl"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a>
   <a href="https://github.com/sponsors/yosuke1024"><img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=github-sponsors" alt="Sponsor"></a>
 </p>
 
-Lightcrawl is a lightweight, single-container, self-hostable Web scraping API and Model Context Protocol (MCP) server that converts any web page into clean Markdown. It serves as a minimal, low-cost alternative to Firecrawl, optimized for local development and low-resource environments (e.g., $3-$5/month hosting).
+LightCrawl is a lightweight, single-container, self-hostable Web scraping API and Model Context Protocol (MCP) server that converts any web page into clean Markdown. It serves as a minimal, low-cost alternative to Firecrawl, optimized for local development and low-resource environments (e.g., $3-$5/month hosting).
 
 ## Features
 
@@ -32,7 +32,7 @@ Lightcrawl is a lightweight, single-container, self-hostable Web scraping API an
 1. **Clone the repository**:
    ```bash
    git clone <repository-url>
-   cd Lightcrawl
+   cd LightCrawl
    ```
 
 2. **Install dependencies**:
@@ -74,7 +74,7 @@ Lightcrawl is a lightweight, single-container, self-hostable Web scraping API an
 
 ## Usage
 
-Lightcrawl runs as a hybrid server. When started, it opens an Express port for HTTP requests and establishes a standard input/output channel for MCP clients.
+LightCrawl runs as a hybrid server. When started, it opens an Express port for HTTP requests and establishes a standard input/output channel for MCP clients.
 
 ### 1. HTTP API
 
@@ -129,7 +129,7 @@ This feature automatically parses the `x-forwarded-for` proxy header to determin
 
 ### 2. MCP Server (Model Context Protocol)
 
-You can register Lightcrawl as an MCP tool inside AI clients like Cursor or Claude Desktop.
+You can register LightCrawl as an MCP tool inside AI clients like Cursor or Claude Desktop.
 
 - **Tool Name**: `lightcrawl_scrape`
 - **Description**: Accesses a web page using Playwright, strips unnecessary elements, and extracts clean Markdown text.
@@ -143,7 +143,7 @@ Add the following to your `claude_desktop_config.json`:
   "mcpServers": {
     "lightcrawl": {
       "command": "node",
-      "args": ["/path/to/Lightcrawl/dist/index.js"]
+      "args": ["/path/to/LightCrawl/dist/index.js"]
     }
   }
 }
@@ -154,7 +154,7 @@ Add the following to your `claude_desktop_config.json`:
 
 ## Docker Setup
 
-To build and run Lightcrawl inside a Docker container:
+To build and run LightCrawl inside a Docker container:
 
 1. **Build the image**:
    ```bash
@@ -177,9 +177,9 @@ To build and run Lightcrawl inside a Docker container:
 
 ### Deploy to Railway
 
-The fastest way to deploy Lightcrawl is using **Railway**. With zero configuration needed, it automatically builds and runs the container.
+The fastest way to deploy LightCrawl is using **Railway**. With zero configuration needed, it automatically builds and runs the container.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.app/new/template?template=https://github.com/yosuke1024/Lightcrawl)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.app/new/template?template=https://github.com/yosuke1024/LightCrawl)
 
 ---
 

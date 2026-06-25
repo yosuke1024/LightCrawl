@@ -198,13 +198,13 @@ if (process.env.NODE_ENV !== 'test') {
   // Start Express server
   // Note: All logs must go to stderr (console.error) to avoid corrupting MCP's stdout channel
   app.listen(PORT, () => {
-    console.error(`[HTTP] Lightcrawl API server running on port ${PORT}`);
+    console.error(`[HTTP] LightCrawl API server running on port ${PORT}`);
   });
 
   // Start MCP server via Stdio transport
   const transport = new StdioServerTransport();
   mcpServer.connect(transport).then(() => {
-    console.error('[MCP] Lightcrawl MCP server connected via stdio');
+    console.error('[MCP] LightCrawl MCP server connected via stdio');
   }).catch((error) => {
     console.error('[MCP] Failed to connect MCP server:', error);
   });
