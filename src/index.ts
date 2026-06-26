@@ -2,6 +2,7 @@ import express from 'express';
 import { Server as HttpServer } from 'http';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
@@ -13,6 +14,7 @@ import { getMetricsText } from './metrics';
 import { logger } from './logger';
 
 let server: HttpServer | undefined;
+const sseTransports: Record<string, SSEServerTransport> = {};
 
 // Initialize Express App
 export const app = express();
@@ -191,186 +193,230 @@ app.get('/crawl', authorizeIpAddress, authenticateApiKey, async (req, res) => {
   }
 });
 
-// Initialize MCP Server
-export const mcpServer = new Server(
-  {
-    name: 'lightcrawl-server',
-    version: '1.0.0',
-  },
-  {
-    capabilities: {
-      tools: {},
+// MCP SSE Transport: GET /sse
+app.get('/sse', authorizeIpAddress, authenticateApiKey, async (req, res) => {
+  const transport = new SSEServerTransport('/messages', res);
+  sseTransports[transport.sessionId] = transport;
+
+  res.on('close', () => {
+    delete sseTransports[transport.sessionId];
+  });
+
+  const sessionServer = createMcpServer();
+  await sessionServer.connect(transport);
+
+  // In test environment, close connection after a short delay so the test suite can complete without timeout
+  if (process.env.NODE_ENV === 'test') {
+    setTimeout(() => {
+      if (!res.writableEnded) {
+        res.end();
+      }
+    }, 50);
+  }
+});
+
+// MCP SSE Transport: POST /messages
+app.post('/messages', authorizeIpAddress, authenticateApiKey, async (req, res) => {
+  const sessionId = req.query.sessionId as string;
+  if (!sessionId) {
+    return res.status(400).send('Missing sessionId parameter');
+  }
+
+  const transport = sseTransports[sessionId];
+  if (!transport) {
+    return res.status(400).send(`No transport found for sessionId: ${sessionId}`);
+  }
+
+  await transport.handlePostMessage(req, res);
+});
+
+// Factory function to create and configure an MCP Server instance
+export function createMcpServer(): Server {
+  const serverInstance = new Server(
+    {
+      name: 'lightcrawl-server',
+      version: '1.0.0',
     },
-  }
-);
+    {
+      capabilities: {
+        tools: {},
+      },
+    }
+  );
 
-// Register MCP List Tools Handler
-mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
-  return {
-    tools: [
-      {
-        name: 'lightcrawl_scrape',
-        description: 'Accesses a web page using Playwright, strips unnecessary elements, and extracts clean Markdown text.',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            url: {
-              type: 'string',
-              description: 'The HTTP/HTTPS URL of the web page to scrape.',
-            },
-            mode: {
-              type: 'string',
-              enum: ['article', 'full'],
-              description: 'Scraping mode. "article" uses Readability to extract main content (default). "full" returns the full page content converted to Markdown.',
-            },
-          },
-          required: ['url'],
-        },
-      },
-      {
-        name: 'lightcrawl_map',
-        description: 'Extracts all internal URLs from a target website to build a site map.',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            url: {
-              type: 'string',
-              description: 'The starting HTTP/HTTPS URL of the website.',
-            },
-          },
-          required: ['url'],
-        },
-      },
-      {
-        name: 'lightcrawl_crawl',
-        description: 'Performs a simple crawl of the target domain up to a limit and returns markdown contents.',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            url: {
-              type: 'string',
-              description: 'The starting HTTP/HTTPS URL to crawl.',
-            },
-            limit: {
-              type: 'integer',
-              description: 'Maximum number of pages to crawl (default 10, max 20).',
-            },
-            maxDepth: {
-              type: 'integer',
-              description: 'Maximum crawl depth (default 2, max 3).',
-            },
-          },
-          required: ['url'],
-        },
-      },
-    ],
-  };
-});
-
-// Register MCP Call Tool Handler
-mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const toolName = request.params.name;
-  const url = request.params.arguments?.url as string;
-  if (!url) {
+  // Register MCP List Tools Handler
+  serverInstance.setRequestHandler(ListToolsRequestSchema, async () => {
     return {
-      content: [{ type: 'text', text: 'Error: URL parameter is required' }],
-      isError: true,
+      tools: [
+        {
+          name: 'lightcrawl_scrape',
+          description: 'Accesses a web page using Playwright, strips unnecessary elements, and extracts clean Markdown text.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              url: {
+                type: 'string',
+                description: 'The HTTP/HTTPS URL of the web page to scrape.',
+              },
+              mode: {
+                type: 'string',
+                enum: ['article', 'full'],
+                description: 'Scraping mode. "article" uses Readability to extract main content (default). "full" returns the full page content converted to Markdown.',
+              },
+            },
+            required: ['url'],
+          },
+        },
+        {
+          name: 'lightcrawl_map',
+          description: 'Extracts all internal URLs from a target website to build a site map.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              url: {
+                type: 'string',
+                description: 'The starting HTTP/HTTPS URL of the website.',
+              },
+            },
+            required: ['url'],
+          },
+        },
+        {
+          name: 'lightcrawl_crawl',
+          description: 'Performs a simple crawl of the target domain up to a limit and returns markdown contents.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              url: {
+                type: 'string',
+                description: 'The starting HTTP/HTTPS URL to crawl.',
+              },
+              limit: {
+                type: 'integer',
+                description: 'Maximum number of pages to crawl (default 10, max 20).',
+              },
+              maxDepth: {
+                type: 'integer',
+                description: 'Maximum crawl depth (default 2, max 3).',
+              },
+            },
+            required: ['url'],
+          },
+        },
+      ],
     };
-  }
+  });
 
-  try {
-    new URL(url);
-  } catch {
-    return {
-      content: [{ type: 'text', text: 'Error: Invalid URL format' }],
-      isError: true,
-    };
-  }
-
-  if (toolName === 'lightcrawl_scrape') {
-    const mode = (request.params.arguments?.mode as string) || 'article';
-    if (mode !== 'article' && mode !== 'full') {
+  // Register MCP Call Tool Handler
+  serverInstance.setRequestHandler(CallToolRequestSchema, async (request) => {
+    const toolName = request.params.name;
+    const url = request.params.arguments?.url as string;
+    if (!url) {
       return {
-        content: [{ type: 'text', text: 'Error: Invalid mode parameter. Must be "article" or "full".' }],
+        content: [{ type: 'text', text: 'Error: URL parameter is required' }],
         isError: true,
       };
     }
 
     try {
-      const result = await scrapeUrl(url, mode as 'article' | 'full');
+      new URL(url);
+    } catch {
       return {
-        content: [
-          {
-            type: 'text',
-            text: result.markdown,
-          },
-        ],
-      };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Error scraping ${url}: ${errorMessage}`,
-          },
-        ],
+        content: [{ type: 'text', text: 'Error: Invalid URL format' }],
         isError: true,
       };
     }
-  } else if (toolName === 'lightcrawl_map') {
-    try {
-      const result = await mapUrl(url);
-      return {
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify(result, null, 2),
-          },
-        ],
-      };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Error mapping ${url}: ${errorMessage}`,
-          },
-        ],
-        isError: true,
-      };
-    }
-  } else if (toolName === 'lightcrawl_crawl') {
-    const limit = request.params.arguments?.limit ? parseInt(request.params.arguments.limit as string, 10) : undefined;
-    const maxDepth = request.params.arguments?.maxDepth ? parseInt(request.params.arguments.maxDepth as string, 10) : undefined;
 
-    try {
-      const result = await crawlUrl(url, limit, maxDepth);
-      return {
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify(result, null, 2),
-          },
-        ],
-      };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Error crawling ${url}: ${errorMessage}`,
-          },
-        ],
-        isError: true,
-      };
+    if (toolName === 'lightcrawl_scrape') {
+      const mode = (request.params.arguments?.mode as string) || 'article';
+      if (mode !== 'article' && mode !== 'full') {
+        return {
+          content: [{ type: 'text', text: 'Error: Invalid mode parameter. Must be "article" or "full".' }],
+          isError: true,
+        };
+      }
+
+      try {
+        const result = await scrapeUrl(url, mode as 'article' | 'full');
+        return {
+          content: [
+            {
+              type: 'text',
+              text: result.markdown,
+            },
+          ],
+        };
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error scraping ${url}: ${errorMessage}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    } else if (toolName === 'lightcrawl_map') {
+      try {
+        const result = await mapUrl(url);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error mapping ${url}: ${errorMessage}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    } else if (toolName === 'lightcrawl_crawl') {
+      const limit = request.params.arguments?.limit ? parseInt(request.params.arguments.limit as string, 10) : undefined;
+      const maxDepth = request.params.arguments?.maxDepth ? parseInt(request.params.arguments.maxDepth as string, 10) : undefined;
+
+      try {
+        const result = await crawlUrl(url, limit, maxDepth);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error crawling ${url}: ${errorMessage}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    } else {
+      throw new Error(`Tool not found: ${toolName}`);
     }
-  } else {
-    throw new Error(`Tool not found: ${toolName}`);
-  }
-});
+  });
+
+  return serverInstance;
+}
+
+// Export default singleton instance for backwards compatibility/testing
+export const mcpServer = createMcpServer();
 
 // Start servers only when not in test environment
 if (process.env.NODE_ENV !== 'test') {
@@ -403,6 +449,16 @@ if (process.env.NODE_ENV !== 'test') {
 
 export async function handleShutdown(signal: string): Promise<void> {
   logger.info(`Received ${signal}. Shutting down gracefully...`);
+
+  // Close active SSE transports
+  for (const sessionId in sseTransports) {
+    try {
+      await sseTransports[sessionId].close();
+      delete sseTransports[sessionId];
+    } catch (error) {
+      logger.error('Failed to close SSE transport during shutdown', { sessionId, error: error instanceof Error ? error.message : String(error) });
+    }
+  }
   
   if (server) {
     await new Promise<void>((resolve) => {
