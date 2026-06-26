@@ -51,7 +51,7 @@ When AI agents or local tools need to scrape unknown, untrusted web pages, direc
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/yosuke1024/Lightcrawl.git
    cd LightCrawl
    ```
 
