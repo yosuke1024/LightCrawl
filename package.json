@@ -14,11 +14,13 @@
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@mozilla/readability": "^0.6.0",
     "express": "^5.2.1",
+    "ioredis": "^5.11.1",
     "jsdom": "^29.1.1",
     "playwright": "^1.45.0",
     "playwright-extra": "^4.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "swagger-ui-express": "^5.0.1",
+    "tldts": "^7.4.4",
     "turndown": "^7.2.0",
     "user-agents": "^2.1.102"
   },

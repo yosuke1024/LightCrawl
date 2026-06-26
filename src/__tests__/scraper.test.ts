@@ -1,8 +1,36 @@
 process.env.MAX_CONCURRENCY = '2';
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import http from 'http';
-import { scrapeUrl, mapUrl, crawlUrl } from '../scraper';
 import { chromium } from 'playwright-extra';
+
+// Mock ioredis globally for tests
+export const mockRedisInstance = {
+  sadd: vi.fn(),
+  srem: vi.fn(),
+  rpush: vi.fn(),
+  lpush: vi.fn(),
+  rpop: vi.fn(),
+  set: vi.fn(),
+  get: vi.fn(),
+  decr: vi.fn(),
+  incrby: vi.fn(),
+  llen: vi.fn(),
+  lrange: vi.fn(),
+  del: vi.fn(),
+  smembers: vi.fn(),
+  on: vi.fn(),
+};
+
+vi.mock('ioredis', () => {
+  const RedisMock = vi.fn().mockImplementation(function() {
+    return mockRedisInstance;
+  });
+  return {
+    default: RedisMock,
+  };
+});
+
+import { scrapeUrl, mapUrl, crawlUrl, getRegisteredDomain, extractInternalLinks } from '../scraper';
 
 let server: http.Server;
 const port = 9000;
@@ -103,6 +131,21 @@ beforeAll(() => {
           <a href="javascript:void(0)">Javascript link</a>
           <a href="mailto:test@example.com">Mailto</a>
           <a href="/relative-path">Duplicate</a>
+        </body>
+        </html>
+      `);
+    } else if (req.url === '/complex-links') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Complex Domains Page</title></head>
+        <body>
+          <a href="http://sub2.state.tx.us:9000/same">Same Domain Sub</a>
+          <a href="http://state.tx.us:9000/parent">Same Domain Parent</a>
+          <a href="http://another.state.tx.us:9000/same2">Same Domain Another</a>
+          <a href="http://other.tx.us:9000/diff">Different Domain</a>
+          <a href="http://example.co.uk:9000/diff2">Different Domain 2</a>
         </body>
         </html>
       `);
@@ -287,4 +330,83 @@ describe('Scraper Module', () => {
     expect(results[1].url).toBe('http://127.0.0.1:9000/crawl/2');
     expect(results[1].title).toBe('Crawl Page 2');
   }, 30000);
+
+  it('should correctly parse complex ccTLDs (like state.tx.us) and filter external domains', () => {
+    // 1. Direct test for getRegisteredDomain
+    expect(getRegisteredDomain('sub1.state.tx.us')).toBe('state.tx.us');
+    expect(getRegisteredDomain('state.tx.us')).toBe('state.tx.us');
+    expect(getRegisteredDomain('other.tx.us')).toBe('other.tx.us');
+    expect(getRegisteredDomain('something.co.uk')).toBe('something.co.uk');
+    expect(getRegisteredDomain('sub.something.co.uk')).toBe('something.co.uk');
+
+    // 2. Test integration in extractInternalLinks
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <body>
+        <a href="http://sub2.state.tx.us:9000/same">Same Domain Sub</a>
+        <a href="http://state.tx.us:9000/parent">Same Domain Parent</a>
+        <a href="http://another.state.tx.us:9000/same2">Same Domain Another</a>
+        <a href="http://other.tx.us:9000/diff">Different Domain</a>
+        <a href="http://example.co.uk:9000/diff2">Different Domain 2</a>
+      </body>
+      </html>
+    `;
+    
+    const links = extractInternalLinks(htmlContent, 'http://sub1.state.tx.us:9000/');
+    
+    expect(links).toContain('http://sub2.state.tx.us:9000/same');
+    expect(links).toContain('http://state.tx.us:9000/parent');
+    expect(links).toContain('http://another.state.tx.us:9000/same2');
+    expect(links).not.toContain('http://other.tx.us:9000/diff');
+    expect(links).not.toContain('http://example.co.uk:9000/diff2');
+  });
+
+  it('should use Redis queue when REDIS_URL is provided', async () => {
+    process.env.REDIS_URL = 'redis://localhost:6379';
+
+    mockRedisInstance.sadd.mockResolvedValue(1);
+    mockRedisInstance.srem.mockResolvedValue(1);
+    mockRedisInstance.rpush.mockResolvedValue(1);
+    mockRedisInstance.lpush.mockResolvedValue(1);
+    mockRedisInstance.set.mockResolvedValue('OK');
+    mockRedisInstance.get.mockResolvedValue('1');
+    mockRedisInstance.decr.mockResolvedValue(0);
+    mockRedisInstance.incrby.mockResolvedValue(1);
+    mockRedisInstance.del.mockResolvedValue(1);
+    
+    let rpopCallCount = 0;
+    mockRedisInstance.rpop.mockImplementation(async () => {
+      rpopCallCount++;
+      if (rpopCallCount === 1) {
+        return JSON.stringify({ url: `${testUrl}/crawl/3`, depth: 1, maxDepth: 2, limit: 1 });
+      }
+      return null;
+    });
+
+    let llenCallCount = 0;
+    mockRedisInstance.llen.mockImplementation(async (key: string) => {
+      if (key.includes('queue')) return 0;
+      llenCallCount++;
+      return llenCallCount > 1 ? 1 : 0;
+    });
+
+    mockRedisInstance.lrange.mockResolvedValue([
+      JSON.stringify({
+        success: true,
+        url: `${testUrl}/crawl/3`,
+        title: 'Crawl Page 3',
+        markdown: 'Content of page 3.',
+      }),
+    ]);
+
+    const results = await crawlUrl(`${testUrl}/crawl/3`, 1, 2);
+
+    expect(results.length).toBe(1);
+    expect(results[0].url).toBe(`${testUrl}/crawl/3`);
+    expect(results[0].title).toBe('Crawl Page 3');
+    expect(mockRedisInstance.sadd).toHaveBeenCalled();
+
+    delete process.env.REDIS_URL;
+  }, 20000);
 });

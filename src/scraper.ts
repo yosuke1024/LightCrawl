@@ -5,12 +5,35 @@ import UserAgent from 'user-agents';
 import { JSDOM } from 'jsdom';
 import { Readability } from '@mozilla/readability';
 import TurndownService from 'turndown';
+import { getDomain } from 'tldts';
+import Redis from 'ioredis';
 
 // Register the stealth plugin to bypass simple scraper detection
 chromium.use(stealthPlugin());
 
 let sharedBrowser: Browser | null = null;
 let isInitializing = false;
+
+let redisClient: Redis | null = null;
+
+/**
+ * Get or initialize the shared Redis client instance (singleton).
+ */
+export function getRedisClient(): Redis {
+  const redisUrl = process.env.REDIS_URL;
+  if (!redisUrl) {
+    throw new Error('REDIS_URL is not configured');
+  }
+  if (!redisClient) {
+    redisClient = new Redis(redisUrl, {
+      maxRetriesPerRequest: null,
+    });
+    redisClient.on('error', (err) => {
+      console.error('[Redis] Client error:', err);
+    });
+  }
+  return redisClient;
+}
 
 /**
  * Get or initialize the shared headless browser instance (singleton).
@@ -47,10 +70,13 @@ async function getBrowserInstance(): Promise<Browser> {
   }
 }
 
-// Clean up browser instance on process exit
+// Clean up browser instance and Redis client on process exit
 process.on('exit', () => {
   if (sharedBrowser) {
     sharedBrowser.close().catch(() => {});
+  }
+  if (redisClient) {
+    redisClient.disconnect();
   }
 });
 
@@ -283,32 +309,18 @@ export async function scrapeUrl(url: string, mode: 'article' | 'full' = 'article
  * Helper to get the registered domain (eTLD+1) from a hostname.
  * Simple implementation for matching same website subdomains.
  */
-function getRegisteredDomain(hostname: string): string {
+export function getRegisteredDomain(hostname: string): string {
   if (/^[0-9.]+$/.test(hostname) || hostname.includes(':')) {
     return hostname;
   }
-  const parts = hostname.split('.');
-  if (parts.length <= 2) {
-    return hostname;
-  }
-  const secondToLast = parts[parts.length - 2].toLowerCase();
-  const last = parts[parts.length - 1].toLowerCase();
-
-  // If the second to last part is a common second-level domain under a ccTLD
-  const isSecondLevel = /^(co|ne|ac|go|or|ad|pe|lg|com|net|org|edu|gov|mil)$/.test(secondToLast) &&
-    /^(jp|uk|kr|cn|au|nz|tw|hk|sg|in|br|za)$/.test(last);
-
-  if (isSecondLevel && parts.length >= 3) {
-    return parts.slice(-3).join('.');
-  }
-  return parts.slice(-2).join('.');
+  return getDomain(hostname) || hostname;
 }
 
 /**
  * Extracts all unique, internal HTTP/HTTPS links from HTML content.
  * Matches same registered domain (subdomains allowed).
  */
-function extractInternalLinks(html: string, baseUrl: string): string[] {
+export function extractInternalLinks(html: string, baseUrl: string): string[] {
   const dom = new JSDOM(html, { url: baseUrl });
   const document = dom.window.document;
   const links = Array.from(document.querySelectorAll('a[href]'));
@@ -367,6 +379,57 @@ function extractAllLinks(html: string, baseUrl: string): string[] {
   return Array.from(uniqueUrls);
 }
 
+/**
+ * Common HTML parser to ScrapeResult function.
+ */
+function parseScrapeResult(html: string, url: string): ScrapeResult {
+  const dom = new JSDOM(html, { url });
+  const document = dom.window.document;
+
+  const reader = new Readability(document);
+  const article = reader.parse();
+  const title = article?.title || document.title || 'Untitled';
+
+  const metadata: NonNullable<ScrapeResult['metadata']> = {};
+  const getMeta = (nameOrProperty: string): string | undefined => {
+    const element = document.querySelector(
+      `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
+    );
+    return element?.getAttribute('content') || undefined;
+  };
+
+  metadata.description = getMeta('description');
+  metadata.keywords = getMeta('keywords');
+  metadata.author = getMeta('author');
+  metadata.ogTitle = getMeta('og:title');
+  metadata.ogDescription = getMeta('og:description');
+  metadata.ogImage = getMeta('og:image');
+
+  const canonicalEl = document.querySelector('link[rel="canonical"]');
+  metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
+
+  const htmlEl = document.querySelector('html');
+  metadata.lang = htmlEl?.getAttribute('lang') || undefined;
+
+  const excerpt = article?.excerpt || undefined;
+
+  const turndownService = new TurndownService({
+    headingStyle: 'atx',
+    codeBlockStyle: 'fenced',
+  });
+  const targetHtml = article?.content || document.body.innerHTML;
+  const markdown = turndownService.turndown(targetHtml);
+
+  return {
+    success: true,
+    url,
+    title,
+    markdown,
+    metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
+    excerpt,
+  };
+}
+
 
 
 /**
@@ -380,22 +443,187 @@ export async function mapUrl(url: string): Promise<string[]> {
 }
 
 /**
- * Simple crawl function using memory-based queue.
- * Crawls up to limits and returns scrape results.
+ * Redis-based distributed crawl function.
  */
-export async function crawlUrl(
+async function crawlUrlRedis(
   startUrl: string,
-  limit = 10,
-  maxDepth = 2
+  limit: number,
+  maxDepth: number
 ): Promise<ScrapeResult[]> {
-  const finalLimit = Math.min(limit, 20);
-  const finalMaxDepth = Math.min(maxDepth, 3);
+  const redis = getRedisClient();
+  const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
+  // Set up job state in Redis
+  await redis.sadd('lightcrawl:active_jobs', jobId);
+  await redis.rpush(
+    `lightcrawl:queue:${jobId}`,
+    JSON.stringify({ url: startUrl, depth: 1, maxDepth, limit })
+  );
+  await redis.set(`lightcrawl:pending_count:${jobId}`, '1');
+
+  // Loop as a worker for this job until completion
+  while (true) {
+    const resultCount = await redis.llen(`lightcrawl:results:${jobId}`);
+    if (resultCount >= limit) {
+      break;
+    }
+
+    const pendingStr = await redis.get(`lightcrawl:pending_count:${jobId}`);
+    const pendingCount = pendingStr ? parseInt(pendingStr, 10) : 0;
+    const queueLength = await redis.llen(`lightcrawl:queue:${jobId}`);
+
+    if (queueLength === 0 && pendingCount === 0) {
+      break;
+    }
+
+    const itemStr = await redis.rpop(`lightcrawl:queue:${jobId}`);
+    if (!itemStr) {
+      if (pendingCount > 0) {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        continue;
+      }
+      break;
+    }
+
+    const { url, depth } = JSON.parse(itemStr);
+
+    const isNew = await redis.sadd(`lightcrawl:visited:${jobId}`, url);
+    if (isNew === 0) {
+      await redis.decr(`lightcrawl:pending_count:${jobId}`);
+      continue;
+    }
+
+    try {
+      const html = await fetchHtml(url);
+      const result = parseScrapeResult(html, url);
+      await redis.rpush(`lightcrawl:results:${jobId}`, JSON.stringify(result));
+
+      const currentResultsCount = await redis.llen(`lightcrawl:results:${jobId}`);
+      if (currentResultsCount < limit && depth < maxDepth) {
+        const links = extractAllLinks(html, url);
+        let addedCount = 0;
+        for (const link of links) {
+          const isVisited = await redis.sismember(`lightcrawl:visited:${jobId}`, link);
+          if (!isVisited) {
+            await redis.lpush(
+              `lightcrawl:queue:${jobId}`,
+              JSON.stringify({ url: link, depth: depth + 1, maxDepth, limit })
+            );
+            addedCount++;
+          }
+        }
+        if (addedCount > 0) {
+          await redis.incrby(`lightcrawl:pending_count:${jobId}`, addedCount);
+        }
+      }
+    } catch (error) {
+      console.error(`[Crawl Redis] Error crawling ${url}:`, error);
+    } finally {
+      await redis.decr(`lightcrawl:pending_count:${jobId}`);
+    }
+  }
+
+  // Fetch results
+  const rawResults = await redis.lrange(`lightcrawl:results:${jobId}`, 0, -1);
+  const results = rawResults.map((r) => JSON.parse(r) as ScrapeResult);
+
+  // Clean up
+  await redis.del(
+    `lightcrawl:queue:${jobId}`,
+    `lightcrawl:visited:${jobId}`,
+    `lightcrawl:results:${jobId}`,
+    `lightcrawl:pending_count:${jobId}`
+  );
+  await redis.srem('lightcrawl:active_jobs', jobId);
+
+  return results.slice(0, limit);
+}
+
+/**
+ * Polling worker logic for distributed crawl.
+ * Polls active jobs and assists in crawling their queues.
+ */
+export async function startRedisWorker(signal?: { aborted: boolean }): Promise<void> {
+  const redis = getRedisClient();
+  console.error('[Redis Worker] Started cooperating crawl worker');
+
+  while (!signal?.aborted) {
+    try {
+      const activeJobs = await redis.smembers('lightcrawl:active_jobs');
+      if (activeJobs.length === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        continue;
+      }
+
+      let processedAny = false;
+      for (const jobId of activeJobs) {
+        const itemStr = await redis.rpop(`lightcrawl:queue:${jobId}`);
+        if (!itemStr) {
+          continue;
+        }
+        processedAny = true;
+
+        const { url, depth, maxDepth, limit } = JSON.parse(itemStr);
+
+        const isNew = await redis.sadd(`lightcrawl:visited:${jobId}`, url);
+        if (isNew === 0) {
+          await redis.decr(`lightcrawl:pending_count:${jobId}`);
+          continue;
+        }
+
+        try {
+          const html = await fetchHtml(url);
+          const result = parseScrapeResult(html, url);
+          await redis.rpush(`lightcrawl:results:${jobId}`, JSON.stringify(result));
+
+          const currentResultsCount = await redis.llen(`lightcrawl:results:${jobId}`);
+          if (currentResultsCount < limit && depth < maxDepth) {
+            const links = extractAllLinks(html, url);
+            let addedCount = 0;
+            for (const link of links) {
+              const isVisited = await redis.sismember(`lightcrawl:visited:${jobId}`, link);
+              if (!isVisited) {
+                await redis.lpush(
+                  `lightcrawl:queue:${jobId}`,
+                  JSON.stringify({ url: link, depth: depth + 1, maxDepth, limit })
+                );
+                addedCount++;
+              }
+            }
+            if (addedCount > 0) {
+              await redis.incrby(`lightcrawl:pending_count:${jobId}`, addedCount);
+            }
+          }
+        } catch (error) {
+          console.error(`[Redis Worker] Error crawling ${url} for job ${jobId}:`, error);
+        } finally {
+          await redis.decr(`lightcrawl:pending_count:${jobId}`);
+        }
+      }
+
+      if (!processedAny) {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+    } catch (error) {
+      console.error('[Redis Worker] Error in worker loop:', error);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+  }
+}
+
+/**
+ * Simple crawl function using memory-based queue (in-memory execution).
+ */
+async function crawlUrlInMemory(
+  startUrl: string,
+  limit: number,
+  maxDepth: number
+): Promise<ScrapeResult[]> {
   const results: ScrapeResult[] = [];
   const visited = new Set<string>();
   const queue: { url: string; depth: number }[] = [{ url: startUrl, depth: 1 }];
 
-  while (queue.length > 0 && results.length < finalLimit) {
+  while (queue.length > 0 && results.length < limit) {
     const current = queue.shift();
     if (!current) continue;
 
@@ -406,59 +634,14 @@ export async function crawlUrl(
 
     try {
       const html = await fetchHtml(current.url);
+      const result = parseScrapeResult(html, current.url);
+      results.push(result);
 
-      // Parse with JSDOM
-      const dom = new JSDOM(html, { url: current.url });
-      const document = dom.window.document;
-
-      const reader = new Readability(document);
-      const article = reader.parse();
-      const title = article?.title || document.title || 'Untitled';
-
-      const metadata: NonNullable<ScrapeResult['metadata']> = {};
-      const getMeta = (nameOrProperty: string): string | undefined => {
-        const element = document.querySelector(
-          `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
-        );
-        return element?.getAttribute('content') || undefined;
-      };
-
-      metadata.description = getMeta('description');
-      metadata.keywords = getMeta('keywords');
-      metadata.author = getMeta('author');
-      metadata.ogTitle = getMeta('og:title');
-      metadata.ogDescription = getMeta('og:description');
-      metadata.ogImage = getMeta('og:image');
-
-      const canonicalEl = document.querySelector('link[rel="canonical"]');
-      metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
-
-      const htmlEl = document.querySelector('html');
-      metadata.lang = htmlEl?.getAttribute('lang') || undefined;
-
-      const excerpt = article?.excerpt || undefined;
-
-      const turndownService = new TurndownService({
-        headingStyle: 'atx',
-        codeBlockStyle: 'fenced',
-      });
-      const targetHtml = article?.content || document.body.innerHTML;
-      const markdown = turndownService.turndown(targetHtml);
-
-      results.push({
-        success: true,
-        url: current.url,
-        title,
-        markdown,
-        metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
-        excerpt,
-      });
-
-      if (results.length >= finalLimit) {
+      if (results.length >= limit) {
         break;
       }
 
-      if (current.depth < finalMaxDepth) {
+      if (current.depth < maxDepth) {
         const links = extractAllLinks(html, current.url);
         for (const link of links) {
           if (!visited.has(link)) {
@@ -472,4 +655,24 @@ export async function crawlUrl(
   }
 
   return results;
+}
+
+/**
+ * Simple crawl function using memory-based queue or Redis-based distributed queue.
+ * Crawls up to limits and returns scrape results.
+ */
+export async function crawlUrl(
+  startUrl: string,
+  limit = 10,
+  maxDepth = 2
+): Promise<ScrapeResult[]> {
+  const finalLimit = Math.min(limit, 20);
+  const finalMaxDepth = Math.min(maxDepth, 3);
+
+  const redisUrl = process.env.REDIS_URL;
+  if (redisUrl) {
+    return crawlUrlRedis(startUrl, finalLimit, finalMaxDepth);
+  }
+
+  return crawlUrlInMemory(startUrl, finalLimit, finalMaxDepth);
 }
