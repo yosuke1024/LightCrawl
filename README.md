@@ -334,6 +334,31 @@ This configuration provisions both the Express/Worker container and a Redis data
 
 *(Note: Click the button above to deploy a pre-configured multi-service stack with Redis automatically linked. Alternatively, if you want to set up Redis manually in an existing Railway project, see the manual instructions below.)*
 
+##### 💡 Post-Deployment Steps
+
+###### 1. Find Your API Endpoint URL
+Once the deployment finishes successfully:
+1. Go to your **LightCrawl** service in Railway.
+2. Click on the **Settings** tab.
+3. Scroll down to the **Networking** section to find your public domain (e.g., `https://lightcrawl-production-xxxx.up.railway.app`).
+
+###### 2. How to Test Your Deployment
+You can verify your deployment by sending a quick request using the `API_KEY` you configured during the deployment wizard:
+```bash
+# Test the public health check endpoint (Should return {"status":"ok"})
+curl https://your-lightcrawl-app.up.railway.app/health
+
+# Test scraping with your configured API key
+curl -H "Authorization: Bearer <YOUR_API_KEY>" "https://your-lightcrawl-app.up.railway.app/scrape?url=https://example.com"
+```
+
+###### 3. How to Scale (For "Scalable with Redis" Template)
+If you deployed the **Scalable (with Redis)** version, you can horizontally scale your scraper nodes to process massive crawl jobs in parallel:
+1. Go to your **LightCrawl** service in Railway.
+2. Select the **Settings** tab and go to the **Scale** section.
+3. Change the **Replicas** count from `1` to your desired number of instances (e.g., `3` or `5`) and save changes.
+4. Railway will automatically spin up the replicas, and they will coordinate via the shared Redis queue to process crawl jobs cooperatively.
+
 ##### 📦 Setting up Redis manually on Railway
 If you want to add Redis to an existing deployment manually:
 1. Click **+ New** -> **Database** -> **Redis** in your Railway project to spin up a Redis instance.
