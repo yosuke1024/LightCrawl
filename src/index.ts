@@ -378,7 +378,7 @@ if (process.env.NODE_ENV !== 'test') {
 
   // Start Express server
   // Note: All logs must go to stderr (console.error) to avoid corrupting MCP's stdout channel
-  server = app.listen(PORT, () => {
+  server = app.listen(Number(PORT), '0.0.0.0', () => {
     logger.info(`LightCrawl API server running on port ${PORT}`, { service: 'HTTP', port: PORT });
   });
 
