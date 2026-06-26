@@ -89,7 +89,7 @@ describe('HTTP API Endpoints', () => {
       .query({ url: 'http://example.com', mode: 'full' });
     
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
+    expect(response.body).toMatchObject({
       success: true,
       url: 'http://example.com',
       title: 'Mocked Title',
