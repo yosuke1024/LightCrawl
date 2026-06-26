@@ -216,7 +216,7 @@ app.get('/sse', authorizeIpAddress, authenticateApiKey, async (req, res) => {
 });
 
 // MCP SSE Transport: POST /messages
-app.post('/messages', authorizeIpAddress, authenticateApiKey, async (req, res) => {
+app.post('/messages', authorizeIpAddress, async (req, res) => {
   const sessionId = req.query.sessionId as string;
   if (!sessionId) {
     return res.status(400).send('Missing sessionId parameter');

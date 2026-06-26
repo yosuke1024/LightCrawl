@@ -34,21 +34,10 @@ describe('MCP SSE Transport Endpoints', () => {
   });
 
   describe('POST /messages', () => {
-    it('should return 401 if API_KEY is configured but missing', async () => {
-      vi.stubEnv('API_KEY', 'test-secret-key');
-      const response = await request(app)
-        .post('/messages')
-        .query({ sessionId: 'dummy-session' })
-        .send({ jsonrpc: '2.0', method: 'ping', id: 1 });
-      
-      expect(response.status).toBe(401);
-    });
-
     it('should return 400 if sessionId query parameter is missing', async () => {
       vi.stubEnv('API_KEY', 'test-secret-key');
       const response = await request(app)
         .post('/messages')
-        .set('Authorization', 'Bearer test-secret-key')
         .send({ jsonrpc: '2.0', method: 'ping', id: 1 });
       
       expect(response.status).toBe(400);
@@ -60,7 +49,6 @@ describe('MCP SSE Transport Endpoints', () => {
       const response = await request(app)
         .post('/messages')
         .query({ sessionId: 'non-existent-session-id' })
-        .set('Authorization', 'Bearer test-secret-key')
         .send({ jsonrpc: '2.0', method: 'ping', id: 1 });
       
       expect(response.status).toBe(400);
