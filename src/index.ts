@@ -61,7 +61,7 @@ const authorizeIpAddress = (
 
   const allowedIps = allowedIpsEnv.split(',').map((ip) => ip.trim());
   const xForwardedFor = req.headers['x-forwarded-for'] as string;
-  let clientIp = '';
+  let clientIp: string;
 
   if (xForwardedFor) {
     clientIp = xForwardedFor.split(',')[0].trim();
@@ -93,7 +93,7 @@ app.get('/scrape', authorizeIpAddress, authenticateApiKey, async (req, res) => {
   try {
     // Validate URL format
     new URL(url);
-  } catch (urlError) {
+  } catch {
     return res.status(400).json({ success: false, error: 'Invalid URL format' });
   }
 
@@ -160,7 +160,7 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     new URL(url);
-  } catch (urlError) {
+  } catch {
     return {
       content: [{ type: 'text', text: 'Error: Invalid URL format' }],
       isError: true,

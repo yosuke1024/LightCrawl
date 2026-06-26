@@ -200,14 +200,14 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
     if (page) {
       try {
         await page.close();
-      } catch (e) {
+      } catch {
         // Safe to ignore on emergency cleanup
       }
     }
     if (context) {
       try {
         await context.close();
-      } catch (e) {
+      } catch {
         // Safe to ignore
       }
     }
