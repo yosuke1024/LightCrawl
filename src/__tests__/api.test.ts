@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import request from 'supertest';
-import { app, mcpServer } from '../index';
+import { app, mcpServer, handleShutdown } from '../index';
 import * as scraper from '../scraper';
 
 // Mock the scraper module to isolate API testing
@@ -47,6 +47,7 @@ vi.mock('../scraper', () => {
       }
       return Promise.reject(new Error('Crawl failed'));
     }),
+    shutdownBrowserAndRedis: vi.fn().mockResolvedValue(undefined),
   };
 });
 
@@ -437,3 +438,14 @@ describe('Composite Security (API Key + IP Address)', () => {
     expect(response.body.success).toBe(false);
   });
 });
+
+describe('Graceful Shutdown', () => {
+  it('should stop HTTP server and cleanup browser/redis resources on shutdown', async () => {
+    const shutdownSpy = vi.spyOn(scraper, 'shutdownBrowserAndRedis').mockImplementation(async () => {});
+    
+    await expect(handleShutdown('SIGTERM')).resolves.not.toThrow();
+    
+    expect(shutdownSpy).toHaveBeenCalled();
+  });
+});
+

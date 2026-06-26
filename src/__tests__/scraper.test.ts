@@ -19,6 +19,8 @@ export const mockRedisInstance = {
   del: vi.fn(),
   smembers: vi.fn(),
   on: vi.fn(),
+  quit: vi.fn(),
+  disconnect: vi.fn(),
 };
 
 vi.mock('ioredis', () => {
@@ -30,7 +32,8 @@ vi.mock('ioredis', () => {
   };
 });
 
-import { scrapeUrl, mapUrl, crawlUrl, getRegisteredDomain, extractInternalLinks } from '../scraper';
+import { scrapeUrl, mapUrl, crawlUrl, getRegisteredDomain, extractInternalLinks, shutdownBrowserAndRedis } from '../scraper';
+import { logger } from '../logger';
 
 let server: http.Server;
 const port = 9000;
@@ -409,4 +412,37 @@ describe('Scraper Module', () => {
 
     delete process.env.REDIS_URL;
   }, 20000);
+
+  it('should shutdown browser and redis gracefully', async () => {
+    process.env.REDIS_URL = 'redis://localhost:6379';
+    const { getRedisClient } = await import('../scraper');
+    getRedisClient();
+
+    mockRedisInstance.quit.mockResolvedValue('OK');
+    
+    await expect(shutdownBrowserAndRedis()).resolves.not.toThrow();
+    expect(mockRedisInstance.quit).toHaveBeenCalled();
+    
+    delete process.env.REDIS_URL;
+  });
+
+  it('should log Redis client errors via logger instead of console.error', async () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error');
+    const loggerErrorSpy = vi.spyOn(logger, 'error');
+    
+    const errorHandlerCall = mockRedisInstance.on.mock.calls.find((call) => call[0] === 'error');
+    expect(errorHandlerCall).toBeDefined();
+    if (errorHandlerCall) {
+      const errorHandler = errorHandlerCall[1];
+      const testError = new Error('Redis Error Test');
+      errorHandler(testError);
+      
+      const rawConsoleCalls = consoleErrorSpy.mock.calls.filter(call => {
+        return typeof call[0] === 'string' && call[0].includes('[Redis] Client error:');
+      });
+      expect(rawConsoleCalls.length).toBe(0);
+      expect(loggerErrorSpy).toHaveBeenCalled();
+    }
+  });
 });
+
