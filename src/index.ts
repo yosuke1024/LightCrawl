@@ -5,7 +5,9 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { scrapeUrl } from './scraper';
+import { scrapeUrl, mapUrl, crawlUrl } from './scraper';
+import swaggerUi from 'swagger-ui-express';
+import { openApiSpec } from './openapi';
 
 // Initialize Express App
 export const app = express();
@@ -15,6 +17,14 @@ app.use(express.json());
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+// Serve OpenAPI Spec JSON
+app.get('/openapi.json', (req, res) => {
+  res.json(openApiSpec);
+});
+
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
 
 // API Key authentication middleware
 const authenticateApiKey = (
@@ -117,6 +127,59 @@ app.get('/scrape', authorizeIpAddress, authenticateApiKey, async (req, res) => {
   }
 });
 
+// HTTP API: /map
+app.get('/map', authorizeIpAddress, authenticateApiKey, async (req, res) => {
+  const url = req.query.url as string;
+  if (!url) {
+    return res.status(400).json({ success: false, error: 'URL is required' });
+  }
+
+  try {
+    new URL(url);
+  } catch {
+    return res.status(400).json({ success: false, error: 'Invalid URL format' });
+  }
+
+  try {
+    const result = await mapUrl(url);
+    res.json(result);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    res.status(500).json({
+      success: false,
+      error: errorMessage,
+    });
+  }
+});
+
+// HTTP API: /crawl
+app.get('/crawl', authorizeIpAddress, authenticateApiKey, async (req, res) => {
+  const url = req.query.url as string;
+  if (!url) {
+    return res.status(400).json({ success: false, error: 'URL is required' });
+  }
+
+  try {
+    new URL(url);
+  } catch {
+    return res.status(400).json({ success: false, error: 'Invalid URL format' });
+  }
+
+  const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : undefined;
+  const maxDepth = req.query.maxDepth ? parseInt(req.query.maxDepth as string, 10) : undefined;
+
+  try {
+    const result = await crawlUrl(url, limit, maxDepth);
+    res.json(result);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    res.status(500).json({
+      success: false,
+      error: errorMessage,
+    });
+  }
+});
+
 // Initialize MCP Server
 export const mcpServer = new Server(
   {
@@ -153,16 +216,49 @@ mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ['url'],
         },
       },
+      {
+        name: 'lightcrawl_map',
+        description: 'Extracts all internal URLs from a target website to build a site map.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'The starting HTTP/HTTPS URL of the website.',
+            },
+          },
+          required: ['url'],
+        },
+      },
+      {
+        name: 'lightcrawl_crawl',
+        description: 'Performs a simple crawl of the target domain up to a limit and returns markdown contents.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'The starting HTTP/HTTPS URL to crawl.',
+            },
+            limit: {
+              type: 'integer',
+              description: 'Maximum number of pages to crawl (default 10, max 20).',
+            },
+            maxDepth: {
+              type: 'integer',
+              description: 'Maximum crawl depth (default 2, max 3).',
+            },
+          },
+          required: ['url'],
+        },
+      },
     ],
   };
 });
 
 // Register MCP Call Tool Handler
 mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
-  if (request.params.name !== 'lightcrawl_scrape') {
-    throw new Error(`Tool not found: ${request.params.name}`);
-  }
-
+  const toolName = request.params.name;
   const url = request.params.arguments?.url as string;
   if (!url) {
     return {
@@ -180,35 +276,88 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
-  const mode = (request.params.arguments?.mode as string) || 'article';
-  if (mode !== 'article' && mode !== 'full') {
-    return {
-      content: [{ type: 'text', text: 'Error: Invalid mode parameter. Must be "article" or "full".' }],
-      isError: true,
-    };
-  }
+  if (toolName === 'lightcrawl_scrape') {
+    const mode = (request.params.arguments?.mode as string) || 'article';
+    if (mode !== 'article' && mode !== 'full') {
+      return {
+        content: [{ type: 'text', text: 'Error: Invalid mode parameter. Must be "article" or "full".' }],
+        isError: true,
+      };
+    }
 
-  try {
-    const result = await scrapeUrl(url, mode as 'article' | 'full');
-    return {
-      content: [
-        {
-          type: 'text',
-          text: result.markdown,
-        },
-      ],
-    };
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `Error scraping ${url}: ${errorMessage}`,
-        },
-      ],
-      isError: true,
-    };
+    try {
+      const result = await scrapeUrl(url, mode as 'article' | 'full');
+      return {
+        content: [
+          {
+            type: 'text',
+            text: result.markdown,
+          },
+        ],
+      };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error scraping ${url}: ${errorMessage}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  } else if (toolName === 'lightcrawl_map') {
+    try {
+      const result = await mapUrl(url);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(result, null, 2),
+          },
+        ],
+      };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error mapping ${url}: ${errorMessage}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  } else if (toolName === 'lightcrawl_crawl') {
+    const limit = request.params.arguments?.limit ? parseInt(request.params.arguments.limit as string, 10) : undefined;
+    const maxDepth = request.params.arguments?.maxDepth ? parseInt(request.params.arguments.maxDepth as string, 10) : undefined;
+
+    try {
+      const result = await crawlUrl(url, limit, maxDepth);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(result, null, 2),
+          },
+        ],
+      };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error crawling ${url}: ${errorMessage}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  } else {
+    throw new Error(`Tool not found: ${toolName}`);
   }
 });
 

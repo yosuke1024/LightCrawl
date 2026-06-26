@@ -1,7 +1,7 @@
 process.env.MAX_CONCURRENCY = '2';
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import http from 'http';
-import { scrapeUrl } from '../scraper';
+import { scrapeUrl, mapUrl, crawlUrl } from '../scraper';
 import { chromium } from 'playwright-extra';
 
 let server: http.Server;
@@ -65,6 +65,98 @@ beforeAll(() => {
         `);
         activeServerRequests--;
       }, 1000);
+    } else if (req.url === '/metadata') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`
+        <!DOCTYPE html>
+        <html lang="ja">
+        <head>
+          <title>Metadata Page</title>
+          <meta name="description" content="This is a test description.">
+          <meta name="keywords" content="test,scraper,metadata">
+          <meta name="author" content="Test Author">
+          <meta property="og:title" content="OG Title">
+          <meta property="og:description" content="OG Description">
+          <meta property="og:image" content="https://example.com/image.jpg">
+          <link rel="canonical" href="https://example.com/canonical">
+        </head>
+        <body>
+          <main>
+            <article>
+              <h1>Metadata Page</h1>
+              <p>This is a paragraph that will serve as the excerpt of the article content. Readability should parse this.</p>
+            </article>
+          </main>
+        </body>
+        </html>
+      `);
+    } else if (req.url === '/links') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Links Page</title></head>
+        <body>
+          <a href="/relative-path">Relative</a>
+          <a href="http://localhost:9000/absolute-path">Absolute Same Domain</a>
+          <a href="https://external.com/path">External</a>
+          <a href="javascript:void(0)">Javascript link</a>
+          <a href="mailto:test@example.com">Mailto</a>
+          <a href="/relative-path">Duplicate</a>
+        </body>
+        </html>
+      `);
+    } else if (req.url === '/crawl/1') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Crawl Page 1</title></head>
+        <body>
+          <main>
+            <article>
+              <h1>Crawl Page 1</h1>
+              <p>Content of page 1.</p>
+              <a href="http://127.0.0.1:9000/crawl/2">Go to Page 2</a>
+              <a href="https://external.com">External link</a>
+            </article>
+          </main>
+        </body>
+        </html>
+      `);
+    } else if (req.url === '/crawl/2') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Crawl Page 2</title></head>
+        <body>
+          <main>
+            <article>
+              <h1>Crawl Page 2</h1>
+              <p>Content of page 2.</p>
+              <a href="/crawl/3">Go to Page 3</a>
+            </article>
+          </main>
+        </body>
+        </html>
+      `);
+    } else if (req.url === '/crawl/3') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Crawl Page 3</title></head>
+        <body>
+          <main>
+            <article>
+              <h1>Crawl Page 3</h1>
+              <p>Content of page 3.</p>
+            </article>
+          </main>
+        </body>
+        </html>
+      `);
     } else {
       res.writeHead(200, { 'Content-Type': 'text/html' });
       res.end(`
@@ -155,5 +247,44 @@ describe('Scraper Module', () => {
 
     await Promise.all(promises);
     expect(peakServerConcurrency).toBeLessThanOrEqual(2);
+  }, 30000);
+
+  it('should extract metadata and excerpt successfully', async () => {
+    const result = await scrapeUrl(`${testUrl}/metadata`);
+    expect(result.success).toBe(true);
+    expect(result.title).toBe('OG Title');
+    expect(result.excerpt).toContain('OG Description');
+    expect(result.metadata).toBeDefined();
+    expect(result.metadata?.description).toBe('This is a test description.');
+    expect(result.metadata?.keywords).toBe('test,scraper,metadata');
+    expect(result.metadata?.author).toBe('Test Author');
+    expect(result.metadata?.ogTitle).toBe('OG Title');
+    expect(result.metadata?.ogDescription).toBe('OG Description');
+    expect(result.metadata?.ogImage).toBe('https://example.com/image.jpg');
+    expect(result.metadata?.canonical).toBe('https://example.com/canonical');
+    expect(result.metadata?.lang).toBe('ja');
+  }, 20000);
+
+  it('should extract internal links using mapUrl', async () => {
+    const links = await mapUrl(`${testUrl}/links`);
+    expect(links).toContain(`${testUrl}/relative-path`);
+    expect(links).toContain(`${testUrl}/absolute-path`);
+    // External links and non-http links should be ignored
+    expect(links).not.toContain('https://external.com/path');
+    expect(links).not.toContain('javascript:void(0)');
+    expect(links).not.toContain('mailto:test@example.com');
+    // Duplicates should be resolved
+    const duplicates = links.filter(l => l === `${testUrl}/relative-path`);
+    expect(duplicates.length).toBe(1);
+  }, 20000);
+
+  it('should crawl site up to limits', async () => {
+    const results = await crawlUrl(`${testUrl}/crawl/1`, 2, 2);
+    // Limit is 2, so we expect exactly 2 page results
+    expect(results.length).toBe(2);
+    expect(results[0].url).toBe(`${testUrl}/crawl/1`);
+    expect(results[0].title).toBe('Crawl Page 1');
+    expect(results[1].url).toBe('http://127.0.0.1:9000/crawl/2');
+    expect(results[1].title).toBe('Crawl Page 2');
   }, 30000);
 });

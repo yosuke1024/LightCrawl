@@ -89,6 +89,9 @@ When AI agents or local tools need to scrape unknown, untrusted web pages, direc
 
 ## Usage
 
+> [!NOTE]
+> For interactive API documentation, detailed request/response schemas, and testing endpoints (/scrape, /map, /crawl), please launch the server and visit the Swagger UI at `http://localhost:3000/api-docs/`.
+
 LightCrawl runs as a hybrid server. When started, it opens an Express port for HTTP requests and establishes a standard input/output channel for MCP clients.
 
 ### 1. HTTP API
