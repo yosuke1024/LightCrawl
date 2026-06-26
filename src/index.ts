@@ -227,7 +227,7 @@ app.post('/messages', authorizeIpAddress, async (req, res) => {
     return res.status(400).send(`No transport found for sessionId: ${sessionId}`);
   }
 
-  await transport.handlePostMessage(req, res);
+  await transport.handlePostMessage(req, res, req.body);
 });
 
 // Factory function to create and configure an MCP Server instance
