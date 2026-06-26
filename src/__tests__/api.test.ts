@@ -13,9 +13,39 @@ vi.mock('../scraper', () => {
           url,
           title: 'Mocked Title',
           markdown: '# Mocked Title\n\nContent',
+          metadata: { description: 'Mocked Description' },
+          excerpt: 'Mocked Excerpt',
         });
       }
       return Promise.reject(new Error('Scrape failed'));
+    }),
+    mapUrl: vi.fn((url: string) => {
+      if (url === 'http://example.com') {
+        return Promise.resolve([
+          'http://example.com/page1',
+          'http://example.com/page2',
+        ]);
+      }
+      return Promise.reject(new Error('Map failed'));
+    }),
+    crawlUrl: vi.fn((url: string) => {
+      if (url === 'http://example.com') {
+        return Promise.resolve([
+          {
+            success: true,
+            url: 'http://example.com',
+            title: 'Mocked Title',
+            markdown: '# Mocked Title\n\nContent',
+          },
+          {
+            success: true,
+            url: 'http://example.com/page1',
+            title: 'Page 1',
+            markdown: '# Page 1\n\nContent',
+          }
+        ]);
+      }
+      return Promise.reject(new Error('Crawl failed'));
     }),
   };
 });
@@ -33,7 +63,7 @@ describe('HTTP API Endpoints', () => {
       .query({ url: 'http://example.com' });
     
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
+    expect(response.body).toMatchObject({
       success: true,
       url: 'http://example.com',
       title: 'Mocked Title',
@@ -68,11 +98,124 @@ describe('HTTP API Endpoints', () => {
     expect(response.body.success).toBe(false);
     expect(response.body.error).toContain('Invalid URL format');
   });
+
+  it('GET /scrape should return metadata and excerpt if available', async () => {
+    const response = await request(app)
+      .get('/scrape')
+      .query({ url: 'http://example.com' });
+    
+    expect(response.status).toBe(200);
+    expect(response.body.metadata).toEqual({ description: 'Mocked Description' });
+    expect(response.body.excerpt).toBe('Mocked Excerpt');
+  });
+
+  it('GET /map with valid url should return url array', async () => {
+    const response = await request(app)
+      .get('/map')
+      .query({ url: 'http://example.com' });
+    
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([
+      'http://example.com/page1',
+      'http://example.com/page2',
+    ]);
+    expect(scraper.mapUrl).toHaveBeenCalledWith('http://example.com');
+  });
+
+  it('GET /map without url query param should return 400 error', async () => {
+    const response = await request(app).get('/map');
+    expect(response.status).toBe(400);
+    expect(response.body.success).toBe(false);
+  });
+
+  it('GET /crawl with valid url should return results array', async () => {
+    const response = await request(app)
+      .get('/crawl')
+      .query({ url: 'http://example.com', limit: 2, maxDepth: 2 });
+    
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([
+      {
+        success: true,
+        url: 'http://example.com',
+        title: 'Mocked Title',
+        markdown: '# Mocked Title\n\nContent',
+      },
+      {
+        success: true,
+        url: 'http://example.com/page1',
+        title: 'Page 1',
+        markdown: '# Page 1\n\nContent',
+      }
+    ]);
+    expect(scraper.crawlUrl).toHaveBeenCalledWith('http://example.com', 2, 2);
+  });
+
+  it('GET /crawl without url query param should return 400 error', async () => {
+    const response = await request(app).get('/crawl');
+    expect(response.status).toBe(400);
+    expect(response.body.success).toBe(false);
+  });
 });
 
 describe('MCP Server Integration', () => {
   it('should initialize MCP server instance', () => {
     expect(mcpServer).toBeDefined();
+  });
+
+  it('should list tools including lightcrawl_scrape, lightcrawl_map, and lightcrawl_crawl', async () => {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const listHandler = (mcpServer as any)._requestHandlers.get('tools/list');
+    expect(listHandler).toBeDefined();
+
+    const response = await listHandler({ method: 'tools/list' });
+    expect(response.tools).toBeDefined();
+    const tools = response.tools;
+    expect(tools.some((t: unknown) => (t as { name: string }).name === 'lightcrawl_scrape')).toBe(true);
+    expect(tools.some((t: unknown) => (t as { name: string }).name === 'lightcrawl_map')).toBe(true);
+    expect(tools.some((t: unknown) => (t as { name: string }).name === 'lightcrawl_crawl')).toBe(true);
+  });
+
+  it('should handle lightcrawl_map tool call', async () => {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const callHandler = (mcpServer as any)._requestHandlers.get('tools/call');
+    expect(callHandler).toBeDefined();
+
+    const response = await callHandler({
+      method: 'tools/call',
+      params: {
+        name: 'lightcrawl_map',
+        arguments: { url: 'http://example.com' },
+      },
+    });
+
+    expect(response.content).toBeDefined();
+    const content = response.content[0].text;
+    const urls = JSON.parse(content);
+    expect(urls).toEqual([
+      'http://example.com/page1',
+      'http://example.com/page2',
+    ]);
+  });
+
+  it('should handle lightcrawl_crawl tool call', async () => {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const callHandler = (mcpServer as any)._requestHandlers.get('tools/call');
+    expect(callHandler).toBeDefined();
+
+    const response = await callHandler({
+      method: 'tools/call',
+      params: {
+        name: 'lightcrawl_crawl',
+        arguments: { url: 'http://example.com', limit: 2, maxDepth: 2 },
+      },
+    });
+
+    expect(response.content).toBeDefined();
+    const content = response.content[0].text;
+    const results = JSON.parse(content);
+    expect(results.length).toBe(2);
+    expect(results[0].title).toBe('Mocked Title');
   });
 });
 

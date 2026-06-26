@@ -87,6 +87,9 @@ When AI agents or local tools need to scrape unknown, untrusted web pages, direc
 
 ## Usage
 
+> [!NOTE]
+> For detailed API request/response JSON schemas, parameters, and MCP tool input schemas, please refer to the [API & MCP Specifications](docs/current/api_and_mcp_specifications.md).
+
 LightCrawl runs as a hybrid server. When started, it opens an Express port for HTTP requests and establishes a standard input/output channel for MCP clients.
 
 ### 1. HTTP API
