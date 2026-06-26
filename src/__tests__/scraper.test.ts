@@ -194,6 +194,15 @@ describe('Scraper Module', () => {
     expect(result.markdown).not.toContain('Copyright Info');
   }, 20000);
 
+  it('should scrape a simple page in "full" mode and preserve headers/footers', async () => {
+    const result = await scrapeUrl(testUrl, 'full');
+    expect(result.success).toBe(true);
+    expect(result.title).toBe('Simple Title');
+    expect(result.markdown).toContain('This is the core content');
+    expect(result.markdown).toContain('Navigation Links');
+    expect(result.markdown).toContain('Copyright Info');
+  }, 20000);
+
   it('should trigger scroll and capture lazy-loaded content', async () => {
     const result = await scrapeUrl(`${testUrl}/lazy`);
     expect(result.success).toBe(true);

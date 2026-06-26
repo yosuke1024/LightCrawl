@@ -107,8 +107,16 @@ app.get('/scrape', authorizeIpAddress, authenticateApiKey, async (req, res) => {
     return res.status(400).json({ success: false, error: 'Invalid URL format' });
   }
 
+  const mode = (req.query.mode as string) || 'article';
+  if (mode !== 'article' && mode !== 'full') {
+    return res.status(400).json({
+      success: false,
+      error: "Invalid mode parameter. Must be 'article' or 'full'.",
+    });
+  }
+
   try {
-    const result = await scrapeUrl(url);
+    const result = await scrapeUrl(url, mode as 'article' | 'full');
     res.json(result);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -199,6 +207,11 @@ mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
               type: 'string',
               description: 'The HTTP/HTTPS URL of the web page to scrape.',
             },
+            mode: {
+              type: 'string',
+              enum: ['article', 'full'],
+              description: 'Scraping mode. "article" uses Readability to extract main content (default). "full" returns the full page content converted to Markdown.',
+            },
           },
           required: ['url'],
         },
@@ -264,8 +277,16 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 
   if (toolName === 'lightcrawl_scrape') {
+    const mode = (request.params.arguments?.mode as string) || 'article';
+    if (mode !== 'article' && mode !== 'full') {
+      return {
+        content: [{ type: 'text', text: 'Error: Invalid mode parameter. Must be "article" or "full".' }],
+        isError: true,
+      };
+    }
+
     try {
-      const result = await scrapeUrl(url);
+      const result = await scrapeUrl(url, mode as 'article' | 'full');
       return {
         content: [
           {

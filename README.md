@@ -17,8 +17,10 @@ LightCrawl is a lightweight, single-container, self-hostable Web scraping API an
 
 - **Stealth Browsing**: Built with `playwright-extra` and `puppeteer-extra-plugin-stealth` to bypass basic scraper detections.
 - **Dynamic Content Handling**: Automatically performs smooth scrolling to trigger lazy-loaded content, waits for 2 seconds, and captures the complete rendered HTML.
-- **Clean Content Extraction**: Extracts primary page content by stripping headers, footers, navigation bars, and ads using Mozilla's `Readability` algorithm.
-- **HTML to Markdown**: Converts cleaned HTML to readable Markdown via `turndown`.
+- **Flexible Scraping Modes**: Supports two extraction modes:
+  - `article` (Default): Extracts primary article content by stripping headers, footers, navigation, and ads using Mozilla's `Readability` algorithm. Perfect for blogs, news, and article pages.
+  - `full`: Bypasses `Readability` filtering to convert the entire HTML body into Markdown. Ideal for portals, directory lists, and search results.
+- **HTML to Markdown**: Converts HTML to readable Markdown via `turndown`.
 - **Hybrid Interface**: Acts as both a standard Express-based HTTP API and an MCP Server (stdio-based) simultaneously, ensuring all logs go to `stderr` to avoid interfering with the JSON-RPC stdout stream.
 - **Dockerized & Resource-Optimized**: Multistage build optimized for Playwright, downloading only the Chromium browser binary to minimize memory usage and container footprint.
 
@@ -120,10 +122,15 @@ This feature automatically parses the `x-forwarded-for` proxy header to determin
 
 #### Scrape Web Page
 - **Endpoint**: `GET /scrape`
-- **Query Parameter**: `url` (string, required)
+- **Query Parameters**:
+  - `url` (string, required): The HTTP/HTTPS URL of the web page to scrape.
+  - `mode` (string, optional): The scraping mode. Must be either `'article'` (default) or `'full'`.
 - **Request (No Authentication)**:
   ```bash
   curl "http://localhost:3000/scrape?url=https://example.com"
+  
+  # Fetch full page content including headers/navigation
+  curl "http://localhost:3000/scrape?url=https://example.com&mode=full"
   ```
 - **Request (With Authentication)**:
   ```bash
@@ -131,7 +138,7 @@ This feature automatically parses the `x-forwarded-for` proxy header to determin
   curl -H "Authorization: Bearer YOUR_API_KEY" "http://localhost:3000/scrape?url=https://example.com"
 
   # Or using Query Parameter
-  curl "http://localhost:3000/scrape?url=https://example.com&key=YOUR_API_KEY"
+  curl "http://localhost:3000/scrape?url=https://example.com&key=YOUR_API_KEY&mode=full"
   ```
 - **Response**:
   ```json
@@ -151,6 +158,7 @@ You can register LightCrawl as an MCP tool inside AI clients like Cursor or Clau
 - **Description**: Accesses a web page using Playwright, strips unnecessary elements, and extracts clean Markdown text.
 - **Arguments**:
   - `url` (string, required): The HTTP/HTTPS URL of the web page to scrape.
+  - `mode` (string, optional): The scraping mode. One of `article` (default) or `full`.
 
 #### Claude Desktop Configuration
 Add the following to your `claude_desktop_config.json`:
@@ -196,6 +204,20 @@ To build and run LightCrawl inside a Docker container:
 The fastest way to deploy LightCrawl is using **Railway**. With zero configuration needed, it automatically builds and runs the container.
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/lightcrawl?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic)
+
+#### 🚀 Why Self-Host on Railway?
+
+By self-hosting your private LightCrawl API on Railway, you get a robust, production-ready scraping proxy:
+- **Unlimited Usage**: No API credit limits or subscription plans compared to commercial alternatives like Firecrawl.
+- **Enhanced Privacy & Security**: Protect your local development IP address. All target websites only see your Railway container IP.
+- **Custom AI Tooling Integration**: Easily connect your private endpoint to AI tools like Cursor, LangChain, or LLM agents.
+
+##### Connecting to Cursor (.cursorrules)
+Add a guideline to your `.cursorrules` or project rules to let Cursor automatically utilize your hosted LightCrawl instance for web research:
+```markdown
+When requested to read, research, or inspect any live URL, make a background GET request to your private LightCrawl API to obtain the clean Markdown representation:
+URL: https://your-lightcrawl-app.up.railway.app/scrape?url=<TARGET_URL>&key=<YOUR_API_KEY>&mode=article
+```
 
 ---
 

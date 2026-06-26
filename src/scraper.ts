@@ -209,6 +209,77 @@ async function fetchHtml(url: string, skipScroll = false): Promise<string> {
 }
 
 /**
+ * Scrapes a web page, executes auto-scroll, extracts core content via Readability,
+ * and converts it to Markdown using Turndown.
+ * @param url Target web page URL
+ * @param mode Scrape mode: 'article' (extract core content) or 'full' (raw page content)
+ * @returns ScrapeResult object
+ */
+export async function scrapeUrl(url: string, mode: 'article' | 'full' = 'article'): Promise<ScrapeResult> {
+  const html = await fetchHtml(url);
+
+  // Parse HTML with JSDOM
+  const dom = new JSDOM(html, { url });
+  const document = dom.window.document;
+
+  // Extract title & target HTML
+  let title = document.title || 'Untitled';
+  let targetHtml = document.body.innerHTML;
+  let excerpt: string | undefined;
+
+  if (mode === 'article') {
+    // Use Readability to extract core article content
+    const reader = new Readability(document);
+    const article = reader.parse();
+    if (article) {
+      title = article.title || title;
+      targetHtml = article.content || targetHtml;
+      excerpt = article.excerpt || undefined;
+    }
+  }
+
+  // Extract metadata
+  const metadata: NonNullable<ScrapeResult['metadata']> = {};
+  
+  const getMeta = (nameOrProperty: string): string | undefined => {
+    const element = document.querySelector(
+      `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
+    );
+    return element?.getAttribute('content') || undefined;
+  };
+
+  metadata.description = getMeta('description');
+  metadata.keywords = getMeta('keywords');
+  metadata.author = getMeta('author');
+  metadata.ogTitle = getMeta('og:title');
+  metadata.ogDescription = getMeta('og:description');
+  metadata.ogImage = getMeta('og:image');
+
+  const canonicalEl = document.querySelector('link[rel="canonical"]');
+  metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
+
+  const htmlEl = document.querySelector('html');
+  metadata.lang = htmlEl?.getAttribute('lang') || undefined;
+
+  // Convert HTML to Markdown
+  const turndownService = new TurndownService({
+    headingStyle: 'atx',
+    codeBlockStyle: 'fenced',
+  });
+
+  const markdown = turndownService.turndown(targetHtml);
+
+  return {
+    success: true,
+    url,
+    title,
+    markdown,
+    metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
+    excerpt,
+  };
+}
+
+/**
  * Helper to get the registered domain (eTLD+1) from a hostname.
  * Simple implementation for matching same website subdomains.
  */
@@ -296,69 +367,7 @@ function extractAllLinks(html: string, baseUrl: string): string[] {
   return Array.from(uniqueUrls);
 }
 
-/**
- * Scrapes a web page, executes auto-scroll, extracts core content via Readability,
- * and converts it to Markdown using Turndown.
- * @param url Target web page URL
- * @returns ScrapeResult object
- */
-export async function scrapeUrl(url: string): Promise<ScrapeResult> {
-  const html = await fetchHtml(url);
 
-  // Parse HTML with JSDOM
-  const dom = new JSDOM(html, { url });
-  const document = dom.window.document;
-
-  // Use Readability to extract core article content
-  const reader = new Readability(document);
-  const article = reader.parse();
-
-  // Extract title (fallback to HTML title)
-  const title = article?.title || document.title || 'Untitled';
-
-  // Extract metadata
-  const metadata: NonNullable<ScrapeResult['metadata']> = {};
-  
-  const getMeta = (nameOrProperty: string): string | undefined => {
-    const element = document.querySelector(
-      `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
-    );
-    return element?.getAttribute('content') || undefined;
-  };
-
-  metadata.description = getMeta('description');
-  metadata.keywords = getMeta('keywords');
-  metadata.author = getMeta('author');
-  metadata.ogTitle = getMeta('og:title');
-  metadata.ogDescription = getMeta('og:description');
-  metadata.ogImage = getMeta('og:image');
-
-  const canonicalEl = document.querySelector('link[rel="canonical"]');
-  metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
-
-  const htmlEl = document.querySelector('html');
-  metadata.lang = htmlEl?.getAttribute('lang') || undefined;
-
-  const excerpt = article?.excerpt || undefined;
-
-  // Convert HTML to Markdown
-  const turndownService = new TurndownService({
-    headingStyle: 'atx',
-    codeBlockStyle: 'fenced',
-  });
-
-  const targetHtml = article?.content || document.body.innerHTML;
-  const markdown = turndownService.turndown(targetHtml);
-
-  return {
-    success: true,
-    url,
-    title,
-    markdown,
-    metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
-    excerpt,
-  };
-}
 
 /**
  * Extracts all unique, internal HTTP/HTTPS links from a target page.

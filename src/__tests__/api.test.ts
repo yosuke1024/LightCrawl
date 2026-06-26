@@ -6,7 +6,7 @@ import * as scraper from '../scraper';
 // Mock the scraper module to isolate API testing
 vi.mock('../scraper', () => {
   return {
-    scrapeUrl: vi.fn((url: string) => {
+    scrapeUrl: vi.fn((url: string, _mode?: string) => {
       if (url === 'http://example.com') {
         return Promise.resolve({
           success: true,
@@ -80,7 +80,22 @@ describe('HTTP API Endpoints', () => {
       title: 'Mocked Title',
       markdown: '# Mocked Title\n\nContent',
     });
-    expect(scraper.scrapeUrl).toHaveBeenCalledWith('http://example.com');
+    expect(scraper.scrapeUrl).toHaveBeenCalledWith('http://example.com', 'article');
+  });
+
+  it('GET /scrape with mode=full should pass mode to scraper', async () => {
+    const response = await request(app)
+      .get('/scrape')
+      .query({ url: 'http://example.com', mode: 'full' });
+    
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      success: true,
+      url: 'http://example.com',
+      title: 'Mocked Title',
+      markdown: '# Mocked Title\n\nContent',
+    });
+    expect(scraper.scrapeUrl).toHaveBeenCalledWith('http://example.com', 'full');
   });
 
   it('GET /scrape without url query param should return 400 error', async () => {
