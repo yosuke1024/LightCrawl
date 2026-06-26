@@ -128,7 +128,7 @@ async function autoScroll(page: Page): Promise<void> {
  * @param url Target web page URL
  * @returns ScrapeResult object
  */
-export async function scrapeUrl(url: string): Promise<ScrapeResult> {
+export async function scrapeUrl(url: string, mode: 'article' | 'full' = 'article'): Promise<ScrapeResult> {
   await limiter.acquire();
 
   let context: BrowserContext | undefined;
@@ -173,12 +173,19 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
     const dom = new JSDOM(html, { url });
     const document = dom.window.document;
 
-    // Use Readability to extract core article content
-    const reader = new Readability(document);
-    const article = reader.parse();
+    // Extract title & target HTML
+    let title = document.title || 'Untitled';
+    let targetHtml = document.body.innerHTML;
 
-    // Extract title (fallback to HTML title)
-    const title = article?.title || document.title || 'Untitled';
+    if (mode === 'article') {
+      // Use Readability to extract core article content
+      const reader = new Readability(document);
+      const article = reader.parse();
+      if (article) {
+        title = article.title || title;
+        targetHtml = article.content || targetHtml;
+      }
+    }
 
     // Convert HTML to Markdown
     const turndownService = new TurndownService({
@@ -186,7 +193,6 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
       codeBlockStyle: 'fenced',
     });
 
-    const targetHtml = article?.content || document.body.innerHTML;
     const markdown = turndownService.turndown(targetHtml);
 
     return {
