@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/playwright:v1.45.0-jammy AS builder
 WORKDIR /app
 
 # Copy configuration files and dependencies list
-COPY package*.json tsconfig.json .eslintrc.json ./
+COPY package*.json tsconfig.json eslint.config.mjs ./
 
 # Install all dependencies including devDependencies
 RUN npm ci
