@@ -28,6 +28,15 @@ If configured via environment variables, the API applies the following restricti
 
 ### Endpoints
 
+#### GET `/api-docs`
+Launches the interactive Swagger UI. You can test all endpoints (/scrape, /map, /crawl) directly from this page in your browser.
+- **URL**: `http://localhost:3000/api-docs/`
+- **Authentication**: None
+
+#### GET `/openapi.json`
+Returns the raw OpenAPI 3.0.3 specification JSON object used by the Swagger UI.
+- **Authentication**: None
+
 #### GET `/health`
 Returns the operational status of the server.
 - **Authentication**: None
