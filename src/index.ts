@@ -1,15 +1,18 @@
 import express from 'express';
+import { Server as HttpServer } from 'http';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { scrapeUrl, mapUrl, crawlUrl, startRedisWorker } from './scraper';
+import { scrapeUrl, mapUrl, crawlUrl, startRedisWorker, shutdownBrowserAndRedis } from './scraper';
 import swaggerUi from 'swagger-ui-express';
 import { openApiSpec } from './openapi';
 import { getMetricsText } from './metrics';
 import { logger } from './logger';
+
+let server: HttpServer | undefined;
 
 // Initialize Express App
 export const app = express();
@@ -375,7 +378,7 @@ if (process.env.NODE_ENV !== 'test') {
 
   // Start Express server
   // Note: All logs must go to stderr (console.error) to avoid corrupting MCP's stdout channel
-  app.listen(PORT, () => {
+  server = app.listen(PORT, () => {
     logger.info(`LightCrawl API server running on port ${PORT}`, { service: 'HTTP', port: PORT });
   });
 
@@ -393,4 +396,27 @@ if (process.env.NODE_ENV !== 'test') {
       logger.error('Distributed worker failed', { service: 'RedisWorker', error: error instanceof Error ? error.message : String(error) });
     });
   }
+
+  process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+  process.on('SIGINT', () => handleShutdown('SIGINT'));
 }
+
+export async function handleShutdown(signal: string): Promise<void> {
+  logger.info(`Received ${signal}. Shutting down gracefully...`);
+  
+  if (server) {
+    await new Promise<void>((resolve) => {
+      server!.close(() => {
+        logger.info('HTTP server closed.');
+        resolve();
+      });
+    });
+  }
+
+  await shutdownBrowserAndRedis();
+  
+  if (process.env.NODE_ENV !== 'test') {
+    process.exit(0);
+  }
+}
+

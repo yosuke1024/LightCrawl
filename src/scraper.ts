@@ -31,7 +31,7 @@ export function getRedisClient(): Redis {
       maxRetriesPerRequest: null,
     });
     redisClient.on('error', (err) => {
-      console.error('[Redis] Client error:', err);
+      logger.error('[Redis] Client error', { error: err instanceof Error ? err.message : String(err) });
     });
   }
   return redisClient;
@@ -606,7 +606,7 @@ async function crawlUrlRedis(
         }
       }
     } catch (error) {
-      console.error(`[Crawl Redis] Error crawling ${url}:`, error);
+      logger.error('Error crawling URL via Redis', { url, error: error instanceof Error ? error.message : String(error) });
     } finally {
       await redis.decr(`lightcrawl:pending_count:${jobId}`);
     }
@@ -634,7 +634,7 @@ async function crawlUrlRedis(
  */
 export async function startRedisWorker(signal?: { aborted: boolean }): Promise<void> {
   const redis = getRedisClient();
-  console.error('[Redis Worker] Started cooperating crawl worker');
+  logger.info('[Redis Worker] Started cooperating crawl worker');
 
   while (!signal?.aborted) {
     try {
@@ -684,7 +684,7 @@ export async function startRedisWorker(signal?: { aborted: boolean }): Promise<v
             }
           }
         } catch (error) {
-          console.error(`[Redis Worker] Error crawling ${url} for job ${jobId}:`, error);
+          logger.error('Error crawling URL in Redis worker', { url, jobId, error: error instanceof Error ? error.message : String(error) });
         } finally {
           await redis.decr(`lightcrawl:pending_count:${jobId}`);
         }
@@ -694,7 +694,7 @@ export async function startRedisWorker(signal?: { aborted: boolean }): Promise<v
         await new Promise((resolve) => setTimeout(resolve, 200));
       }
     } catch (error) {
-      console.error('[Redis Worker] Error in worker loop:', error);
+      logger.error('[Redis Worker] Error in worker loop', { error: error instanceof Error ? error.message : String(error) });
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }
   }
@@ -739,7 +739,7 @@ async function crawlUrlInMemory(
         }
       }
     } catch (error) {
-      console.error('[Crawl] Failed to crawl %s:', current.url, error);
+      logger.error('Failed to crawl URL', { url: current.url, error: error instanceof Error ? error.message : String(error) });
     }
   }
 
@@ -795,3 +795,19 @@ export async function crawlUrl(
     throw error;
   }
 }
+
+export async function shutdownBrowserAndRedis(): Promise<void> {
+  if (sharedBrowser) {
+    await sharedBrowser.close().catch((err) => {
+      logger.error('Failed to close shared browser', { error: err instanceof Error ? err.message : String(err) });
+    });
+    sharedBrowser = null;
+  }
+  if (redisClient) {
+    await redisClient.quit().catch((err) => {
+      logger.error('Failed to quit redis client', { error: err instanceof Error ? err.message : String(err) });
+    });
+    redisClient = null;
+  }
+}
+
