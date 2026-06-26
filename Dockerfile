@@ -1,5 +1,5 @@
 # Stage 1: Build TypeScript source code
-FROM mcr.microsoft.com/playwright:v1.45.0-jammy AS builder
+FROM mcr.microsoft.com/playwright:v1.61.1-noble AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY src/ ./src
 RUN npm run build
 
 # Stage 2: Create lightweight production image
-FROM mcr.microsoft.com/playwright:v1.45.0-jammy AS runner
+FROM mcr.microsoft.com/playwright:v1.61.1-noble AS runner
 
 WORKDIR /app
 
