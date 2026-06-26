@@ -11,7 +11,7 @@
   <a href="https://github.com/sponsors/yosuke1024"><img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=github-sponsors" alt="Sponsor"></a>
 </p>
 
-LightCrawl is a lightweight, single-container, self-hostable Web scraping API and Model Context Protocol (MCP) server that converts any web page into clean Markdown. It serves as a minimal, low-cost alternative to Firecrawl, optimized for local development and low-resource environments (e.g., $3-$5/month hosting).
+LightCrawl is a lightweight, single-container, self-hostable Web scraping API and Model Context Protocol (MCP) server that converts any web page into clean Markdown. It serves as a minimal, low-cost alternative to Firecrawl, optimized for local development and low-resource environments (e.g., $3-$5/month hosting). Developed and maintained by [PixApps](https://pixapps.ai/).
 
 ## Features
 
@@ -373,12 +373,14 @@ URL: https://your-lightcrawl-app.up.railway.app/scrape?url=<TARGET_URL>&key=<YOU
 
 ---
 
-## Sponsors
+## Created & Maintained by
 
-If you find this project useful, please consider supporting its development:
+LightCrawl is developed and maintained by **[PixApps](https://pixapps.ai/)**. We build modern AI applications and tools.
+
+If you find this project useful, please support our open-source journey:
 
 - [GitHub Sponsors](https://github.com/sponsors/yosuke1024)
-- [PixApps](https://pixapps.ai/)
+- [Discover our projects at PixApps](https://pixapps.ai/)
 
 ---
 
