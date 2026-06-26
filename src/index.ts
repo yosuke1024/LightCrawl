@@ -8,6 +8,8 @@ import {
 import { scrapeUrl, mapUrl, crawlUrl, startRedisWorker } from './scraper';
 import swaggerUi from 'swagger-ui-express';
 import { openApiSpec } from './openapi';
+import { getMetricsText } from './metrics';
+import { logger } from './logger';
 
 // Initialize Express App
 export const app = express();
@@ -16,6 +18,12 @@ app.use(express.json());
 // HTTP API: /health
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// HTTP API: /metrics
+app.get('/metrics', (req, res) => {
+  res.set('Content-Type', 'text/plain');
+  res.send(getMetricsText());
 });
 
 // Serve OpenAPI Spec JSON
@@ -368,21 +376,21 @@ if (process.env.NODE_ENV !== 'test') {
   // Start Express server
   // Note: All logs must go to stderr (console.error) to avoid corrupting MCP's stdout channel
   app.listen(PORT, () => {
-    console.error(`[HTTP] LightCrawl API server running on port ${PORT}`);
+    logger.info(`LightCrawl API server running on port ${PORT}`, { service: 'HTTP', port: PORT });
   });
 
   // Start MCP server via Stdio transport
   const transport = new StdioServerTransport();
   mcpServer.connect(transport).then(() => {
-    console.error('[MCP] LightCrawl MCP server connected via stdio');
+    logger.info('LightCrawl MCP server connected via stdio', { service: 'MCP' });
   }).catch((error) => {
-    console.error('[MCP] Failed to connect MCP server:', error);
+    logger.error('Failed to connect MCP server', { service: 'MCP', error: error instanceof Error ? error.message : String(error) });
   });
 
   // Start Redis distributed worker if configured
   if (process.env.REDIS_URL && process.env.ENABLE_DISTRIBUTED_WORKER !== 'false') {
     startRedisWorker().catch((error) => {
-      console.error('[Redis Worker] Distributed worker failed:', error);
+      logger.error('Distributed worker failed', { service: 'RedisWorker', error: error instanceof Error ? error.message : String(error) });
     });
   }
 }

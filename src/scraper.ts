@@ -7,6 +7,8 @@ import { Readability } from '@mozilla/readability';
 import TurndownService from 'turndown';
 import { getDomain } from 'tldts';
 import Redis from 'ioredis';
+import { recordScrape, recordMap, recordCrawl } from './metrics';
+import { logger } from './logger';
 
 // Register the stealth plugin to bypass simple scraper detection
 chromium.use(stealthPlugin());
@@ -165,14 +167,20 @@ async function autoScroll(page: Page): Promise<void> {
  * @param url Target web page URL
  * @returns ScrapeResult object
  */
+interface FetchResult {
+  html: string;
+  isProtected: boolean;
+}
+
 /**
  * Internal helper to fetch page HTML via Playwright
  */
-async function fetchHtml(url: string, skipScroll = false): Promise<string> {
+async function fetchHtml(url: string, skipScroll = false): Promise<FetchResult> {
   await limiter.acquire();
 
   let context: BrowserContext | undefined;
   let page: Page | undefined;
+  let isProtected = false;
 
   try {
     const browser = await getBrowserInstance();
@@ -190,7 +198,16 @@ async function fetchHtml(url: string, skipScroll = false): Promise<string> {
     page.setDefaultNavigationTimeout(30000);
 
     // Navigate to the target URL
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    const response = await page.goto(url, { waitUntil: 'domcontentloaded' });
+
+    if (response) {
+      const headers = await response.allHeaders();
+      const serverHeader = headers['server']?.toLowerCase() || '';
+      const status = response.status();
+      if (serverHeader.includes('cloudflare') || status === 403 || status === 503) {
+        isProtected = true;
+      }
+    }
 
     if (!skipScroll) {
       // Smooth scroll down to trigger lazy loading
@@ -202,6 +219,17 @@ async function fetchHtml(url: string, skipScroll = false): Promise<string> {
 
     // Retrieve HTML content
     const html = await page.content();
+    const title = await page.title();
+
+    if (
+      title.toLowerCase().includes('cloudflare') ||
+      title.toLowerCase().includes('access denied') ||
+      title.toLowerCase().includes('just a moment') ||
+      html.includes('cf-challenge') ||
+      html.includes('cf-browser-verification')
+    ) {
+      isProtected = true;
+    }
 
     // Close page and context in orderly fashion to avoid unhandled CDP errors
     await page.close();
@@ -211,7 +239,7 @@ async function fetchHtml(url: string, skipScroll = false): Promise<string> {
     page = undefined;
     context = undefined;
 
-    return html;
+    return { html, isProtected };
   } catch (error) {
     // Ensure all resources are closed even on errors
     if (page) {
@@ -242,67 +270,110 @@ async function fetchHtml(url: string, skipScroll = false): Promise<string> {
  * @returns ScrapeResult object
  */
 export async function scrapeUrl(url: string, mode: 'article' | 'full' = 'article'): Promise<ScrapeResult> {
-  const html = await fetchHtml(url);
+  const startTime = Date.now();
+  let isProtected = false;
+  try {
+    const fetchResult = await fetchHtml(url);
+    isProtected = fetchResult.isProtected;
+    const html = fetchResult.html;
 
-  // Parse HTML with JSDOM
-  const dom = new JSDOM(html, { url });
-  const document = dom.window.document;
-
-  // Extract title & target HTML
-  let title = document.title || 'Untitled';
-  let targetHtml = document.body.innerHTML;
-  let excerpt: string | undefined;
-
-  if (mode === 'article') {
-    // Use Readability to extract core article content
-    const reader = new Readability(document);
-    const article = reader.parse();
-    if (article) {
-      title = article.title || title;
-      targetHtml = article.content || targetHtml;
-      excerpt = article.excerpt || undefined;
+    if (isProtected) {
+      throw new Error('Access Denied: Protected page detected (e.g. Cloudflare)');
     }
+
+    // Parse HTML with JSDOM
+    const dom = new JSDOM(html, { url });
+    const document = dom.window.document;
+
+    // Extract title & target HTML
+    let title = document.title || 'Untitled';
+    let targetHtml = document.body.innerHTML;
+    let excerpt: string | undefined;
+
+    if (mode === 'article') {
+      // Use Readability to extract core article content
+      const reader = new Readability(document);
+      const article = reader.parse();
+      if (article) {
+        title = article.title || title;
+        targetHtml = article.content || targetHtml;
+        excerpt = article.excerpt || undefined;
+      }
+    }
+
+    // Extract metadata
+    const metadata: NonNullable<ScrapeResult['metadata']> = {};
+    
+    const getMeta = (nameOrProperty: string): string | undefined => {
+      const element = document.querySelector(
+        `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
+      );
+      return element?.getAttribute('content') || undefined;
+    };
+
+    metadata.description = getMeta('description');
+    metadata.keywords = getMeta('keywords');
+    metadata.author = getMeta('author');
+    metadata.ogTitle = getMeta('og:title');
+    metadata.ogDescription = getMeta('og:description');
+    metadata.ogImage = getMeta('og:image');
+
+    const canonicalEl = document.querySelector('link[rel="canonical"]');
+    metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
+
+    const htmlEl = document.querySelector('html');
+    metadata.lang = htmlEl?.getAttribute('lang') || undefined;
+
+    // Convert HTML to Markdown
+    const turndownService = new TurndownService({
+      headingStyle: 'atx',
+      codeBlockStyle: 'fenced',
+    });
+
+    const markdown = turndownService.turndown(targetHtml);
+
+    const durationSeconds = (Date.now() - startTime) / 1000;
+    recordScrape({ success: true, isProtected, durationSeconds });
+
+    logger.info('Scrape completed successfully', {
+      url,
+      mode,
+      durationMs: durationSeconds * 1000,
+      success: true,
+      isProtected,
+    });
+
+    return {
+      success: true,
+      url,
+      title,
+      markdown,
+      metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
+      excerpt,
+    };
+  } catch (error) {
+    const durationSeconds = (Date.now() - startTime) / 1000;
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const hasProtectionIndicators = errorMessage.toLowerCase().includes('cloudflare') || 
+                                    errorMessage.toLowerCase().includes('access denied') ||
+                                    errorMessage.toLowerCase().includes('403') ||
+                                    errorMessage.toLowerCase().includes('503');
+    
+    const finalIsProtected = isProtected || hasProtectionIndicators;
+
+    recordScrape({ success: false, isProtected: finalIsProtected, durationSeconds });
+
+    logger.error('Scrape failed', {
+      url,
+      mode,
+      durationMs: durationSeconds * 1000,
+      success: false,
+      isProtected: finalIsProtected,
+      error: errorMessage,
+    });
+
+    throw error;
   }
-
-  // Extract metadata
-  const metadata: NonNullable<ScrapeResult['metadata']> = {};
-  
-  const getMeta = (nameOrProperty: string): string | undefined => {
-    const element = document.querySelector(
-      `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
-    );
-    return element?.getAttribute('content') || undefined;
-  };
-
-  metadata.description = getMeta('description');
-  metadata.keywords = getMeta('keywords');
-  metadata.author = getMeta('author');
-  metadata.ogTitle = getMeta('og:title');
-  metadata.ogDescription = getMeta('og:description');
-  metadata.ogImage = getMeta('og:image');
-
-  const canonicalEl = document.querySelector('link[rel="canonical"]');
-  metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
-
-  const htmlEl = document.querySelector('html');
-  metadata.lang = htmlEl?.getAttribute('lang') || undefined;
-
-  // Convert HTML to Markdown
-  const turndownService = new TurndownService({
-    headingStyle: 'atx',
-    codeBlockStyle: 'fenced',
-  });
-
-  const markdown = turndownService.turndown(targetHtml);
-
-  return {
-    success: true,
-    url,
-    title,
-    markdown,
-    metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
-    excerpt,
-  };
 }
 
 /**
@@ -438,8 +509,26 @@ function parseScrapeResult(html: string, url: string): ScrapeResult {
  * @returns Array of unique absolute URLs belonging to the same host
  */
 export async function mapUrl(url: string): Promise<string[]> {
-  const html = await fetchHtml(url, true); // Skip scroll for fast map
-  return extractInternalLinks(html, url);
+  try {
+    const fetchResult = await fetchHtml(url, true); // Skip scroll for fast map
+    const links = extractInternalLinks(fetchResult.html, url);
+    recordMap(true);
+    logger.info('Map completed successfully', {
+      url,
+      linksCount: links.length,
+      success: true,
+    });
+    return links;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    recordMap(false);
+    logger.error('Map failed', {
+      url,
+      success: false,
+      error: errorMessage,
+    });
+    throw error;
+  }
 }
 
 /**
@@ -494,13 +583,13 @@ async function crawlUrlRedis(
     }
 
     try {
-      const html = await fetchHtml(url);
-      const result = parseScrapeResult(html, url);
+      const fetchResult = await fetchHtml(url);
+      const result = parseScrapeResult(fetchResult.html, url);
       await redis.rpush(`lightcrawl:results:${jobId}`, JSON.stringify(result));
 
       const currentResultsCount = await redis.llen(`lightcrawl:results:${jobId}`);
       if (currentResultsCount < limit && depth < maxDepth) {
-        const links = extractAllLinks(html, url);
+        const links = extractAllLinks(fetchResult.html, url);
         let addedCount = 0;
         for (const link of links) {
           const isVisited = await redis.sismember(`lightcrawl:visited:${jobId}`, link);
@@ -572,13 +661,13 @@ export async function startRedisWorker(signal?: { aborted: boolean }): Promise<v
         }
 
         try {
-          const html = await fetchHtml(url);
-          const result = parseScrapeResult(html, url);
+          const fetchResult = await fetchHtml(url);
+          const result = parseScrapeResult(fetchResult.html, url);
           await redis.rpush(`lightcrawl:results:${jobId}`, JSON.stringify(result));
 
           const currentResultsCount = await redis.llen(`lightcrawl:results:${jobId}`);
           if (currentResultsCount < limit && depth < maxDepth) {
-            const links = extractAllLinks(html, url);
+            const links = extractAllLinks(fetchResult.html, url);
             let addedCount = 0;
             for (const link of links) {
               const isVisited = await redis.sismember(`lightcrawl:visited:${jobId}`, link);
@@ -633,8 +722,8 @@ async function crawlUrlInMemory(
     visited.add(current.url);
 
     try {
-      const html = await fetchHtml(current.url);
-      const result = parseScrapeResult(html, current.url);
+      const fetchResult = await fetchHtml(current.url);
+      const result = parseScrapeResult(fetchResult.html, current.url);
       results.push(result);
 
       if (results.length >= limit) {
@@ -642,7 +731,7 @@ async function crawlUrlInMemory(
       }
 
       if (current.depth < maxDepth) {
-        const links = extractAllLinks(html, current.url);
+        const links = extractAllLinks(fetchResult.html, current.url);
         for (const link of links) {
           if (!visited.has(link)) {
             queue.push({ url: link, depth: current.depth + 1 });
@@ -670,9 +759,39 @@ export async function crawlUrl(
   const finalMaxDepth = Math.min(maxDepth, 3);
 
   const redisUrl = process.env.REDIS_URL;
-  if (redisUrl) {
-    return crawlUrlRedis(startUrl, finalLimit, finalMaxDepth);
+  const startTime = Date.now();
+  
+  try {
+    let results: ScrapeResult[];
+    if (redisUrl) {
+      results = await crawlUrlRedis(startUrl, finalLimit, finalMaxDepth);
+    } else {
+      results = await crawlUrlInMemory(startUrl, finalLimit, finalMaxDepth);
+    }
+    
+    recordCrawl(true);
+    logger.info('Crawl completed successfully', {
+      url: startUrl,
+      limit: finalLimit,
+      maxDepth: finalMaxDepth,
+      resultsCount: results.length,
+      durationMs: Date.now() - startTime,
+      success: true,
+      useRedis: !!redisUrl,
+    });
+    return results;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    recordCrawl(false);
+    logger.error('Crawl failed', {
+      url: startUrl,
+      limit: finalLimit,
+      maxDepth: finalMaxDepth,
+      durationMs: Date.now() - startTime,
+      success: false,
+      useRedis: !!redisUrl,
+      error: errorMessage,
+    });
+    throw error;
   }
-
-  return crawlUrlInMemory(startUrl, finalLimit, finalMaxDepth);
 }
