@@ -20,6 +20,11 @@ LightCrawl is a lightweight, single-container, self-hostable Web scraping API an
 - **Flexible Scraping Modes**: Supports two extraction modes:
   - `article` (Default): Extracts primary article content by stripping headers, footers, navigation, and ads using Mozilla's `Readability` algorithm. Perfect for blogs, news, and article pages.
   - `full`: Bypasses `Readability` filtering to convert the entire HTML body into Markdown. Ideal for portals, directory lists, and search results.
+- **Website Mapping**: Extracts all unique internal URLs under the same registered domain (e.g., `*.example.com` when mapping `example.com`), utilizing the `tldts` library for highly accurate eTLD+1 matching.
+- **Web Crawling**: Recursively crawls web pages starting from a target URL up to depth and count limits. Supports both in-memory queues and Redis-backed queues.
+- **Distributed Queue (Redis)**: Scales horizontally with a distributed crawl queue and state manager using Redis, complete with a cooperative background worker that processes crawl jobs.
+- **Observability**: Exposes native Prometheus-compatible metrics (average scrape latency, crawl/map success rates, protected site metrics) and outputs structured JSON logs to `stderr` to maintain MCP stability.
+- **Anti-Bot Detection**: Automatically identifies if target pages are protected by Cloudflare or similar bot challenges (via HTML body, titles, and response headers), reporting status and recording separate metrics.
 - **HTML to Markdown**: Converts HTML to readable Markdown via `turndown`.
 - **Hybrid Interface**: Acts as both a standard Express-based HTTP API and an MCP Server (stdio-based) simultaneously, ensuring all logs go to `stderr` to avoid interfering with the JSON-RPC stdout stream.
 - **Dockerized & Resource-Optimized**: Multistage build optimized for Playwright, downloading only the Chromium browser binary to minimize memory usage and container footprint.
@@ -87,6 +92,21 @@ When AI agents or local tools need to scrape unknown, untrusted web pages, direc
 
 ---
 
+## Configuration
+
+LightCrawl can be configured using environment variables. You can define these in a `.env` file at the root of the project (see `.env.example`).
+
+| Environment Variable | Description | Default |
+| -------------------- | ----------- | ------- |
+| `PORT` | The port the HTTP API server will listen on. | `3000` |
+| `API_KEY` | Optional API key for authenticating HTTP/MCP requests. | None |
+| `ALLOWED_IPS` | Optional comma-separated list of allowed client IP addresses. | None |
+| `REDIS_URL` | Optional Redis connection URL (e.g., `redis://localhost:6379`). When provided, crawling operations use Redis as a distributed queue and state backend. | None |
+| `ENABLE_DISTRIBUTED_WORKER` | If `true` and `REDIS_URL` is set, starts a cooperative background crawl worker on startup. Set to `false` to run as a thin API client only. | `true` |
+| `MAX_CONCURRENCY` | Maximum number of concurrent Playwright browser instances allowed to run. | `5` |
+
+---
+
 ## Usage
 
 > [!NOTE]
@@ -146,19 +166,113 @@ This feature automatically parses the `x-forwarded-for` proxy header to determin
     "success": true,
     "url": "https://example.com",
     "title": "Example Domain",
-    "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples..."
+    "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+    "metadata": {
+      "description": "Example description",
+      "canonical": "https://example.com/",
+      "lang": "en"
+    },
+    "excerpt": "This domain is for use in illustrative examples in documents..."
   }
+  ```
+
+#### Get Website Map
+Extracts unique, absolute internal URLs belonging to the same registered domain (subdomains allowed) from the target page.
+- **Endpoint**: `GET /map`
+- **Query Parameters**:
+  - `url` (string, required): The target homepage URL to map.
+- **Request**:
+  ```bash
+  curl "http://localhost:3000/map?url=https://example.com"
+  ```
+- **Response**:
+  ```json
+  [
+    "https://example.com/",
+    "https://example.com/about",
+    "https://blog.example.com/posts"
+  ]
+  ```
+
+#### Crawl Web Pages
+Crawls the web starting from the target URL, navigating internal and external links up to depth and count limits.
+- **Endpoint**: `GET /crawl`
+- **Query Parameters**:
+  - `url` (string, required): The starting URL.
+  - `limit` (integer, optional): Maximum pages to crawl (default: `10`, max: `20`).
+  - `maxDepth` (integer, optional): Maximum search depth (default: `2`, max: `3`).
+- **Request**:
+  ```bash
+  curl "http://localhost:3000/crawl?url=https://example.com&limit=2&maxDepth=2"
+  ```
+- **Response**:
+  ```json
+  [
+    {
+      "success": true,
+      "url": "https://example.com",
+      "title": "Example Domain",
+      "markdown": "# Example Domain\n...",
+      "metadata": { "lang": "en" }
+    },
+    {
+      "success": true,
+      "url": "https://iana.org/domains/reserved",
+      "title": "IANA Reserved Domains",
+      "markdown": "# Reserved Domains\n...",
+      "metadata": { "lang": "en" }
+    }
+  ]
+  ```
+
+#### Get Prometheus Metrics
+Exposes performance and operational metrics in Prometheus exposition format.
+- **Endpoint**: `GET /metrics`
+- **Request**:
+  ```bash
+  curl http://localhost:3000/metrics
+  ```
+- **Response**:
+  ```text
+  # HELP lightcrawl_scrape_requests_total Total number of scrape requests.
+  # TYPE lightcrawl_scrape_requests_total counter
+  lightcrawl_scrape_requests_total{success="true",protected="true"} 0
+  lightcrawl_scrape_requests_total{success="true",protected="false"} 2
+  lightcrawl_scrape_requests_total{success="false",protected="true"} 0
+  lightcrawl_scrape_requests_total{success="false",protected="false"} 0
+  # HELP lightcrawl_scrape_duration_seconds_sum Total duration of scrape requests in seconds.
+  # TYPE lightcrawl_scrape_duration_seconds_sum counter
+  lightcrawl_scrape_duration_seconds_sum 2.45
+  # HELP lightcrawl_scrape_duration_seconds_count Total count of scrape requests.
+  # TYPE lightcrawl_scrape_duration_seconds_count counter
+  lightcrawl_scrape_duration_seconds_count 2
+  ...
   ```
 
 ### 2. MCP Server (Model Context Protocol)
 
 You can register LightCrawl as an MCP tool inside AI clients like Cursor or Claude Desktop.
 
-- **Tool Name**: `lightcrawl_scrape`
+#### 1. `lightcrawl_scrape`
 - **Description**: Accesses a web page using Playwright, strips unnecessary elements, and extracts clean Markdown text.
 - **Arguments**:
   - `url` (string, required): The HTTP/HTTPS URL of the web page to scrape.
   - `mode` (string, optional): The scraping mode. One of `article` (default) or `full`.
+- **Output**: Raw Markdown string.
+
+#### 2. `lightcrawl_map`
+- **Description**: Extracts all internal URLs (subdomains of same registered domain allowed) from a target website to build a site map.
+- **Arguments**:
+  - `url` (string, required): The starting HTTP/HTTPS URL of the website.
+- **Output**: JSON stringified array of absolute URLs.
+
+#### 3. `lightcrawl_crawl`
+- **Description**: Performs a simple crawl starting from the target URL, navigating links up to depth and count limits.
+- **Arguments**:
+  - `url` (string, required): The starting HTTP/HTTPS URL to crawl.
+  - `limit` (integer, optional): Maximum number of pages to crawl (default `10`, max `20`).
+  - `maxDepth` (integer, optional): Maximum crawl depth (default `2`, max `3`).
+- **Output**: JSON stringified array of ScrapeResult objects representing all crawled pages.
 
 #### Claude Desktop Configuration
 Add the following to your `claude_desktop_config.json`:
@@ -187,8 +301,13 @@ To build and run LightCrawl inside a Docker container:
 
 2. **Run the container**:
    ```bash
-   docker run -d -p 3000:3000 --name lightcrawl-app lightcrawl
+   docker run -d -p 3000:3000 \
+     -e API_KEY="your-api-key" \
+     -e ALLOWED_IPS="127.0.0.1" \
+     -e REDIS_URL="redis://host.docker.internal:6379" \
+     --name lightcrawl-app lightcrawl
    ```
+   *(Configure environment variables with `-e` flags as needed)*
 
 3. **Verify running container**:
    ```bash
@@ -211,9 +330,16 @@ This configuration runs a single Express container without any external database
 #### 2. Scalable (with Redis) - For high-concurrency workloads
 This configuration provisions both the Express/Worker container and a Redis database service. The application automatically detects `REDIS_URL` and switches to the queue-based distributed crawling system, allowing horizontal scaling.
 
-*(Note: Requires deploying the multi-service template containing Redis)*
-
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/qf7RVi?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic)
+
+*(Note: Click the button above to deploy a pre-configured multi-service stack with Redis automatically linked. Alternatively, if you want to set up Redis manually in an existing Railway project, see the manual instructions below.)*
+
+##### 📦 Setting up Redis manually on Railway
+If you want to add Redis to an existing deployment manually:
+1. Click **+ New** -> **Database** -> **Redis** in your Railway project to spin up a Redis instance.
+2. In your LightCrawl service settings, add a new environment variable:
+   - `REDIS_URL`: `${{Redis.REDIS_URL}}` (or reference the automatically generated Redis URL variable).
+   - `ENABLE_DISTRIBUTED_WORKER`: `true` (default, to start the background crawl worker).
 
 ---
 
