@@ -57,6 +57,17 @@ describe('HTTP API Endpoints', () => {
     expect(response.body).toEqual({ status: 'ok' });
   });
 
+  it('GET /openapi.json should return OpenAPI specification JSON', async () => {
+    const response = await request(app).get('/openapi.json');
+    expect(response.status).toBe(200);
+    expect(response.body.openapi).toBe('3.0.3');
+  });
+
+  it('GET /api-docs should redirect or return Swagger UI HTML', async () => {
+    const response = await request(app).get('/api-docs');
+    expect([200, 301, 302]).toContain(response.status);
+  });
+
   it('GET /scrape with valid url should return markdown payload', async () => {
     const response = await request(app)
       .get('/scrape')

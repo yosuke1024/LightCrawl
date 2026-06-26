@@ -6,6 +6,8 @@ import {
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 import { scrapeUrl, mapUrl, crawlUrl } from './scraper';
+import swaggerUi from 'swagger-ui-express';
+import { openApiSpec } from './openapi';
 
 // Initialize Express App
 export const app = express();
@@ -15,6 +17,14 @@ app.use(express.json());
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+// Serve OpenAPI Spec JSON
+app.get('/openapi.json', (req, res) => {
+  res.json(openApiSpec);
+});
+
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
 
 // API Key authentication middleware
 const authenticateApiKey = (
