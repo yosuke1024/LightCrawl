@@ -330,7 +330,7 @@ This configuration runs a single Express container without any external database
 #### 2. Scalable (with Redis) - For high-concurrency workloads
 This configuration provisions both the Express/Worker container and a Redis database service. The application automatically detects `REDIS_URL` and switches to the queue-based distributed crawling system, allowing horizontal scaling.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/qf7RVi?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/lightcrawl-with-redis?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
 *(Note: Click the button above to deploy a pre-configured multi-service stack with Redis automatically linked. Alternatively, if you want to set up Redis manually in an existing Railway project, see the manual instructions below.)*
 
