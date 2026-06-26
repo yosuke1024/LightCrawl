@@ -467,7 +467,7 @@ export async function crawlUrl(
         }
       }
     } catch (error) {
-      console.error(`[Crawl] Failed to crawl ${current.url}:`, error);
+      console.error('[Crawl] Failed to crawl %s:', current.url, error);
     }
   }
 
