@@ -11,4 +11,4 @@ yarn-debug.log*
 yarn-error.log*
 .eslintcache
 .ai-conventions.md
-docs/
+docs/current/

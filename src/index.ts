@@ -5,7 +5,7 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { scrapeUrl, mapUrl, crawlUrl } from './scraper';
+import { scrapeUrl, mapUrl, crawlUrl, startRedisWorker } from './scraper';
 import swaggerUi from 'swagger-ui-express';
 import { openApiSpec } from './openapi';
 
@@ -378,4 +378,11 @@ if (process.env.NODE_ENV !== 'test') {
   }).catch((error) => {
     console.error('[MCP] Failed to connect MCP server:', error);
   });
+
+  // Start Redis distributed worker if configured
+  if (process.env.REDIS_URL && process.env.ENABLE_DISTRIBUTED_WORKER !== 'false') {
+    startRedisWorker().catch((error) => {
+      console.error('[Redis Worker] Distributed worker failed:', error);
+    });
+  }
 }
