@@ -52,6 +52,10 @@ vi.mock('../scraper', () => {
 });
 
 describe('HTTP API Endpoints', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it('GET /health should return status ok', async () => {
     const response = await request(app).get('/health');
     expect(response.status).toBe(200);
@@ -67,6 +71,29 @@ describe('HTTP API Endpoints', () => {
   it('GET /api-docs should redirect or return Swagger UI HTML', async () => {
     const response = await request(app).get('/api-docs');
     expect([200, 301, 302]).toContain(response.status);
+  });
+
+  it('GET / should return Playground UI HTML when not in production', async () => {
+    const response = await request(app).get('/');
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toContain('text/html');
+    expect(response.text).toContain('<!DOCTYPE html>');
+    expect(response.text).toContain('LightCrawl Playground');
+  });
+
+  it('GET / should return 404 in production environment if not explicitly enabled', async () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('ENABLE_PLAYGROUND', '');
+    const response = await request(app).get('/');
+    expect(response.status).toBe(404);
+  });
+
+  it('GET / should return 200 in production if ENABLE_PLAYGROUND=true is explicitly set', async () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('ENABLE_PLAYGROUND', 'true');
+    const response = await request(app).get('/');
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toContain('text/html');
   });
 
   it('GET /scrape with valid url should return markdown payload', async () => {

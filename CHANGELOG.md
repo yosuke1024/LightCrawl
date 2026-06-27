@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-06-27
+
+### Added
+- **Playground Dashboard UI**:
+  - Interactive web playground available at the root URL `/` for non-engineers and developers to test scraping visual outcomes.
+  - Split-screen layout displaying scraping configuration and metadata on the left, and parsed Markdown rendering, raw code with syntax highlighting (PrismJS), or original site (iframe) on the right.
+  - Zero-dependency architecture utilizing only basic HTML/CSS/JS with CDN links (marked.js, PrismJS, Lucide icons), maintaining zero impact on application start time, memory, or Docker image size.
+  - 1-click clipboard copy feature for raw Markdown output.
+  - Subtle and premium "by PixApps" branding links integrated into the header.
+
 ## [1.1.0] - 2026-06-27
 
 ### Added

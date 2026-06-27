@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import { Server as HttpServer } from 'http';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -20,6 +21,14 @@ const sseTransports: Record<string, SSEServerTransport> = {};
 // Initialize Express App
 export const app = express();
 app.use(express.json());
+
+// Serve static playground files dynamically (disabled in production unless explicitly enabled)
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_PLAYGROUND === 'true') {
+    return express.static(path.join(__dirname, '../public'))(req, res, next);
+  }
+  next();
+});
 
 // HTTP API: /health
 app.get('/health', (req, res) => {
@@ -263,12 +272,12 @@ app.get('/sse', authorizeIpAddress, authenticateApiKey, async (req, res) => {
 app.post('/messages', authorizeIpAddress, async (req, res) => {
   const sessionId = req.query.sessionId as string;
   if (!sessionId) {
-    return res.status(400).send('Missing sessionId parameter');
+    return res.status(400).json({ success: false, error: 'Missing sessionId parameter' });
   }
 
   const transport = sseTransports[sessionId];
   if (!transport) {
-    return res.status(400).send(`No transport found for sessionId: ${sessionId}`);
+    return res.status(400).json({ success: false, error: 'No transport found for the provided sessionId' });
   }
 
   await transport.handlePostMessage(req, res, req.body);
@@ -279,7 +288,7 @@ export function createMcpServer(): Server {
   const serverInstance = new Server(
     {
       name: 'lightcrawl-server',
-      version: '1.1.0',
+      version: '1.1.1',
     },
     {
       capabilities: {

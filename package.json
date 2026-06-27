@@ -1,6 +1,6 @@
 {
   "name": "lightcrawl",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Minimal Web-to-Markdown Scraper",
   "main": "dist/index.js",
   "scripts": {

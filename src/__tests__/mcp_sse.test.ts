@@ -41,7 +41,8 @@ describe('MCP SSE Transport Endpoints', () => {
         .send({ jsonrpc: '2.0', method: 'ping', id: 1 });
       
       expect(response.status).toBe(400);
-      expect(response.text).toContain('sessionId');
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('sessionId');
     });
 
     it('should return 400 if no active transport is found for sessionId', async () => {
@@ -52,7 +53,8 @@ describe('MCP SSE Transport Endpoints', () => {
         .send({ jsonrpc: '2.0', method: 'ping', id: 1 });
       
       expect(response.status).toBe(400);
-      expect(response.text).toContain('No transport found');
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('No transport found');
     });
   });
 });
