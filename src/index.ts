@@ -8,6 +8,7 @@ import {
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 import { scrapeUrl, mapUrl, crawlUrl, startRedisWorker, shutdownBrowserAndRedis } from './scraper';
+import { searchAndScrape } from './search';
 import swaggerUi from 'swagger-ui-express';
 import { openApiSpec } from './openapi';
 import { getMetricsText } from './metrics';
@@ -128,8 +129,13 @@ app.get('/scrape', authorizeIpAddress, authenticateApiKey, async (req, res) => {
     });
   }
 
+  const fastParam = req.query.fast;
+  const scrapeOptions = fastParam !== undefined ? { fast: fastParam === 'true' } : undefined;
+
   try {
-    const result = await scrapeUrl(url, mode as 'article' | 'full');
+    const result = scrapeOptions 
+      ? await scrapeUrl(url, mode as 'article' | 'full', scrapeOptions)
+      : await scrapeUrl(url, mode as 'article' | 'full');
     res.json(result);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -180,9 +186,47 @@ app.get('/crawl', authorizeIpAddress, authenticateApiKey, async (req, res) => {
 
   const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : undefined;
   const maxDepth = req.query.maxDepth ? parseInt(req.query.maxDepth as string, 10) : undefined;
+  const maxCheckedPages = req.query.maxCheckedPages ? parseInt(req.query.maxCheckedPages as string, 10) : undefined;
+  const timeoutMs = req.query.timeoutMs ? parseInt(req.query.timeoutMs as string, 10) : undefined;
+  const fastParam = req.query.fast;
 
   try {
-    const result = await crawlUrl(url, limit, maxDepth);
+    const options: { maxCheckedPages?: number; timeoutMs?: number; fast?: boolean } = {};
+    if (maxCheckedPages !== undefined) options.maxCheckedPages = maxCheckedPages;
+    if (timeoutMs !== undefined) options.timeoutMs = timeoutMs;
+    if (fastParam !== undefined) options.fast = fastParam === 'true';
+
+    const finalOptions = Object.keys(options).length > 0 ? options : undefined;
+    const result = await crawlUrl(url, limit, maxDepth, finalOptions);
+    res.json(result);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    res.status(500).json({
+      success: false,
+      error: errorMessage,
+    });
+  }
+});
+
+// HTTP API: /search
+app.get('/search', authorizeIpAddress, authenticateApiKey, async (req, res) => {
+  const query = req.query.q as string;
+  if (!query) {
+    return res.status(400).json({ success: false, error: 'Query is required' });
+  }
+
+  const apiKey = process.env.BRAVE_SEARCH_API_KEY;
+  if (!apiKey) {
+    return res.status(501).json({
+      success: false,
+      error: 'Brave Search API key is not configured. Please set the BRAVE_SEARCH_API_KEY environment variable.',
+    });
+  }
+
+  const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : undefined;
+
+  try {
+    const result = await searchAndScrape(query, limit);
     res.json(result);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -235,7 +279,7 @@ export function createMcpServer(): Server {
   const serverInstance = new Server(
     {
       name: 'lightcrawl-server',
-      version: '1.0.0',
+      version: '1.1.0',
     },
     {
       capabilities: {
@@ -246,70 +290,151 @@ export function createMcpServer(): Server {
 
   // Register MCP List Tools Handler
   serverInstance.setRequestHandler(ListToolsRequestSchema, async () => {
-    return {
-      tools: [
-        {
-          name: 'lightcrawl_scrape',
-          description: 'Accesses a web page using Playwright, strips unnecessary elements, and extracts clean Markdown text.',
-          inputSchema: {
-            type: 'object',
-            properties: {
-              url: {
-                type: 'string',
-                description: 'The HTTP/HTTPS URL of the web page to scrape.',
-              },
-              mode: {
-                type: 'string',
-                enum: ['article', 'full'],
-                description: 'Scraping mode. "article" uses Readability to extract main content (default). "full" returns the full page content converted to Markdown.',
-              },
+    const tools: {
+      name: string;
+      description: string;
+      inputSchema: {
+        type: 'object';
+        properties: Record<string, { type: string; description?: string; enum?: string[] }>;
+        required?: string[];
+      };
+    }[] = [
+      {
+        name: 'lightcrawl_scrape',
+        description: 'Accesses a web page using Playwright, strips unnecessary elements, and extracts clean Markdown text.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'The HTTP/HTTPS URL of the web page to scrape.',
             },
-            required: ['url'],
-          },
-        },
-        {
-          name: 'lightcrawl_map',
-          description: 'Extracts all internal URLs from a target website to build a site map.',
-          inputSchema: {
-            type: 'object',
-            properties: {
-              url: {
-                type: 'string',
-                description: 'The starting HTTP/HTTPS URL of the website.',
-              },
+            mode: {
+              type: 'string',
+              enum: ['article', 'full'],
+              description: 'Scraping mode. "article" uses Readability to extract main content (default). "full" returns the full page content converted to Markdown.',
             },
-            required: ['url'],
-          },
-        },
-        {
-          name: 'lightcrawl_crawl',
-          description: 'Performs a simple crawl of the target domain up to a limit and returns markdown contents.',
-          inputSchema: {
-            type: 'object',
-            properties: {
-              url: {
-                type: 'string',
-                description: 'The starting HTTP/HTTPS URL to crawl.',
-              },
-              limit: {
-                type: 'integer',
-                description: 'Maximum number of pages to crawl (default 10, max 20).',
-              },
-              maxDepth: {
-                type: 'integer',
-                description: 'Maximum crawl depth (default 2, max 3).',
-              },
+            fast: {
+              type: 'boolean',
+              description: 'Whether to use fast mode (skips scroll and uses linkedom).',
             },
-            required: ['url'],
           },
+          required: ['url'],
         },
-      ],
-    };
+      },
+      {
+        name: 'lightcrawl_map',
+        description: 'Extracts all internal URLs from a target website to build a site map.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'The starting HTTP/HTTPS URL of the website.',
+            },
+          },
+          required: ['url'],
+        },
+      },
+      {
+        name: 'lightcrawl_crawl',
+        description: 'Performs a simple crawl of the target domain up to a limit and returns markdown contents.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'The starting HTTP/HTTPS URL to crawl.',
+            },
+            limit: {
+              type: 'integer',
+              description: 'Maximum number of pages to crawl (default 10, max 20).',
+            },
+            maxDepth: {
+              type: 'integer',
+              description: 'Maximum crawl depth (default 2, max 3).',
+            },
+            maxCheckedPages: {
+              type: 'integer',
+              description: 'Maximum number of pages to check (default limit * 2, max 40).',
+            },
+            timeoutMs: {
+              type: 'integer',
+              description: 'Global crawl execution timeout in milliseconds (default 45000).',
+            },
+            fast: {
+              type: 'boolean',
+              description: 'Whether to use fast mode during crawling.',
+            },
+          },
+          required: ['url'],
+        },
+      },
+    ];
+
+    if (process.env.BRAVE_SEARCH_API_KEY) {
+      tools.push({
+        name: 'lightcrawl_search',
+        description: 'Searches the web using Brave Search and scrapes top results concurrently to return markdown contents.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: {
+              type: 'string',
+              description: 'The search query string.',
+            },
+            limit: {
+              type: 'integer',
+              description: 'Maximum number of results to search and scrape (default 5).',
+            },
+          },
+          required: ['query'],
+        },
+      });
+    }
+
+    return { tools };
   });
 
   // Register MCP Call Tool Handler
   serverInstance.setRequestHandler(CallToolRequestSchema, async (request) => {
     const toolName = request.params.name;
+
+    if (toolName === 'lightcrawl_search') {
+      const query = request.params.arguments?.query as string;
+      const limit = request.params.arguments?.limit ? parseInt(request.params.arguments.limit as string, 10) : undefined;
+
+      if (!query) {
+        return {
+          content: [{ type: 'text', text: 'Error: Query parameter is required' }],
+          isError: true,
+        };
+      }
+
+      try {
+        const result = await searchAndScrape(query, limit);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching for "${query}": ${errorMessage}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    }
+
     const url = request.params.arguments?.url as string;
     if (!url) {
       return {
@@ -329,6 +454,7 @@ export function createMcpServer(): Server {
 
     if (toolName === 'lightcrawl_scrape') {
       const mode = (request.params.arguments?.mode as string) || 'article';
+      const fast = !!request.params.arguments?.fast;
       if (mode !== 'article' && mode !== 'full') {
         return {
           content: [{ type: 'text', text: 'Error: Invalid mode parameter. Must be "article" or "full".' }],
@@ -337,7 +463,7 @@ export function createMcpServer(): Server {
       }
 
       try {
-        const result = await scrapeUrl(url, mode as 'article' | 'full');
+        const result = await scrapeUrl(url, mode as 'article' | 'full', { fast });
         return {
           content: [
             {
@@ -384,9 +510,17 @@ export function createMcpServer(): Server {
     } else if (toolName === 'lightcrawl_crawl') {
       const limit = request.params.arguments?.limit ? parseInt(request.params.arguments.limit as string, 10) : undefined;
       const maxDepth = request.params.arguments?.maxDepth ? parseInt(request.params.arguments.maxDepth as string, 10) : undefined;
+      const maxCheckedPages = request.params.arguments?.maxCheckedPages ? parseInt(request.params.arguments.maxCheckedPages as string, 10) : undefined;
+      const timeoutMs = request.params.arguments?.timeoutMs ? parseInt(request.params.arguments.timeoutMs as string, 10) : undefined;
+      const fast = !!request.params.arguments?.fast;
 
       try {
-        const result = await crawlUrl(url, limit, maxDepth);
+        const options: { maxCheckedPages?: number; timeoutMs?: number; fast?: boolean } = {};
+        if (maxCheckedPages !== undefined) options.maxCheckedPages = maxCheckedPages;
+        if (timeoutMs !== undefined) options.timeoutMs = timeoutMs;
+        if (fast) options.fast = fast;
+
+        const result = await crawlUrl(url, limit, maxDepth, options);
         return {
           content: [
             {

@@ -15,8 +15,10 @@ LightCrawl is a lightweight, single-container, self-hostable Web scraping API an
 
 ## Features
 
-- **Stealth Browsing**: Built with `playwright-extra` and `puppeteer-extra-plugin-stealth` to bypass basic scraper detections.
-- **Dynamic Content Handling**: Automatically performs smooth scrolling to trigger lazy-loaded content, waits for 2 seconds, and captures the complete rendered HTML.
+- **Hybrid Fetch Mode (Default)**: First attempts a lightweight static HTTP `fetch` to retrieve the page. If the page is detected to be static and has sufficient content, it completely bypasses loading a headless browser. Automatically falls back to Playwright only if JavaScript rendering (e.g., lazy-load event listeners) or bot protection (e.g., Cloudflare) is detected.
+- **Fast Mode (`fast=true`)**: Skips the 2-second Playwright scrolling sleep delay and swaps the heavy `jsdom` parser for the ultra-lightweight `linkedom` DOM parser, reducing CPU/memory overhead and delivering sub-second response times.
+- **Stealth Browsing**: Built with `playwright-extra` and `puppeteer-extra-plugin-stealth` to bypass basic scraper detections during browser fallback.
+- **Dynamic Content Handling**: Automatically performs smooth scrolling to trigger lazy-loaded content, waits for 2 seconds, and captures the complete rendered HTML (when running in normal browser fallback mode).
 - **Flexible Scraping Modes**: Supports two extraction modes:
   - `article` (Default): Extracts primary article content by stripping headers, footers, navigation, and ads using Mozilla's `Readability` algorithm. Perfect for blogs, news, and article pages.
   - `full`: Bypasses `Readability` filtering to convert the entire HTML body into Markdown. Ideal for portals, directory lists, and search results.
@@ -104,6 +106,7 @@ LightCrawl can be configured using environment variables. You can define these i
 | `REDIS_URL` | Optional Redis connection URL (e.g., `redis://localhost:6379`). When provided, crawling operations use Redis as a distributed queue and state backend. | None |
 | `ENABLE_DISTRIBUTED_WORKER` | If `true` and `REDIS_URL` is set, starts a cooperative background crawl worker on startup. Set to `false` to run as a thin API client only. | `true` |
 | `MAX_CONCURRENCY` | Maximum number of concurrent Playwright browser instances allowed to run. | `5` |
+| `BRAVE_SEARCH_API_KEY` | Optional Brave Search API key. Enabling this activates the web search and parallel scraping endpoints/tools. | None |
 
 ---
 
@@ -145,12 +148,16 @@ This feature automatically parses the `x-forwarded-for` proxy header to determin
 - **Query Parameters**:
   - `url` (string, required): The HTTP/HTTPS URL of the web page to scrape.
   - `mode` (string, optional): The scraping mode. Must be either `'article'` (default) or `'full'`.
+  - `fast` (boolean, optional): Whether to use fast mode (skips scroll and uses linkedom). Default is `false`.
 - **Request (No Authentication)**:
   ```bash
   curl "http://localhost:3000/scrape?url=https://example.com"
   
   # Fetch full page content including headers/navigation
   curl "http://localhost:3000/scrape?url=https://example.com&mode=full"
+
+  # Fetch using fast mode (linkedom parser and skips browser scrolling delay)
+  curl "http://localhost:3000/scrape?url=https://example.com&fast=true"
   ```
 - **Request (With Authentication)**:
   ```bash
@@ -158,7 +165,7 @@ This feature automatically parses the `x-forwarded-for` proxy header to determin
   curl -H "Authorization: Bearer YOUR_API_KEY" "http://localhost:3000/scrape?url=https://example.com"
 
   # Or using Query Parameter
-  curl "http://localhost:3000/scrape?url=https://example.com&key=YOUR_API_KEY&mode=full"
+  curl "http://localhost:3000/scrape?url=https://example.com&key=YOUR_API_KEY&mode=full&fast=true"
   ```
 - **Response**:
   ```json
@@ -195,15 +202,18 @@ Extracts unique, absolute internal URLs belonging to the same registered domain 
   ```
 
 #### Crawl Web Pages
-Crawls the web starting from the target URL, navigating internal and external links up to depth and count limits.
+Crawls the web starting from the target URL, navigating internal and external links up to depth, count, timeout and checked pages limits.
 - **Endpoint**: `GET /crawl`
 - **Query Parameters**:
   - `url` (string, required): The starting URL.
   - `limit` (integer, optional): Maximum pages to crawl (default: `10`, max: `20`).
   - `maxDepth` (integer, optional): Maximum search depth (default: `2`, max: `3`).
+  - `maxCheckedPages` (integer, optional): Maximum pages to check (default: `limit * 2`, max: `40`).
+  - `timeoutMs` (integer, optional): Global crawl timeout in milliseconds (default: `45000`).
+  - `fast` (boolean, optional): Whether to use fast mode during crawling. Default is `false`.
 - **Request**:
   ```bash
-  curl "http://localhost:3000/crawl?url=https://example.com&limit=2&maxDepth=2"
+  curl "http://localhost:3000/crawl?url=https://example.com&limit=2&maxDepth=2&maxCheckedPages=4&timeoutMs=10000&fast=true"
   ```
 - **Response**:
   ```json
@@ -221,6 +231,30 @@ Crawls the web starting from the target URL, navigating internal and external li
       "title": "IANA Reserved Domains",
       "markdown": "# Reserved Domains\n...",
       "metadata": { "lang": "en" }
+    }
+  ]
+  ```
+
+#### Search Web Pages
+Searches the web via Brave Search API and scrapes top results concurrently. (Requires `BRAVE_SEARCH_API_KEY` configured on the server).
+- **Endpoint**: `GET /search`
+- **Query Parameters**:
+  - `q` (string, required): The search query.
+  - `limit` (integer, optional): Maximum search results to scrape (default: `5`).
+- **Request**:
+  ```bash
+  curl "http://localhost:3000/search?q=playwright+stealth&limit=3"
+  ```
+- **Response**:
+  ```json
+  [
+    {
+      "success": true,
+      "url": "https://example.com/page1",
+      "title": "Result 1",
+      "markdown": "# Result 1 Content\n...",
+      "metadata": { "lang": "en" },
+      "excerpt": "Snippet of page 1"
     }
   ]
   ```
@@ -258,6 +292,7 @@ You can register LightCrawl as an MCP tool inside AI clients like Cursor or Clau
 - **Arguments**:
   - `url` (string, required): The HTTP/HTTPS URL of the web page to scrape.
   - `mode` (string, optional): The scraping mode. One of `article` (default) or `full`.
+  - `fast` (boolean, optional): Whether to use fast mode (skips scroll and uses linkedom). Default is `false`.
 - **Output**: Raw Markdown string.
 
 #### 2. `lightcrawl_map`
@@ -267,12 +302,22 @@ You can register LightCrawl as an MCP tool inside AI clients like Cursor or Clau
 - **Output**: JSON stringified array of absolute URLs.
 
 #### 3. `lightcrawl_crawl`
-- **Description**: Performs a simple crawl starting from the target URL, navigating links up to depth and count limits.
+- **Description**: Performs a simple crawl starting from the target URL, navigating links up to depth, count, timeout and checked pages limits.
 - **Arguments**:
   - `url` (string, required): The starting HTTP/HTTPS URL to crawl.
   - `limit` (integer, optional): Maximum number of pages to crawl (default `10`, max `20`).
   - `maxDepth` (integer, optional): Maximum crawl depth (default `2`, max `3`).
+  - `maxCheckedPages` (integer, optional): Maximum pages to check (default `limit * 2`, max `40`).
+  - `timeoutMs` (integer, optional): Global crawl timeout in milliseconds (default `45000`).
+  - `fast` (boolean, optional): Whether to use fast mode during crawling. Default is `false`.
 - **Output**: JSON stringified array of ScrapeResult objects representing all crawled pages.
+
+#### 4. `lightcrawl_search`
+- **Description**: Performs web search via Brave Search API and scrapes top results concurrently. (Only listed and available when `BRAVE_SEARCH_API_KEY` is configured).
+- **Arguments**:
+  - `query` (string, required): The search query.
+  - `limit` (integer, optional): Maximum results to search and scrape (default `5`).
+- **Output**: JSON stringified array of ScrapeResult objects.
 
 #### Claude Desktop Configuration
 Add the following to your `claude_desktop_config.json`:
@@ -379,6 +424,7 @@ When deploying, you can configure the behavior using the following environment v
 | `ALLOWED_IPS` | Comma-separated list of allowed IPs. | - | No |
 | `REDIS_URL` | Redis connection URL (e.g. `redis://...`). Enabling this activates the distributed queue crawler. | - | No |
 | `ENABLE_DISTRIBUTED_WORKER` | Set to `false` to disable the background Redis worker on this instance. | `true` | No |
+| `BRAVE_SEARCH_API_KEY` | Brave Search API key. Enabling this activates the web search and parallel scraping endpoints/tools. | - | No |
 
 ---
 
