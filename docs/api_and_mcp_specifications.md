@@ -32,6 +32,7 @@ The server supports the following environment variables for configuration:
 2. **`ALLOWED_IPS`**: Optional comma-separated list of allowed client IP addresses.
 3. **`REDIS_URL`**: Optional Redis connection URL (e.g., `redis://localhost:6379`). When provided, crawling operations will use Redis as a distributed queue and state backend instead of single-process memory.
 4. **`ENABLE_DISTRIBUTED_WORKER`**: Optional boolean string (`true` or `false`, default: `true`). When `REDIS_URL` is set, a distributed worker is automatically started on startup to cooperatively process crawl queues. Set to `false` to run as a thin API client only.
+5. **`BRAVE_SEARCH_API_KEY`**: Optional Brave Search API key. When configured, enables the web search and parallel scraping endpoints/MCP tools.
 
 ---
 
@@ -95,12 +96,14 @@ Extracts unique, absolute internal URLs belonging to the same registered domain 
   ```
 
 #### GET `/crawl`
-Crawls the web starting from the target URL, navigating internal and external links up to depth and count limits.
+Crawls the web starting from the target URL, navigating internal and external links up to depth, count, timeout and checked pages limits.
 - **Authentication**: Required if configured.
 - **Query Parameters**:
   - `url` (string, required): The starting URL.
   - `limit` (integer, optional): Maximum pages to crawl (default: `10`, max: `20`).
   - `maxDepth` (integer, optional): Maximum search depth (default: `2`, max: `3`).
+  - `maxCheckedPages` (integer, optional): Maximum pages to check/attempt crawling (default: `limit * 2`, max: `40`).
+  - `timeoutMs` (integer, optional): Global crawl execution timeout in milliseconds (default: `45000` ms).
 - **Response (JSON)**:
   ```json
   [
@@ -117,6 +120,26 @@ Crawls the web starting from the target URL, navigating internal and external li
       "title": "IANA Reserved Domains",
       "markdown": "# Reserved Domains\n...",
       "metadata": { "lang": "en" }
+    }
+  ]
+  ```
+
+#### GET `/search`
+Performs web search via Brave Search API and scrapes the top results concurrently.
+- **Authentication**: Required if configured.
+- **Query Parameters**:
+  - `q` (string, required): The search query.
+  - `limit` (integer, optional): Maximum results to search and scrape (default: `5`).
+- **Response (JSON)**:
+  ```json
+  [
+    {
+      "success": true,
+      "url": "https://example.com/page1",
+      "title": "Result 1",
+      "markdown": "# Result 1 Content\n...",
+      "metadata": { "lang": "en" },
+      "excerpt": "Snippet of page 1"
     }
   ]
   ```
@@ -142,12 +165,21 @@ Extracts all internal URLs (including subdomains of the same registered domain) 
 - **Output (JSON String)**: A JSON stringified array of absolute URLs.
 
 #### `lightcrawl_crawl`
-Performs a simple crawl starting from the target URL, navigating links up to depth and count limits without domain restrictions.
+Performs a simple crawl starting from the target URL, navigating links up to depth, count, timeout and checked pages limits without domain restrictions.
 - **Input Arguments**:
   - `url` (string, required): The starting HTTP/HTTPS URL to crawl.
   - `limit` (integer, optional): Maximum number of pages to crawl (default `10`, max `20`).
   - `maxDepth` (integer, optional): Maximum crawl depth (default `2`, max `3`).
+  - `maxCheckedPages` (integer, optional): Maximum pages to check (default `limit * 2`, max `40`).
+  - `timeoutMs` (integer, optional): Global crawl execution timeout in milliseconds (default `45000` ms).
 - **Output (JSON String)**: A JSON stringified array of `ScrapeResult` objects representing all crawled pages.
+
+#### `lightcrawl_search`
+Performs web search via Brave Search API and scrapes top results concurrently. (Only listed and available when `BRAVE_SEARCH_API_KEY` is configured).
+- **Input Arguments**:
+  - `query` (string, required): The search query.
+  - `limit` (integer, optional): Maximum results to search and scrape (default `5`).
+- **Output (JSON String)**: A JSON stringified array of `ScrapeResult` objects.
 
 ---
 
@@ -189,4 +221,11 @@ Exposes performance and operational metrics on the `/metrics` endpoint:
 - **Hacker News Launch Preparation**:
   - Replaced the repository URL placeholder in `README.md` with the official link.
   - Copied `docs/current/api_and_mcp_specifications.md` to `docs/api_and_mcp_specifications.md` to make the specification document publicly visible while maintaining the internal AI agent workspace isolation rules.
+- **Web Crawling Optimizations (v1.1.0 - June 2026)**:
+  - Added global execution timeout (`timeoutMs`, default 45s) and checked page attempt limits (`maxCheckedPages`, default `limit * 2` or max `40`) to prevent reverse proxy gateway timeouts.
+  - Enabled return of partial scrape results gathered so far when limits are hit in both in-memory and Redis-based crawls.
+- **Web Search & Parallel Scraping Integration (v1.1.0 - June 2026)**:
+  - Added `/search` HTTP endpoint and `lightcrawl_search` MCP tool using Brave Search API as an opt-in optional feature (`BRAVE_SEARCH_API_KEY`).
+  - Implemented concurrent scraping of retrieved search results returning clean Markdown.
+  - Configured dynamic exclusion of the search tool from the MCP tools list if the key is not set.
 

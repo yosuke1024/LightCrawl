@@ -13,6 +13,7 @@ export const mockRedisInstance = {
   set: vi.fn(),
   get: vi.fn(),
   decr: vi.fn(),
+  incr: vi.fn(),
   incrby: vi.fn(),
   llen: vi.fn(),
   lrange: vi.fn(),
@@ -203,6 +204,33 @@ beforeAll(() => {
         </body>
         </html>
       `);
+    } else if (req.url === '/short') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`<html><body><h1>Short</h1><p>Too short</p></body></html>`);
+    } else if (req.url === '/bot-block') {
+      if (req.headers['x-lightcrawl-static'] === 'true') {
+        res.writeHead(403, { 'Content-Type': 'text/html' });
+        res.end(`<html><body><h1>403 Forbidden</h1><p>Cloudflare protection</p></body></html>`);
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(`<html><head><title>Bypassed Title</title></head><body><h1>Bypassed CF</h1><p>Cloudflare protection bypassed successfully by browser</p></body></html>`);
+      }
+    } else if (req.url === '/static') {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Static Page Title</title></head>
+        <body>
+          <main>
+            <article>
+              <h1>Static Page Title</h1>
+              <p>This is static content. It has more than two hundred characters. Let's make sure it is long enough. Yes, we need to append some more words to reach the minimum text length requirement so that it won't trigger fallback. Let's repeat: this is static content. It has more than two hundred characters. Let's make sure it is long enough. Yes, we need to append some more words to reach the minimum text length requirement so that it won't trigger fallback.</p>
+            </article>
+          </main>
+        </body>
+        </html>
+      `);
     } else {
       res.writeHead(200, { 'Content-Type': 'text/html' });
       res.end(`
@@ -334,6 +362,17 @@ describe('Scraper Module', () => {
     expect(results[1].title).toBe('Crawl Page 2');
   }, 30000);
 
+  it('should respect maxCheckedPages limit during crawl', async () => {
+    const results = await crawlUrl(`${testUrl}/crawl/1`, 2, 2, { maxCheckedPages: 1 });
+    expect(results.length).toBe(1);
+    expect(results[0].url).toBe(`${testUrl}/crawl/1`);
+  }, 30000);
+
+  it('should respect timeoutMs limit during crawl', async () => {
+    const results = await crawlUrl(`${testUrl}/delay`, 3, 2, { timeoutMs: 100 });
+    expect(results.length).toBeLessThan(3);
+  }, 30000);
+
   it('should correctly parse complex ccTLDs (like state.tx.us) and filter external domains', () => {
     // 1. Direct test for getRegisteredDomain
     expect(getRegisteredDomain('sub1.state.tx.us')).toBe('state.tx.us');
@@ -375,6 +414,7 @@ describe('Scraper Module', () => {
     mockRedisInstance.set.mockResolvedValue('OK');
     mockRedisInstance.get.mockResolvedValue('1');
     mockRedisInstance.decr.mockResolvedValue(0);
+    mockRedisInstance.incr.mockResolvedValue(1);
     mockRedisInstance.incrby.mockResolvedValue(1);
     mockRedisInstance.del.mockResolvedValue(1);
     
@@ -443,6 +483,55 @@ describe('Scraper Module', () => {
       expect(rawConsoleCalls.length).toBe(0);
       expect(loggerErrorSpy).toHaveBeenCalled();
     }
+  });
+
+  describe('Hybrid Mode & Fast Mode', () => {
+    it('should scrape using HTTP fetch directly (Hybrid Mode) if page content is static and sufficient', async () => {
+      const launchSpy = vi.spyOn(chromium, 'launch');
+      const result = await scrapeUrl(`${testUrl}/static`);
+      expect(result.success).toBe(true);
+      expect(result.title).toBe('Static Page Title');
+      expect(result.markdown).toContain('This is static content.');
+      expect(launchSpy).not.toHaveBeenCalled();
+      launchSpy.mockRestore();
+    });
+
+    it('should fallback to Playwright in Hybrid Mode if page content is too short', async () => {
+      await shutdownBrowserAndRedis();
+      const launchSpy = vi.spyOn(chromium, 'launch');
+      const result = await scrapeUrl(`${testUrl}/short`);
+      expect(result.success).toBe(true);
+      expect(result.markdown).toContain('Too short');
+      expect(launchSpy).toHaveBeenCalled();
+      launchSpy.mockRestore();
+    });
+
+    it('should fallback to Playwright in Hybrid Mode if response returns bot protection block status or content', async () => {
+      await shutdownBrowserAndRedis();
+      const launchSpy = vi.spyOn(chromium, 'launch');
+      const result = await scrapeUrl(`${testUrl}/bot-block`);
+      expect(result.success).toBe(true);
+      expect(result.markdown).toContain('Cloudflare protection');
+      expect(launchSpy).toHaveBeenCalled();
+      launchSpy.mockRestore();
+    });
+
+    it('should support fast mode (fast=true) which skips Playwright delay and uses linkedom', async () => {
+      const launchSpy = vi.spyOn(chromium, 'launch');
+      const result = await scrapeUrl(`${testUrl}/static`, 'article', { fast: true });
+      expect(result.success).toBe(true);
+      expect(result.title).toBe('Static Page Title');
+      expect(result.markdown).toContain('This is static content.');
+      expect(launchSpy).not.toHaveBeenCalled();
+      launchSpy.mockRestore();
+    });
+
+    it('should crawl using fast mode when fast option is enabled', async () => {
+      const results = await crawlUrl(`${testUrl}/crawl/1`, 2, 2, { fast: true });
+      expect(results.length).toBe(2);
+      expect(results[0].url).toBe(`${testUrl}/crawl/1`);
+      expect(results[1].url).toBe('http://127.0.0.1:9000/crawl/2');
+    });
   });
 });
 

@@ -28,7 +28,7 @@ vi.mock('../scraper', () => {
       }
       return Promise.reject(new Error('Map failed'));
     }),
-    crawlUrl: vi.fn((url: string) => {
+    crawlUrl: vi.fn((url: string, _limit?: number, _maxDepth?: number, _options?: { maxCheckedPages?: number; timeoutMs?: number }) => {
       if (url === 'http://example.com') {
         return Promise.resolve([
           {
@@ -175,13 +175,40 @@ describe('HTTP API Endpoints', () => {
         markdown: '# Page 1\n\nContent',
       }
     ]);
-    expect(scraper.crawlUrl).toHaveBeenCalledWith('http://example.com', 2, 2);
+    expect(scraper.crawlUrl).toHaveBeenCalledWith('http://example.com', 2, 2, undefined);
+  });
+
+  it('GET /crawl with maxCheckedPages and timeoutMs should pass options to scraper', async () => {
+    const response = await request(app)
+      .get('/crawl')
+      .query({ url: 'http://example.com', limit: 2, maxDepth: 2, maxCheckedPages: 5, timeoutMs: 10000 });
+    
+    expect(response.status).toBe(200);
+    expect(scraper.crawlUrl).toHaveBeenCalledWith('http://example.com', 2, 2, { maxCheckedPages: 5, timeoutMs: 10000 });
   });
 
   it('GET /crawl without url query param should return 400 error', async () => {
     const response = await request(app).get('/crawl');
     expect(response.status).toBe(400);
     expect(response.body.success).toBe(false);
+  });
+
+  it('GET /scrape with fast=true should propagate fast option to scraper', async () => {
+    const response = await request(app)
+      .get('/scrape')
+      .query({ url: 'http://example.com', fast: 'true' });
+    
+    expect(response.status).toBe(200);
+    expect(scraper.scrapeUrl).toHaveBeenCalledWith('http://example.com', 'article', { fast: true });
+  });
+
+  it('GET /crawl with fast=true should propagate fast option to scraper', async () => {
+    const response = await request(app)
+      .get('/crawl')
+      .query({ url: 'http://example.com', limit: 2, maxDepth: 2, fast: 'true' });
+    
+    expect(response.status).toBe(200);
+    expect(scraper.crawlUrl).toHaveBeenCalledWith('http://example.com', 2, 2, { fast: true });
   });
 });
 
@@ -234,7 +261,7 @@ describe('MCP Server Integration', () => {
       method: 'tools/call',
       params: {
         name: 'lightcrawl_crawl',
-        arguments: { url: 'http://example.com', limit: 2, maxDepth: 2 },
+        arguments: { url: 'http://example.com', limit: 2, maxDepth: 2, maxCheckedPages: 5, timeoutMs: 10000 },
       },
     });
 
@@ -243,6 +270,38 @@ describe('MCP Server Integration', () => {
     const results = JSON.parse(content);
     expect(results.length).toBe(2);
     expect(results[0].title).toBe('Mocked Title');
+  });
+
+  it('should handle lightcrawl_scrape tool call with fast=true', async () => {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const callHandler = (mcpServer as any)._requestHandlers.get('tools/call');
+    expect(callHandler).toBeDefined();
+
+    await callHandler({
+      method: 'tools/call',
+      params: {
+        name: 'lightcrawl_scrape',
+        arguments: { url: 'http://example.com', mode: 'article', fast: true },
+      },
+    });
+
+    expect(scraper.scrapeUrl).toHaveBeenCalledWith('http://example.com', 'article', { fast: true });
+  });
+
+  it('should handle lightcrawl_crawl tool call with fast=true', async () => {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const callHandler = (mcpServer as any)._requestHandlers.get('tools/call');
+    expect(callHandler).toBeDefined();
+
+    await callHandler({
+      method: 'tools/call',
+      params: {
+        name: 'lightcrawl_crawl',
+        arguments: { url: 'http://example.com', limit: 2, maxDepth: 2, fast: true },
+      },
+    });
+
+    expect(scraper.crawlUrl).toHaveBeenCalledWith('http://example.com', 2, 2, { fast: true });
   });
 });
 

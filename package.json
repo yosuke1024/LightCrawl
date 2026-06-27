@@ -1,6 +1,6 @@
 {
   "name": "lightcrawl",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Minimal Web-to-Markdown Scraper",
   "main": "dist/index.js",
   "scripts": {
@@ -16,6 +16,7 @@
     "express": "^5.2.1",
     "ioredis": "^5.11.1",
     "jsdom": "^29.1.1",
+    "linkedom": "^0.18.12",
     "playwright": "^1.61.1",
     "playwright-extra": "^4.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",

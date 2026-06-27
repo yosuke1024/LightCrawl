@@ -51,6 +51,16 @@ export const openApiSpec = {
               format: 'uri',
             },
           },
+          {
+            name: 'fast',
+            in: 'query',
+            required: false,
+            description: 'Whether to use fast mode (skips scroll and uses linkedom).',
+            schema: {
+              type: 'boolean',
+              default: false,
+            },
+          },
         ],
         responses: {
           200: {
@@ -201,6 +211,16 @@ export const openApiSpec = {
               maximum: 3,
             },
           },
+          {
+            name: 'fast',
+            in: 'query',
+            required: false,
+            description: 'Whether to use fast mode during crawling.',
+            schema: {
+              type: 'boolean',
+              default: false,
+            },
+          },
         ],
         responses: {
           200: {
@@ -235,6 +255,71 @@ export const openApiSpec = {
           },
           500: {
             description: 'Internal Server Error',
+          },
+        },
+      },
+    },
+    '/search': {
+      get: {
+        summary: 'Search the Web and scrape results',
+        description: 'Performs web search via Brave Search API and scrapes top results concurrently. Requires BRAVE_SEARCH_API_KEY environment variable.',
+        parameters: [
+          {
+            name: 'q',
+            in: 'query',
+            required: true,
+            description: 'The search query string.',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            required: false,
+            description: 'Maximum number of results to search and scrape (default 5).',
+            schema: {
+              type: 'integer',
+              default: 5,
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'Array of scrape results',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      success: { type: 'boolean' },
+                      url: { type: 'string' },
+                      title: { type: 'string' },
+                      markdown: { type: 'string' },
+                      metadata: { type: 'object' },
+                      excerpt: { type: 'string' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: 'Invalid input (query parameter is missing)',
+          },
+          401: {
+            description: 'Unauthorized (API Key is invalid or missing)',
+          },
+          403: {
+            description: 'Forbidden (Client IP is not whitelisted)',
+          },
+          501: {
+            description: 'Not Implemented (Brave Search API key is not configured)',
+          },
+          500: {
+            description: 'Internal Server Error during search and scraping',
           },
         },
       },

@@ -3,6 +3,7 @@ import { chromium } from 'playwright-extra';
 import stealthPlugin from 'puppeteer-extra-plugin-stealth';
 import UserAgent from 'user-agents';
 import { JSDOM } from 'jsdom';
+import { parseHTML } from 'linkedom';
 import { Readability } from '@mozilla/readability';
 import TurndownService from 'turndown';
 import { getDomain } from 'tldts';
@@ -175,9 +176,10 @@ interface FetchResult {
 /**
  * Internal helper to fetch page HTML via Playwright
  */
-async function fetchHtml(url: string, skipScroll = false): Promise<FetchResult> {
-  await limiter.acquire();
-
+async function fetchHtml(url: string, skipScroll = false, skipLimiter = false): Promise<FetchResult> {
+  if (!skipLimiter) {
+    await limiter.acquire();
+  }
   let context: BrowserContext | undefined;
   let page: Page | undefined;
   let isProtected = false;
@@ -258,36 +260,122 @@ async function fetchHtml(url: string, skipScroll = false): Promise<FetchResult> 
     }
     throw error;
   } finally {
+    if (!skipLimiter) {
+      limiter.release();
+    }
+  }
+}
+
+/**
+ * Helper to fetch static HTML using HTTP GET.
+ * Checks for status and anti-bot protection indicators.
+ */
+async function fetchStaticHtml(url: string): Promise<{ html: string; isProtected: boolean; status: number } | null> {
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'X-LightCrawl-Static': 'true',
+      }
+    });
+    const status = res.status;
+    const html = await res.text();
+    
+    const lowerHtml = html.toLowerCase();
+    const isProtected = status === 403 || status === 503 ||
+      lowerHtml.includes('cloudflare') ||
+      lowerHtml.includes('access denied') ||
+      lowerHtml.includes('just a moment') ||
+      lowerHtml.includes('cf-challenge') ||
+      lowerHtml.includes('cf-browser-verification');
+
+    return { html, isProtected, status };
+  } catch (error) {
+    logger.warn('Static fetch failed', { url, error: error instanceof Error ? error.message : String(error) });
+    return null;
+  }
+}
+
+/**
+ * Unified fetch helper that handles Hybrid Mode and Fast Mode.
+ * Tries static fetch first. Falls back to Playwright if static page is empty or protected.
+ */
+async function unifiedFetchHtml(url: string, fast = false): Promise<{ html: string; isProtected: boolean; usedStatic: boolean }> {
+  await limiter.acquire();
+  try {
+    const staticResult = await fetchStaticHtml(url);
+    if (staticResult && !staticResult.isProtected) {
+      let textLength = 0;
+      try {
+        if (fast) {
+          const parsed = parseHTML(staticResult.html);
+          textLength = parsed.document.body?.textContent?.trim().length || 0;
+        } else {
+          const dom = new JSDOM(staticResult.html, { url });
+          textLength = dom.window.document.body?.textContent?.trim().length || 0;
+        }
+      } catch {
+        // Ignore parser issues
+      }
+
+      const hasLazyIndicators = staticResult.html.includes("addEventListener('scroll'") ||
+                                staticResult.html.includes('addEventListener("scroll"') ||
+                                staticResult.html.includes('onscroll') ||
+                                staticResult.html.includes('IntersectionObserver');
+
+      if (textLength >= 200 && !hasLazyIndicators) {
+        return { html: staticResult.html, isProtected: false, usedStatic: true };
+      }
+    }
+
+    const playwrightResult = await fetchHtml(url, fast, true);
+    return { html: playwrightResult.html, isProtected: playwrightResult.isProtected, usedStatic: false };
+  } finally {
     limiter.release();
   }
 }
+
 
 /**
  * Scrapes a web page, executes auto-scroll, extracts core content via Readability,
  * and converts it to Markdown using Turndown.
  * @param url Target web page URL
  * @param mode Scrape mode: 'article' (extract core content) or 'full' (raw page content)
+ * @param options Scrape options (such as fast mode)
  * @returns ScrapeResult object
  */
-export async function scrapeUrl(url: string, mode: 'article' | 'full' = 'article'): Promise<ScrapeResult> {
+export async function scrapeUrl(
+  url: string,
+  mode: 'article' | 'full' = 'article',
+  options?: { fast?: boolean }
+): Promise<ScrapeResult> {
   const startTime = Date.now();
+  const fast = !!options?.fast;
   let isProtected = false;
   try {
-    const fetchResult = await fetchHtml(url);
+    const fetchResult = await unifiedFetchHtml(url, fast);
     isProtected = fetchResult.isProtected;
+    const usedStatic = fetchResult.usedStatic;
     const html = fetchResult.html;
 
     if (isProtected) {
       throw new Error('Access Denied: Protected page detected (e.g. Cloudflare)');
     }
 
-    // Parse HTML with JSDOM
-    const dom = new JSDOM(html, { url });
-    const document = dom.window.document;
+    // Parse HTML based on fast mode
+    let document: Document;
+    if (fast) {
+      const parsed = parseHTML(html);
+      document = parsed.document as unknown as Document;
+    } else {
+      const dom = new JSDOM(html, { url });
+      document = dom.window.document;
+    }
 
     // Extract title & target HTML
     let title = document.title || 'Untitled';
-    let targetHtml = document.body.innerHTML;
+    let targetHtml = document.body?.innerHTML || '';
     let excerpt: string | undefined;
 
     if (mode === 'article') {
@@ -341,6 +429,7 @@ export async function scrapeUrl(url: string, mode: 'article' | 'full' = 'article
       durationMs: durationSeconds * 1000,
       success: true,
       isProtected,
+      usedStatic,
     });
 
     return {
@@ -375,6 +464,7 @@ export async function scrapeUrl(url: string, mode: 'article' | 'full' = 'article
     throw error;
   }
 }
+
 
 /**
  * Helper to get the registered domain (eTLD+1) from a hostname.
@@ -425,17 +515,20 @@ export function extractInternalLinks(html: string, baseUrl: string): string[] {
 /**
  * Extracts all unique HTTP/HTTPS links from HTML content without domain restriction.
  */
-function extractAllLinks(html: string, baseUrl: string): string[] {
-  const dom = new JSDOM(html, { url: baseUrl });
-  const document = dom.window.document;
+function extractAllLinks(html: string, baseUrl: string, fast = false): string[] {
+  let document: Document;
+  if (fast) {
+    const parsed = parseHTML(html);
+    document = parsed.document as unknown as Document;
+  } else {
+    const dom = new JSDOM(html, { url: baseUrl });
+    document = dom.window.document;
+  }
   const links = Array.from(document.querySelectorAll('a[href]'));
-
   const uniqueUrls = new Set<string>();
-
   for (const link of links) {
     const href = link.getAttribute('href');
     if (!href) continue;
-
     try {
       const absoluteUrl = new URL(href, baseUrl);
       if (absoluteUrl.protocol === 'http:' || absoluteUrl.protocol === 'https:') {
@@ -446,51 +539,43 @@ function extractAllLinks(html: string, baseUrl: string): string[] {
       // Ignore invalid URLs
     }
   }
-
   return Array.from(uniqueUrls);
 }
 
 /**
  * Common HTML parser to ScrapeResult function.
  */
-function parseScrapeResult(html: string, url: string): ScrapeResult {
-  const dom = new JSDOM(html, { url });
-  const document = dom.window.document;
-
+function parseScrapeResult(html: string, url: string, fast = false): ScrapeResult {
+  let document: Document;
+  if (fast) {
+    const parsed = parseHTML(html);
+    document = parsed.document as unknown as Document;
+  } else {
+    const dom = new JSDOM(html, { url });
+    document = dom.window.document;
+  }
   const reader = new Readability(document);
   const article = reader.parse();
   const title = article?.title || document.title || 'Untitled';
-
   const metadata: NonNullable<ScrapeResult['metadata']> = {};
   const getMeta = (nameOrProperty: string): string | undefined => {
-    const element = document.querySelector(
-      `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
-    );
+    const element = document.querySelector(`meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`);
     return element?.getAttribute('content') || undefined;
   };
-
   metadata.description = getMeta('description');
   metadata.keywords = getMeta('keywords');
   metadata.author = getMeta('author');
   metadata.ogTitle = getMeta('og:title');
   metadata.ogDescription = getMeta('og:description');
   metadata.ogImage = getMeta('og:image');
-
   const canonicalEl = document.querySelector('link[rel="canonical"]');
   metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
-
   const htmlEl = document.querySelector('html');
   metadata.lang = htmlEl?.getAttribute('lang') || undefined;
-
   const excerpt = article?.excerpt || undefined;
-
-  const turndownService = new TurndownService({
-    headingStyle: 'atx',
-    codeBlockStyle: 'fenced',
-  });
-  const targetHtml = article?.content || document.body.innerHTML;
+  const turndownService = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' });
+  const targetHtml = article?.content || document.body?.innerHTML || '';
   const markdown = turndownService.turndown(targetHtml);
-
   return {
     success: true,
     url,
@@ -500,6 +585,7 @@ function parseScrapeResult(html: string, url: string): ScrapeResult {
     excerpt,
   };
 }
+
 
 
 
@@ -537,10 +623,14 @@ export async function mapUrl(url: string): Promise<string[]> {
 async function crawlUrlRedis(
   startUrl: string,
   limit: number,
-  maxDepth: number
+  maxDepth: number,
+  maxCheckedPages: number,
+  timeoutMs: number,
+  fast = false
 ): Promise<ScrapeResult[]> {
   const redis = getRedisClient();
   const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  const startTime = Date.now();
 
   // Set up job state in Redis
   await redis.sadd('lightcrawl:active_jobs', jobId);
@@ -549,9 +639,27 @@ async function crawlUrlRedis(
     JSON.stringify({ url: startUrl, depth: 1, maxDepth, limit })
   );
   await redis.set(`lightcrawl:pending_count:${jobId}`, '1');
+  await redis.set(`lightcrawl:start_time:${jobId}`, startTime.toString());
+  await redis.set(`lightcrawl:max_checked:${jobId}`, maxCheckedPages.toString());
+  await redis.set(`lightcrawl:timeout:${jobId}`, timeoutMs.toString());
+  await redis.set(`lightcrawl:checked_count:${jobId}`, '0');
 
   // Loop as a worker for this job until completion
   while (true) {
+    // Timeout check
+    if (Date.now() - startTime > timeoutMs) {
+      logger.info('Crawl timeout reached in Redis queue (initiator)', { jobId, durationMs: Date.now() - startTime });
+      break;
+    }
+
+    // Checked limit check
+    const checkedStr = await redis.get(`lightcrawl:checked_count:${jobId}`);
+    const checkedCount = checkedStr ? parseInt(checkedStr, 10) : 0;
+    if (checkedCount >= maxCheckedPages) {
+      logger.info('Crawl max checked pages limit reached in Redis queue (initiator)', { jobId, checkedCount, maxCheckedPages });
+      break;
+    }
+
     const resultCount = await redis.llen(`lightcrawl:results:${jobId}`);
     if (resultCount >= limit) {
       break;
@@ -582,14 +690,21 @@ async function crawlUrlRedis(
       continue;
     }
 
+    // Increment checked_count and check bounds
+    const currentChecked = await redis.incr(`lightcrawl:checked_count:${jobId}`);
+    if (currentChecked > maxCheckedPages) {
+      await redis.decr(`lightcrawl:pending_count:${jobId}`);
+      continue;
+    }
+
     try {
-      const fetchResult = await fetchHtml(url);
-      const result = parseScrapeResult(fetchResult.html, url);
+      const fetchResult = await unifiedFetchHtml(url, fast);
+      const result = parseScrapeResult(fetchResult.html, url, fast);
       await redis.rpush(`lightcrawl:results:${jobId}`, JSON.stringify(result));
 
       const currentResultsCount = await redis.llen(`lightcrawl:results:${jobId}`);
       if (currentResultsCount < limit && depth < maxDepth) {
-        const links = extractAllLinks(fetchResult.html, url);
+        const links = extractAllLinks(fetchResult.html, url, fast);
         let addedCount = 0;
         for (const link of links) {
           const isVisited = await redis.sismember(`lightcrawl:visited:${jobId}`, link);
@@ -621,7 +736,11 @@ async function crawlUrlRedis(
     `lightcrawl:queue:${jobId}`,
     `lightcrawl:visited:${jobId}`,
     `lightcrawl:results:${jobId}`,
-    `lightcrawl:pending_count:${jobId}`
+    `lightcrawl:pending_count:${jobId}`,
+    `lightcrawl:start_time:${jobId}`,
+    `lightcrawl:max_checked:${jobId}`,
+    `lightcrawl:timeout:${jobId}`,
+    `lightcrawl:checked_count:${jobId}`
   );
   await redis.srem('lightcrawl:active_jobs', jobId);
 
@@ -646,6 +765,27 @@ export async function startRedisWorker(signal?: { aborted: boolean }): Promise<v
 
       let processedAny = false;
       for (const jobId of activeJobs) {
+        // Retrieve job configurations
+        const startTimeStr = await redis.get(`lightcrawl:start_time:${jobId}`);
+        const maxCheckedStr = await redis.get(`lightcrawl:max_checked:${jobId}`);
+        const timeoutStr = await redis.get(`lightcrawl:timeout:${jobId}`);
+
+        const jobStartTime = startTimeStr ? parseInt(startTimeStr, 10) : Date.now();
+        const maxChecked = maxCheckedStr ? parseInt(maxCheckedStr, 10) : 40;
+        const timeoutMs = timeoutStr ? parseInt(timeoutStr, 10) : 45000;
+
+        // Timeout check
+        if (Date.now() - jobStartTime > timeoutMs) {
+          continue;
+        }
+
+        // Checked limit check
+        const checkedStr = await redis.get(`lightcrawl:checked_count:${jobId}`);
+        const checkedCount = checkedStr ? parseInt(checkedStr, 10) : 0;
+        if (checkedCount >= maxChecked) {
+          continue;
+        }
+
         const itemStr = await redis.rpop(`lightcrawl:queue:${jobId}`);
         if (!itemStr) {
           continue;
@@ -656,6 +796,13 @@ export async function startRedisWorker(signal?: { aborted: boolean }): Promise<v
 
         const isNew = await redis.sadd(`lightcrawl:visited:${jobId}`, url);
         if (isNew === 0) {
+          await redis.decr(`lightcrawl:pending_count:${jobId}`);
+          continue;
+        }
+
+        // Increment checked_count and check bounds
+        const currentChecked = await redis.incr(`lightcrawl:checked_count:${jobId}`);
+        if (currentChecked > maxChecked) {
           await redis.decr(`lightcrawl:pending_count:${jobId}`);
           continue;
         }
@@ -706,13 +853,38 @@ export async function startRedisWorker(signal?: { aborted: boolean }): Promise<v
 async function crawlUrlInMemory(
   startUrl: string,
   limit: number,
-  maxDepth: number
+  maxDepth: number,
+  maxCheckedPages: number,
+  timeoutMs: number,
+  fast = false
 ): Promise<ScrapeResult[]> {
   const results: ScrapeResult[] = [];
   const visited = new Set<string>();
   const queue: { url: string; depth: number }[] = [{ url: startUrl, depth: 1 }];
+  const startTime = Date.now();
+  let checkedCount = 0;
 
   while (queue.length > 0 && results.length < limit) {
+    // Timeout check
+    if (Date.now() - startTime > timeoutMs) {
+      logger.info('Crawl timeout reached in memory-based queue', {
+        durationMs: Date.now() - startTime,
+        timeoutMs,
+        resultsCount: results.length,
+      });
+      break;
+    }
+
+    // Checked pages limit check
+    if (checkedCount >= maxCheckedPages) {
+      logger.info('Crawl max checked pages limit reached in memory-based queue', {
+        checkedCount,
+        maxCheckedPages,
+        resultsCount: results.length,
+      });
+      break;
+    }
+
     const current = queue.shift();
     if (!current) continue;
 
@@ -720,10 +892,11 @@ async function crawlUrlInMemory(
       continue;
     }
     visited.add(current.url);
+    checkedCount++;
 
     try {
-      const fetchResult = await fetchHtml(current.url);
-      const result = parseScrapeResult(fetchResult.html, current.url);
+      const fetchResult = await unifiedFetchHtml(current.url, fast);
+      const result = parseScrapeResult(fetchResult.html, current.url, fast);
       results.push(result);
 
       if (results.length >= limit) {
@@ -731,7 +904,7 @@ async function crawlUrlInMemory(
       }
 
       if (current.depth < maxDepth) {
-        const links = extractAllLinks(fetchResult.html, current.url);
+        const links = extractAllLinks(fetchResult.html, current.url, fast);
         for (const link of links) {
           if (!visited.has(link)) {
             queue.push({ url: link, depth: current.depth + 1 });
@@ -753,20 +926,22 @@ async function crawlUrlInMemory(
 export async function crawlUrl(
   startUrl: string,
   limit = 10,
-  maxDepth = 2
+  maxDepth = 2,
+  options?: { maxCheckedPages?: number; timeoutMs?: number; fast?: boolean }
 ): Promise<ScrapeResult[]> {
   const finalLimit = Math.min(limit, 20);
   const finalMaxDepth = Math.min(maxDepth, 3);
-
+  const timeoutMs = options?.timeoutMs ?? 45000;
+  const maxCheckedPages = Math.min(options?.maxCheckedPages ?? (finalLimit * 2), 40);
+  const fast = !!options?.fast;
   const redisUrl = process.env.REDIS_URL;
   const startTime = Date.now();
-  
   try {
     let results: ScrapeResult[];
     if (redisUrl) {
-      results = await crawlUrlRedis(startUrl, finalLimit, finalMaxDepth);
+      results = await crawlUrlRedis(startUrl, finalLimit, finalMaxDepth, maxCheckedPages, timeoutMs, fast);
     } else {
-      results = await crawlUrlInMemory(startUrl, finalLimit, finalMaxDepth);
+      results = await crawlUrlInMemory(startUrl, finalLimit, finalMaxDepth, maxCheckedPages, timeoutMs, fast);
     }
     
     recordCrawl(true);
