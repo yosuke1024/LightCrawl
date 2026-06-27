@@ -5,6 +5,12 @@
 # LightCrawl
 
 <p align="center">
+  <a href="https://www.producthunt.com/posts/lightcrawl" target="_blank">
+    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=lightcrawl&theme=light" alt="LightCrawl - Lightweight, single-container, self-hostable Web scraping API | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+  </a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
   <img src="https://img.shields.io/badge/node-%3E%3D18-blue.svg" alt="Node.js Version">
   <a href="https://railway.com/deploy/lightcrawl?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a>
