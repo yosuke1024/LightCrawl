@@ -21,7 +21,7 @@
     "playwright-extra": "^4.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "swagger-ui-express": "^5.0.1",
-    "tldts": "^7.4.4",
+    "tldts": "^7.4.5",
     "turndown": "^7.2.0",
     "user-agents": "^2.1.102"
   },
