@@ -23,7 +23,7 @@
     "swagger-ui-express": "^5.0.1",
     "tldts": "^7.4.4",
     "turndown": "^7.2.0",
-    "user-agents": "^2.1.102"
+    "user-agents": "^2.1.109"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
