@@ -37,3 +37,15 @@ jobs:
 
       - name: Run Build
         run: npm run build
+
+      - name: Verify Benchmark
+        run: npm run benchmark:verify
+
+      - name: Run Offline Benchmark
+        run: npm run benchmark:offline
+
+      - name: Upload Benchmark Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: benchmarks/results/

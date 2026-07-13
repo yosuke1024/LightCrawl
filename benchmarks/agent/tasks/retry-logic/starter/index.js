@@ -1,0 +1,1 @@
+export function getDelay(status) { return 0; }

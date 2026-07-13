@@ -1,0 +1,103 @@
+
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <title>lodash/lodash Documentation</title>
+        <style>
+          .sidebar { width: 250px; float: left; }
+          .main-content { margin-left: 260px; }
+          .footer { margin-top: 50px; text-align: center; }
+          .nav-ad { background: #eee; padding: 20px; }
+        </style>
+      </head>
+      <body>
+        <div class="sidebar">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/docs">Docs</a></li>
+              <li><a href="/api">API Reference</a></li>
+            </ul>
+          </nav>
+          <div class="nav-ad">Subscribe to our newsletter!</div>
+        </div>
+        <div class="main-content">
+          <article>
+            <h1>lodash v4.18.1</h1>
+<p><a href="https://lodash.com/">Site</a> |
+<a href="https://lodash.com/docs">Docs</a> |
+<a href="https://github.com/lodash/lodash/wiki/FP-Guide">FP Guide</a> |
+<a href="https://github.com/lodash/lodash/blob/main/.github/CONTRIBUTING.md">Contributing</a> |
+<a href="https://github.com/lodash/lodash/wiki" title="Changelog, Roadmap, etc.">Wiki</a> |
+<a href="https://github.com/openjs-foundation/cross-project-council/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a> |
+<a href="https://github.com/lodash/lodash/blob/HEAD/GOVERNANCE.md">Governance</a> |
+<a href="https://twitter.com/bestiejs">Twitter</a> |
+<a href="https://gitter.im/lodash/lodash">Chat</a></p>
+<blockquote>
+<p>[!IMPORTANT]
+As announced on the <a href="https://openjsf.org/blog/sta-supports-lodash">OpenJS Foundation blog</a>, Lodash has received support from the Sovereign Tech Agency and will transition to the Feature-Complete maturity stage so that it remains stable, secure, and sustainable long-term. As part of this effort, Lodash is rebooting its governance. A draft charter will be published shortly. The upcoming Technical Steering Committee (TSC) is already at work. For transparency, its members are listed in <a href="https://github.com/lodash/lodash/blob/HEAD/GOVERNANCE.md">GOVERNANCE.md</a>.</p>
+</blockquote>
+<p>The <a href="https://lodash.com/">Lodash</a> library exported as a <a href="https://github.com/umdjs/umd">UMD</a> module.</p>
+<p>Generated using <a href="https://www.npmjs.com/package/lodash-cli">lodash-cli</a>:</p>
+<pre><code class="language-shell">$ npm run build
+$ lodash -o ./dist/lodash.js
+$ lodash core -o ./dist/lodash.core.js
+</code></pre>
+<h2>Download</h2>
+<ul>
+<li><a href="https://raw.githubusercontent.com/lodash/lodash/4.18.1/dist/lodash.core.js">Core build</a> (<a href="https://raw.githubusercontent.com/lodash/lodash/4.18.1/dist/lodash.core.min.js">~4 kB gzipped</a>)</li>
+<li><a href="https://raw.githubusercontent.com/lodash/lodash/4.18.1/dist/lodash.js">Full build</a> (<a href="https://raw.githubusercontent.com/lodash/lodash/4.18.1/dist/lodash.min.js">~24 kB gzipped</a>)</li>
+<li><a href="https://www.jsdelivr.com/projects/lodash">CDN copies</a></li>
+</ul>
+<p>Lodash is released under the <a href="https://raw.githubusercontent.com/lodash/lodash/4.18.1/LICENSE">MIT license</a> &amp; supports modern environments.<br>
+Review the <a href="https://github.com/lodash/lodash/wiki/build-differences">build differences</a> &amp; pick one that’s right for you.</p>
+<h2>Installation</h2>
+<p>In a browser:</p>
+<pre><code class="language-html">&lt;script src=&quot;lodash.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>Using npm:</p>
+<pre><code class="language-shell">$ npm i -g npm
+$ npm i --save lodash
+</code></pre>
+<p>In Node.js:</p>
+<pre><code class="language-js">// Load the full build.
+var _ = require(&#39;lodash&#39;);
+// Load the core build.
+var _ = require(&#39;lodash/core&#39;);
+// Load the FP build for immutable auto-curried iteratee-first data-last methods.
+var fp = require(&#39;lodash/fp&#39;);
+
+// Load method categories.
+var array = require(&#39;lodash/array&#39;);
+var object = require(&#39;lodash/fp/object&#39;);
+
+// Cherry-pick methods for smaller browserify/rollup/webpack bundles.
+var at = require(&#39;lodash/at&#39;);
+var curryN = require(&#39;lodash/fp/curryN&#39;);
+</code></pre>
+<h2>Why Lodash?</h2>
+<p>Lodash makes JavaScript easier by taking the hassle out of working with arrays,<br>
+numbers, objects, strings, etc. Lodash’s modular methods are great for:</p>
+<ul>
+<li>Iterating arrays, objects, &amp; strings</li>
+<li>Manipulating &amp; testing values</li>
+<li>Creating composite functions</li>
+</ul>
+<h2>Module Formats</h2>
+<p>Lodash is available in a <a href="https://lodash.com/custom-builds">variety of builds</a> &amp; module formats.</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/lodash">lodash</a> &amp; <a href="https://www.npmjs.com/browse/keyword/lodash-modularized">per method packages</a></li>
+<li><a href="https://www.npmjs.com/package/lodash-es">lodash-es</a>, <a href="https://www.npmjs.com/package/babel-plugin-lodash">babel-plugin-lodash</a>, &amp; <a href="https://www.npmjs.com/package/lodash-webpack-plugin">lodash-webpack-plugin</a></li>
+<li><a href="https://github.com/lodash/lodash/tree/npm/fp">lodash/fp</a></li>
+<li><a href="https://www.npmjs.com/package/lodash-amd">lodash-amd</a></li>
+</ul>
+
+          </article>
+        </div>
+        <div class="footer">
+          <p>&copy; 2026 OSS Project. Open Source MIT License.</p>
+          <p>Privacy Policy | Terms of Service</p>
+        </div>
+      </body>
+      </html>
+      

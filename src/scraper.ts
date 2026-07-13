@@ -363,62 +363,7 @@ export async function scrapeUrl(
       throw new Error('Access Denied: Protected page detected (e.g. Cloudflare)');
     }
 
-    // Parse HTML based on fast mode
-    let document: Document;
-    if (fast) {
-      const parsed = parseHTML(html);
-      document = parsed.document as unknown as Document;
-    } else {
-      const dom = new JSDOM(html, { url });
-      document = dom.window.document;
-    }
-
-    // Extract title & target HTML
-    let title = document.title || 'Untitled';
-    let targetHtml = document.body?.innerHTML || '';
-    let excerpt: string | undefined;
-
-    if (mode === 'article') {
-      // Use Readability to extract core article content
-      const reader = new Readability(document);
-      const article = reader.parse();
-      if (article) {
-        title = article.title || title;
-        targetHtml = article.content || targetHtml;
-        excerpt = article.excerpt || undefined;
-      }
-    }
-
-    // Extract metadata
-    const metadata: NonNullable<ScrapeResult['metadata']> = {};
-    
-    const getMeta = (nameOrProperty: string): string | undefined => {
-      const element = document.querySelector(
-        `meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`
-      );
-      return element?.getAttribute('content') || undefined;
-    };
-
-    metadata.description = getMeta('description');
-    metadata.keywords = getMeta('keywords');
-    metadata.author = getMeta('author');
-    metadata.ogTitle = getMeta('og:title');
-    metadata.ogDescription = getMeta('og:description');
-    metadata.ogImage = getMeta('og:image');
-
-    const canonicalEl = document.querySelector('link[rel="canonical"]');
-    metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
-
-    const htmlEl = document.querySelector('html');
-    metadata.lang = htmlEl?.getAttribute('lang') || undefined;
-
-    // Convert HTML to Markdown
-    const turndownService = new TurndownService({
-      headingStyle: 'atx',
-      codeBlockStyle: 'fenced',
-    });
-
-    const markdown = turndownService.turndown(targetHtml);
+    const extracted = extractFromHtml(html, url, mode, fast);
 
     const durationSeconds = (Date.now() - startTime) / 1000;
     recordScrape({ success: true, isProtected, durationSeconds });
@@ -433,12 +378,9 @@ export async function scrapeUrl(
     });
 
     return {
+      ...extracted,
       success: true,
       url,
-      title,
-      markdown,
-      metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
-      excerpt,
     };
   } catch (error) {
     const durationSeconds = (Date.now() - startTime) / 1000;
@@ -543,9 +485,10 @@ function extractAllLinks(html: string, baseUrl: string, fast = false): string[] 
 }
 
 /**
- * Common HTML parser to ScrapeResult function.
+ * Extracts core content from HTML and converts it to Markdown.
+ * Used internally and exported for offline benchmarks.
  */
-function parseScrapeResult(html: string, url: string, fast = false): ScrapeResult {
+export function extractFromHtml(html: string, url: string, mode: 'article' | 'full' = 'article', fast = false): ScrapeResult {
   let document: Document;
   if (fast) {
     const parsed = parseHTML(html);
@@ -554,9 +497,21 @@ function parseScrapeResult(html: string, url: string, fast = false): ScrapeResul
     const dom = new JSDOM(html, { url });
     document = dom.window.document;
   }
-  const reader = new Readability(document);
-  const article = reader.parse();
-  const title = article?.title || document.title || 'Untitled';
+
+  let title = document.title || 'Untitled';
+  let targetHtml = document.body?.innerHTML || '';
+  let excerpt: string | undefined;
+
+  if (mode === 'article') {
+    const reader = new Readability(document);
+    const article = reader.parse();
+    if (article) {
+      title = article.title || title;
+      targetHtml = article.content || targetHtml;
+      excerpt = article.excerpt || undefined;
+    }
+  }
+
   const metadata: NonNullable<ScrapeResult['metadata']> = {};
   const getMeta = (nameOrProperty: string): string | undefined => {
     const element = document.querySelector(`meta[name="${nameOrProperty}"], meta[property="${nameOrProperty}"]`);
@@ -572,10 +527,10 @@ function parseScrapeResult(html: string, url: string, fast = false): ScrapeResul
   metadata.canonical = canonicalEl?.getAttribute('href') || undefined;
   const htmlEl = document.querySelector('html');
   metadata.lang = htmlEl?.getAttribute('lang') || undefined;
-  const excerpt = article?.excerpt || undefined;
+
   const turndownService = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' });
-  const targetHtml = article?.content || document.body?.innerHTML || '';
   const markdown = turndownService.turndown(targetHtml);
+
   return {
     success: true,
     url,
@@ -584,6 +539,13 @@ function parseScrapeResult(html: string, url: string, fast = false): ScrapeResul
     metadata: Object.values(metadata).some(val => val !== undefined) ? metadata : undefined,
     excerpt,
   };
+}
+
+/**
+ * Common HTML parser to ScrapeResult function.
+ */
+function parseScrapeResult(html: string, url: string, fast = false): ScrapeResult {
+  return extractFromHtml(html, url, 'article', fast);
 }
 
 

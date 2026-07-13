@@ -2,13 +2,11 @@
   <img src="assets/logo.png" alt="LightCrawl Logo" width="200" height="200">
 </p>
 
-# LightCrawl
+# LightCrawl [Discontinued]
 
-<p align="center">
-  <a href="https://www.producthunt.com/posts/lightcrawl" target="_blank">
-    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=lightcrawl&theme=light" alt="LightCrawl - Lightweight, single-container, self-hostable Web scraping API | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
-  </a>
-</p>
+> **Discontinued — an experimental self-hosted web-to-Markdown crawler**
+
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
@@ -16,6 +14,8 @@
   <a href="https://railway.com/deploy/lightcrawl?referralCode=lR1Ra-&utm_medium=integration&utm_source=template&utm_campaign=generic"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a>
   <a href="https://github.com/sponsors/yosuke1024"><img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=github-sponsors" alt="Sponsor"></a>
 </p>
+
+**LightCrawl is no longer actively maintained. A subsequent benchmark did not validate its original token-efficiency hypothesis. The repository remains available as an experimental open-source implementation.**
 
 LightCrawl is a lightweight, single-container, self-hostable Web scraping API and Model Context Protocol (MCP) server that converts any web page into clean Markdown. It serves as a minimal, low-cost alternative to Firecrawl, optimized for local development and low-resource environments (e.g., $3-$5/month hosting). Developed and maintained by [PixApps](https://pixapps.ai/).
 
@@ -97,6 +97,33 @@ When AI agents or local tools need to scrape unknown, untrusted web pages, direc
    ```bash
    npm run lint
    ```
+
+---
+
+## Benchmark Suite
+
+LightCrawl includes a reproducible benchmark suite to measure its token efficiency and effectiveness for AI agent development compared to raw HTML extraction.
+
+### Phase 1: Offline Token Efficiency
+Measures the token reduction rate and information retention (facts, code, headings) using fixed HTML fixtures.
+```bash
+# Generate offline results
+npm run benchmark:offline
+```
+
+### Phase 2: Agent Development Benchmark
+Measures the real-world impact on LLM agent development speed, token usage, and success rates.
+```bash
+# Set your Gemini API key (requires @google/generative-ai)
+export GEMINI_API_KEY="your-api-key"
+
+# Run the agent benchmark
+npm run benchmark:agent
+```
+
+Results are generated in the `benchmarks/results/` directory as `latest.json`, `latest.md`, and `latest.csv`.
+
+> In a preliminary benchmark using 25 synthetic fixtures, LightCrawl article mode reduced estimated tokens by 3.60% versus body text while retaining 100% of the predefined exact-match facts. Real-world and agent benchmarks are still in progress.
 
 ---
 

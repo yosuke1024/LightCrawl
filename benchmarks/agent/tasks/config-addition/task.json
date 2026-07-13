@@ -1,0 +1,4 @@
+{
+  "id": "config-addition",
+  "prompt": "Modify index.js to default to enableRetries: true according to the documentation."
+}

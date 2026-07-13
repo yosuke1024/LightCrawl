@@ -1,0 +1,153 @@
+
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <title>reduxjs/redux Documentation</title>
+        <style>
+          .sidebar { width: 250px; float: left; }
+          .main-content { margin-left: 260px; }
+          .footer { margin-top: 50px; text-align: center; }
+          .nav-ad { background: #eee; padding: 20px; }
+        </style>
+      </head>
+      <body>
+        <div class="sidebar">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/docs">Docs</a></li>
+              <li><a href="/api">API Reference</a></li>
+            </ul>
+          </nav>
+          <div class="nav-ad">Subscribe to our newsletter!</div>
+        </div>
+        <div class="main-content">
+          <article>
+            <h1><a href='https://redux.js.org'><img src='https://avatars.githubusercontent.com/u/13142323?s=200&v=4' height='60' alt='Redux Logo' aria-label='redux.js.org' style="display: flex;align-items: center;"/>Redux</a></h1>
+<p>Redux is a JS library for predictable and maintainable global state management.</p>
+<p>It helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test. On top of that, it provides a great developer experience, such as <a href="https://github.com/reduxjs/redux-devtools">live code editing combined with a time traveling debugger</a>.</p>
+<p>You can use Redux together with <a href="https://react.dev">React</a>, or with any other view library. The Redux core is tiny (2kB, including dependencies), and has a rich ecosystem of addons.</p>
+<p><a href="https://redux-toolkit.js.org"><strong>Redux Toolkit</strong></a> is our official recommended approach for writing Redux logic. It wraps around the Redux core, and contains packages and functions that we think are essential for building a Redux app. Redux Toolkit builds in our suggested best practices, simplifies most Redux tasks, prevents common mistakes, and makes it easier to write Redux applications.</p>
+<p><img src="https://img.shields.io/github/actions/workflow/status/reduxjs/redux/test.yaml?branch=master&event=push&style=flat-square" alt="GitHub Workflow Status">
+<a href="https://www.npmjs.com/package/redux"><img src="https://img.shields.io/npm/v/redux.svg?style=flat-square" alt="npm version"></a>
+<a href="https://www.npmjs.com/package/redux"><img src="https://img.shields.io/npm/dm/redux.svg?style=flat-square" alt="npm downloads"></a>
+<a href="https://discord.gg/0ZcbPKXt5bZ6au5t"><img src="https://img.shields.io/badge/discord-%23redux%20%40%20reactiflux-61dafb.svg?style=flat-square" alt="redux channel on discord"></a></p>
+<h2>Installation</h2>
+<h3>Create a React Redux App</h3>
+<p>The recommended way to start new apps with React and Redux Toolkit is by using <a href="https://github.com/reduxjs/redux-templates">our official Redux Toolkit + TS template for Vite</a>, or by creating a new Next.js project using <a href="https://github.com/vercel/next.js/tree/canary/examples/with-redux">Next&#39;s <code>with-redux</code> template</a>.</p>
+<p>Both of these already have Redux Toolkit and React-Redux configured appropriately for that build tool, and come with a small example app that demonstrates how to use several of Redux Toolkit&#39;s features.</p>
+<pre><code class="language-bash"># Vite with our Redux+TS template
+# (using the `degit` tool to clone and extract the template)
+npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
+
+# Next.js using the `with-redux` template
+npx create-next-app --example with-redux my-app
+</code></pre>
+<p>We do not currently have official React Native templates, but recommend these templates for standard React Native and for Expo:</p>
+<ul>
+<li><a href="https://github.com/rahsheen/react-native-template-redux-typescript">https://github.com/rahsheen/react-native-template-redux-typescript</a></li>
+<li><a href="https://github.com/rahsheen/expo-template-redux-typescript">https://github.com/rahsheen/expo-template-redux-typescript</a></li>
+</ul>
+<pre><code>npm install @reduxjs/toolkit react-redux
+</code></pre>
+<p>For the Redux core library by itself:</p>
+<pre><code>npm install redux
+</code></pre>
+<p>For more details, see <a href="https://redux.js.org/introduction/installation">the Installation docs page</a>.</p>
+<h2>Documentation</h2>
+<p>The Redux core docs are located at <strong><a href="https://redux.js.org">https://redux.js.org</a></strong>, and include the full Redux tutorials, as well usage guides on general Redux patterns:</p>
+<ul>
+<li><a href="https://redux.js.org/introduction/getting-started">Introduction</a></li>
+<li><a href="https://redux.js.org/tutorials/index">Tutorials</a></li>
+<li><a href="https://redux.js.org/usage/index">Usage Guides</a></li>
+<li><a href="https://redux.js.org/faq">FAQ</a></li>
+<li><a href="https://redux.js.org/api/api-reference">API Reference</a></li>
+</ul>
+<p>The Redux Toolkit docs are available at <strong><a href="https://redux-toolkit.js.org">https://redux-toolkit.js.org</a></strong>, including API references and usage guides for all of the APIs included in Redux Toolkit.</p>
+<h2>Learn Redux</h2>
+<h3>Redux Essentials Tutorial</h3>
+<p>The <a href="https://redux.js.org/tutorials/essentials/part-1-overview-concepts"><strong>Redux Essentials tutorial</strong></a> is a &quot;top-down&quot; tutorial that teaches &quot;how to use Redux the right way&quot;, using our latest recommended APIs and best practices. We recommend starting there.</p>
+<h3>Redux Fundamentals Tutorial</h3>
+<p>The <a href="https://redux.js.org/tutorials/fundamentals/part-1-overview"><strong>Redux Fundamentals tutorial</strong></a> is a &quot;bottom-up&quot; tutorial that teaches &quot;how Redux works&quot; from first principles and without any abstractions, and why standard Redux usage patterns exist.</p>
+<h3>Help and Discussion</h3>
+<p>The <strong><a href="https://discord.gg/0ZcbPKXt5bZ6au5t">#redux channel</a></strong> of the <strong><a href="https://www.reactiflux.com">Reactiflux Discord community</a></strong> is our official resource for all questions related to learning and using Redux. Reactiflux is a great place to hang out, ask questions, and learn - please come and join us there!</p>
+<h2>Before Proceeding Further</h2>
+<p>Redux is a valuable tool for organizing your state, but you should also consider whether it&#39;s appropriate for your situation. Please don&#39;t use Redux just because someone said you should - instead, please take some time to understand the potential benefits and tradeoffs of using it.</p>
+<p>Here are some suggestions on when it makes sense to use Redux:</p>
+<ul>
+<li>You have reasonable amounts of data changing over time</li>
+<li>You need a single source of truth for your state</li>
+<li>You find that keeping all your state in a top-level component is no longer sufficient</li>
+</ul>
+<p>Yes, these guidelines are subjective and vague, but this is for a good reason. The point at which you should integrate Redux into your application is different for every user and different for every application.</p>
+<blockquote>
+<p><strong>For more thoughts on how Redux is meant to be used, please see:</strong><br></p>
+<ul>
+<li><strong><a href="https://changelog.com/posts/when-and-when-not-to-reach-for-redux">When (and when not) to reach for Redux</a></strong></li>
+<li><strong><a href="https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367">You Might Not Need Redux</a></strong><br></li>
+<li><strong><a href="https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/">The Tao of Redux, Part 1 - Implementation and Intent</a></strong><br></li>
+<li><strong><a href="https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-2/">The Tao of Redux, Part 2 - Practice and Philosophy</a></strong></li>
+<li><strong><a href="https://redux.js.org/faq">Redux FAQ</a></strong></li>
+</ul>
+</blockquote>
+<h2>Basic Example</h2>
+<p>The whole global state of your app is stored in an object tree inside a single <em>store</em>.
+The only way to change the state tree is to create an <em>action</em>, an object describing what happened, and <em>dispatch</em> it to the store.
+To specify how state gets updated in response to an action, you write pure <em>reducer</em> functions that calculate a new state based on the old state and the action.</p>
+<p>Redux Toolkit simplifies the process of writing Redux logic and setting up the store. With Redux Toolkit, the basic app logic looks like:</p>
+<pre><code class="language-js">import { createSlice, configureStore } from &#39;@reduxjs/toolkit&#39;
+
+const counterSlice = createSlice({
+  name: &#39;counter&#39;,
+  initialState: {
+    value: 0
+  },
+  reducers: {
+    incremented: state =&gt; {
+      // Redux Toolkit allows us to write &quot;mutating&quot; logic in reducers. It
+      // doesn&#39;t actually mutate the state because it uses the Immer library,
+      // which detects changes to a &quot;draft state&quot; and produces a brand new
+      // immutable state based off those changes
+      state.value += 1
+    },
+    decremented: state =&gt; {
+      state.value -= 1
+    }
+  }
+})
+
+export const { incremented, decremented } = counterSlice.actions
+
+const store = configureStore({
+  reducer: counterSlice.reducer
+})
+
+// Can still subscribe to the store
+store.subscribe(() =&gt; console.log(store.getState()))
+
+// Still pass action objects to `dispatch`, but they&#39;re created for us
+store.dispatch(incremented())
+// {value: 1}
+store.dispatch(incremented())
+// {value: 2}
+store.dispatch(decremented())
+// {value: 1}
+</code></pre>
+<p>Redux Toolkit allows us to write shorter logic that&#39;s easier to read, while still following the original core Redux behavior and data flow.</p>
+<h2>Logo</h2>
+<p>You can find the official logo <a href="https://github.com/reduxjs/redux/tree/master/logo">on GitHub</a>.</p>
+<h2>Change Log</h2>
+<p>This project adheres to <a href="https://semver.org/">Semantic Versioning</a>.
+Every release, along with the migration instructions, is documented on the GitHub <a href="https://github.com/reduxjs/redux/releases">Releases</a> page.</p>
+<h2>License</h2>
+<p><a href="LICENSE.md">MIT</a></p>
+
+          </article>
+        </div>
+        <div class="footer">
+          <p>&copy; 2026 OSS Project. Open Source MIT License.</p>
+          <p>Privacy Policy | Terms of Service</p>
+        </div>
+      </body>
+      </html>
+      

@@ -1,0 +1,1 @@
+export function createClient(config) { return { ...config, base: 'api' }; }

@@ -1,0 +1,4 @@
+{
+  "id": "api-migration",
+  "prompt": "Migrate the deprecated function to the new one as per the docs."
+}
