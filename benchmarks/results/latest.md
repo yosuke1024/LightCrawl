@@ -43,3 +43,21 @@ Tokenizer: js-tiktoken@o200k_base
 ### Offline Token Claim
 ❌ **insufficient_evidence**: Metrics not met: Fact=1, Code=1, Table=1, Reduction=-1.3349118652986056
 
+## Agent Efficiency Benchmark
+
+* **Total Runs Completed:** 80
+* **Total API Requests:** 110
+* **Estimated Cost:** $0.0014
+
+### Condition Summary
+
+| Condition | Runs | Success | Median Total T. | Median Input T. | Median Out T. | Median T2G (ms) | Turns | Test Attempts |
+|---|---|---|---|---|---|---|---|---|
+| body_text | 20 | 80.0% | 266 | 94 | 39 | 1962 | 1 | 1 |
+| lightcrawl_article | 20 | 80.0% | 277 | 96 | 39 | 1740 | 1 | 1 |
+| lightcrawl_full | 20 | 80.0% | 272 | 96 | 39 | 1642 | 1 | 1 |
+| lightcrawl_auto_candidate | 20 | 85.0% | 263 | 96 | 44 | 1615 | 1 | 1 |
+
+### Agent Efficiency Claim
+❌ **insufficient_evidence**: Reductions insufficient: Token=-4.14%, Time=11.31%
+
