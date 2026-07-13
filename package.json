@@ -8,9 +8,14 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "vitest run",
-    "lint": "eslint \"src/**/*.ts\""
+    "lint": "eslint \"src/**/*.ts\"",
+    "benchmark:offline": "tsx benchmarks/src/offline-runner.ts",
+    "benchmark:report": "tsx benchmarks/src/offline-runner.ts",
+    "benchmark:verify": "tsx benchmarks/src/verify.ts",
+    "benchmark:agent": "tsx benchmarks/src/agent-runner.ts"
   },
   "dependencies": {
+    "@google/genai": "^2.11.0",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@mozilla/readability": "^0.6.0",
     "express": "^5.2.1",
@@ -37,7 +42,10 @@
     "@typescript-eslint/eslint-plugin": "^8.62.0",
     "@typescript-eslint/parser": "^8.62.0",
     "eslint": "^10.5.0",
+    "glob": "^13.0.6",
     "globals": "^17.7.0",
+    "js-tiktoken": "^1.0.21",
+    "marked": "^18.0.6",
     "supertest": "^7.0.0",
     "tsx": "^4.15.7",
     "typescript": "^6.0.3",

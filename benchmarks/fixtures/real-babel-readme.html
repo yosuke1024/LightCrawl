@@ -1,0 +1,121 @@
+
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <title>babel/babel Documentation</title>
+        <style>
+          .sidebar { width: 250px; float: left; }
+          .main-content { margin-left: 260px; }
+          .footer { margin-top: 50px; text-align: center; }
+          .nav-ad { background: #eee; padding: 20px; }
+        </style>
+      </head>
+      <body>
+        <div class="sidebar">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/docs">Docs</a></li>
+              <li><a href="/api">API Reference</a></li>
+            </ul>
+          </nav>
+          <div class="nav-ad">Subscribe to our newsletter!</div>
+        </div>
+        <div class="main-content">
+          <article>
+            <p align="center">
+  <a href="https://babeljs.io/">
+    <img alt="babel" src="https://raw.githubusercontent.com/babel/logo/master/babel.png" width="546">
+  </a>
+</p><p align="center">
+  The compiler for writing next generation JavaScript.
+</p><p align="center">
+    <a href="https://npmx.dev/package/@babel/core"><img alt="npm Downloads" src="https://img.shields.io/npm/dm/@babel/core.svg?maxAge=43200&label=npm%20downloads&logo=babel&logoSize=auto"></a>
+</p>
+<p align="center">
+  <a href="https://github.com/babel/babel/actions/workflows/ci.yml"><img alt="GitHub CI Status" src="https://github.com/babel/babel/actions/workflows/ci.yml/badge.svg?branch=main"></a>
+  <a href="https://codecov.io/github/babel/babel"><img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/babel/babel/main.svg?maxAge=43200&logo=codecov"></a>
+  <a href="https://pkg.pr.new/~/babel/babel"><img alt="pkg.pr.new" src="https://img.shields.io/badge/PR_previews-pkg.pr.new-10a5e9"></a>
+</p>
+<p align="center">
+  <a href="https://slack.babeljs.io/"><img alt="Slack Status" src="https://img.shields.io/badge/chat-on_slack-brightgreen?style=flat&logo=slack&logoColor=white"></a>
+</p><h2 align="center">Supporting Babel</h2><p align="center">
+  <a href="#backers"><img alt="Backers on Open Collective" src="https://opencollective.com/babel/backers/badge.svg" /></a>
+  <a href="#sponsors"><img alt="Sponsors on Open Collective" src="https://opencollective.com/babel/sponsors/badge.svg" /></a>
+  <a href="https://medium.com/friendship-dot-js/i-peeked-into-my-node-modules-directory-and-you-wont-believe-what-happened-next-b89f63d21558"><img alt="Business Strategy Status" src="https://img.shields.io/badge/business%20model-flavortown-green.svg"></a>
+</p><p>Babel (pronounced <a href="https://soundcloud.com/sebmck/how-to-pronounce-babel">&quot;babble&quot;</a>)  is a community-driven project used by many companies and projects, and is maintained by a group of <a href="https://babeljs.io/team">volunteers</a>. If you&#39;d like to help support the future of the project, please consider:</p>
+<ul>
+<li>Giving developer time on the project. (Message us on <a href="https://twitter.com/babeljs">Twitter</a> or <a href="https://slack.babeljs.io/">Slack</a> for guidance!)</li>
+<li>Giving funds by becoming a sponsor on <a href="https://opencollective.com/babel">Open Collective</a> or <a href="https://github.com/sponsors/babel/">GitHub</a> (which goes to our Open Collective account)!</li>
+</ul>
+<h2>Sponsors</h2>
+<p>Our top sponsors are shown below! [<a href="https://opencollective.com/babel#sponsor">Become a sponsor</a>]</p>
+<p><a href="https://opencollective.com/babel/sponsor/0/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/1/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/2/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/3/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/4/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/5/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/6/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/7/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/8/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/9/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/9/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/10/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/10/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/11/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/11/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/12/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/12/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/13/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/13/avatar.svg"></a>
+<a href="https://opencollective.com/babel/sponsor/14/website" target="_blank"><img src="https://opencollective.com/babel/sponsor/14/avatar.svg"></a></p>
+<h2>Intro</h2>
+<p>Babel is a tool that helps you write code in the latest version of JavaScript. When your supported environments don&#39;t support certain features natively, Babel will help you compile those features down to a supported version.</p>
+<p><strong>In</strong></p>
+<pre><code class="language-js">// ES2020 nullish coalescing
+function greet(input) {
+  return input ?? &quot;Hello world&quot;;
+}
+</code></pre>
+<p><strong>Out</strong></p>
+<pre><code class="language-js">function greet(input) {
+  return input != null ? input : &quot;Hello world&quot;;
+}
+</code></pre>
+<p>Try it out at our <a href="https://babel.dev/repl#?browsers=defaults&loose=true&code_lz=GYVwdgxgLglg9mABAcwE4FN1QBQzABxCgEpEBvAKEUQyhFST0KkQH5XEAiACXQBs-cRAHc4qPgBNOAbgoBfIA&shippedProposals=true&sourceType=script&lineWrap=true&presets=env%2Cenv&prettier=true&forceAllTransforms=true">REPL</a>.</p>
+<h2>FAQ</h2>
+<h3>Who maintains Babel?</h3>
+<p>Mostly a handful of volunteers, funded by you! Please check out our <a href="https://babeljs.io/team">team page</a>!</p>
+<h3>Is there a Babel song?</h3>
+<p>I&#39;m so glad you asked: <a href="SONG.md">Hallelujah —— In Praise of Babel</a> by <a href="https://github.com/angus-c">@angus-c</a>, <a href="https://youtu.be/40abpedBKK8">audio version</a> by <a href="https://twitter.com/@swyx">@swyx</a>. Tweet us your recordings!</p>
+<h3>Looking for support?</h3>
+<p>For questions and support please <a href="https://github.com/babel/babel/discussions">join or open a GitHub Discussion</a>, join our <a href="https://slack.babeljs.io/">Slack Community</a> (you can <a href="https://slack.babeljs.io/">sign up here</a> for an invite), ask a question on <a href="https://stackoverflow.com/questions/tagged/babeljs">Stack Overflow</a>, or ping us on <a href="https://bsky.app/profile/babel.dev">Bluesky</a>.</p>
+<h3>Where are the docs?</h3>
+<p>Check out our website: <a href="https://babeljs.io/">babeljs.io</a>, and report issues/features at <a href="https://github.com/babel/website/issues">babel/website</a>.</p>
+<h3>Want to report a bug or request a feature?</h3>
+<p>Please read through our <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> and fill out the issue template at <a href="https://github.com/babel/babel/issues">babel/issues</a>!</p>
+<h3>Want to contribute to Babel?</h3>
+<p>Check out:</p>
+<ul>
+<li>Our <a href="https://babeljs.slack.com/messages/development">#development</a> Slack channel and say hi! (<a href="https://slack.babeljs.io">sign-up</a>)</li>
+<li>Issues with the <a href="https://github.com/babel/babel/labels/good%20first%20issue">good first issue</a> and <a href="https://github.com/babel/babel/labels/help%20wanted">help wanted</a> label. We suggest also looking at the <a href="https://github.com/babel/babel/issues?utf8=%E2%9C%93&q=is%3Aclosed+label%3A%22good+first+issue%22">closed ones</a> to get a sense of the kinds of issues you can tackle.</li>
+</ul>
+<p>Some resources:</p>
+<ul>
+<li>Our <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> to get started with setting up the repo.</li>
+<li>Our discussions/notes/roadmap: <a href="https://github.com/babel/notes">babel/notes</a></li>
+<li>Our progress on TC39 proposals: <a href="https://github.com/babel/proposals">babel/proposals</a></li>
+<li>Our blog which contains release posts and explanations: <a href="https://babeljs.io/blog">/blog</a></li>
+<li>Our videos page with talks about open source and Babel: <a href="https://babeljs.io/videos">/videos</a></li>
+<li>Our <a href="https://podcast.babeljs.io">podcast</a></li>
+</ul>
+<h3>How is the repo structured?</h3>
+<p>The Babel repo is managed as a <a href="doc/design/monorepo.md">monorepo</a> that is composed of many <a href="packages/README.md">npm packages</a>.</p>
+<h2>License</h2>
+<p><a href="LICENSE">MIT</a></p>
+
+          </article>
+        </div>
+        <div class="footer">
+          <p>&copy; 2026 OSS Project. Open Source MIT License.</p>
+          <p>Privacy Policy | Terms of Service</p>
+        </div>
+      </body>
+      </html>
+      

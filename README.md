@@ -100,6 +100,33 @@ When AI agents or local tools need to scrape unknown, untrusted web pages, direc
 
 ---
 
+## Benchmark Suite
+
+LightCrawl includes a reproducible benchmark suite to measure its token efficiency and effectiveness for AI agent development compared to raw HTML extraction.
+
+### Phase 1: Offline Token Efficiency
+Measures the token reduction rate and information retention (facts, code, headings) using fixed HTML fixtures.
+```bash
+# Generate offline results
+npm run benchmark:offline
+```
+
+### Phase 2: Agent Development Benchmark
+Measures the real-world impact on LLM agent development speed, token usage, and success rates.
+```bash
+# Set your Gemini API key (requires @google/generative-ai)
+export GEMINI_API_KEY="your-api-key"
+
+# Run the agent benchmark
+npm run benchmark:agent
+```
+
+Results are generated in the `benchmarks/results/` directory as `latest.json`, `latest.md`, and `latest.csv`.
+
+> In a preliminary benchmark using 25 synthetic fixtures, LightCrawl article mode reduced estimated tokens by 3.60% versus body text while retaining 100% of the predefined exact-match facts. Real-world and agent benchmarks are still in progress.
+
+---
+
 ## Configuration
 
 LightCrawl can be configured using environment variables. You can define these in a `.env` file at the root of the project (see `.env.example`).

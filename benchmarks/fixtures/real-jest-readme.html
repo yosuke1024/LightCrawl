@@ -1,0 +1,211 @@
+
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <title>jestjs/jest Documentation</title>
+        <style>
+          .sidebar { width: 250px; float: left; }
+          .main-content { margin-left: 260px; }
+          .footer { margin-top: 50px; text-align: center; }
+          .nav-ad { background: #eee; padding: 20px; }
+        </style>
+      </head>
+      <body>
+        <div class="sidebar">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/docs">Docs</a></li>
+              <li><a href="/api">API Reference</a></li>
+            </ul>
+          </nav>
+          <div class="nav-ad">Subscribe to our newsletter!</div>
+        </div>
+        <div class="main-content">
+          <article>
+            <p align="center">
+  <a href="https://www.npmjs.com/package/jest"><img src="https://img.shields.io/npm/v/jest" alt="npm version"></a>
+  <a href="https://github.com/jestjs/jest/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Jest is released under the MIT license."></a>
+  <a href="https://twitter.com/intent/follow?screen_name=jestjs_"><img src="https://img.shields.io/twitter/follow/jestjs_.svg?style=social&label=Follow%20@jestjs_" alt="Follow on Twitter" /></a>
+</p>
+<p align="center">
+  <a href="https://github.com/jestjs/jest/actions/workflows/nodejs.yml"><img alt="GitHub CI Status" src="https://img.shields.io/github/actions/workflow/status/jestjs/jest/nodejs.yml?label=CI&logo=GitHub"></a>
+  <a href="https://codecov.io/github/jestjs/jest"><img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/jestjs/jest/main.svg?maxAge=43200"></a>
+</p>
+<p align="center">
+  <a href="https://gitpod.io/#https://github.com/jestjs/jest"><img alt="Gitpod ready-to-code" src="https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod"></a>
+</p><!-- A spacer -->
+<p>&nbsp;</p><p align="center"><img src="website/static/img/jest-readme-headline.png" width="80%"/></p><h2 align="center">🃏 Delightful JavaScript Testing</h2><p><strong>👩🏻‍💻 Developer Ready</strong>: A comprehensive JavaScript testing solution. Works out of the box for most JavaScript projects.</p>
+<p><strong>🏃🏽 Instant Feedback</strong>: Fast, interactive watch mode only runs test files related to changed files.</p>
+<p><strong>📸 Snapshot Testing</strong>: Capture snapshots of large objects to simplify testing and to analyze how they change over time.</p>
+<p align="right"><em>See more on <a href="https://jestjs.io">jestjs.io</a></em></p><h2>Table of Contents</h2>
+<ul>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#running-from-command-line">Running from command line</a></li>
+<li><a href="#additional-configuration">Additional Configuration</a><ul>
+<li><a href="#generate-a-basic-configuration-file">Generate a basic configuration file</a></li>
+<li><a href="#using-babel">Using Babel</a></li>
+<li><a href="#using-webpack">Using webpack</a></li>
+<li><a href="#using-vite">Using Vite</a></li>
+<li><a href="#using-parcel">Using Parcel</a></li>
+<li><a href="#using-typescript">Using Typescript</a></li>
+</ul>
+</li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#badge">Badge</a></li>
+<li><a href="#contributing">Contributing</a><ul>
+<li><a href="#code-of-conduct">Code of Conduct</a></li>
+<li><a href="#contributing-guide">Contributing Guide</a></li>
+<li><a href="#good-first-issues">Good First Issues</a></li>
+</ul>
+</li>
+<li><a href="#credits">Credits</a><ul>
+<li><a href="#backers">Backers</a></li>
+<li><a href="#sponsors">Sponsors</a></li>
+</ul>
+</li>
+<li><a href="#license">License</a></li>
+<li><a href="#copyright">Copyright</a></li>
+</ul>
+<h2>Getting Started</h2>
+<!-- copied from Getting Started docs, links updated to point to Jest website --><p>Install Jest using <a href="https://yarnpkg.com/en/package/jest"><code>yarn</code></a>:</p>
+<pre><code class="language-bash">yarn add --dev jest
+</code></pre>
+<p>Or <a href="https://www.npmjs.com/package/jest"><code>npm</code></a>:</p>
+<pre><code class="language-bash">npm install --save-dev jest
+</code></pre>
+<p>Note: Jest documentation uses <code>yarn</code> commands, but <code>npm</code> will also work. You can compare <code>yarn</code> and <code>npm</code> commands in the <a href="https://yarnpkg.com/en/docs/migrating-from-npm#toc-cli-commands-comparison">yarn docs, here</a>.</p>
+<p>Let&#39;s get started by writing a test for a hypothetical function that adds two numbers. First, create a <code>sum.js</code> file:</p>
+<pre><code class="language-javascript">function sum(a, b) {
+  return a + b;
+}
+module.exports = sum;
+</code></pre>
+<p>Then, create a file named <code>sum.test.js</code>. This will contain our actual test:</p>
+<pre><code class="language-javascript">const sum = require(&#39;./sum&#39;);
+
+test(&#39;adds 1 + 2 to equal 3&#39;, () =&gt; {
+  expect(sum(1, 2)).toBe(3);
+});
+</code></pre>
+<p>Add the following section to your <code>package.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;jest&quot;
+  }
+}
+</code></pre>
+<p>Finally, run <code>yarn test</code> or <code>npm test</code> and Jest will print this message:</p>
+<pre><code class="language-bash">PASS  ./sum.test.js
+✓ adds 1 + 2 to equal 3 (5ms)
+</code></pre>
+<p><strong>You just successfully wrote your first test using Jest!</strong></p>
+<p>This test used <code>expect</code> and <code>toBe</code> to test that two values were exactly identical. To learn about the other things that Jest can test, see <a href="https://jestjs.io/docs/using-matchers">Using Matchers</a>.</p>
+<h2>Running from command line</h2>
+<p>You can run Jest directly from the CLI (if it&#39;s globally available in your <code>PATH</code>, e.g. by <code>yarn global add jest</code> or <code>npm install jest --global</code>) with a variety of useful options.</p>
+<p>Here&#39;s how to run Jest on files matching <code>my-test</code>, using <code>config.json</code> as a configuration file and display a native OS notification after the run:</p>
+<pre><code class="language-bash">jest my-test --notify --config=config.json
+</code></pre>
+<p>If you&#39;d like to learn more about running <code>jest</code> through the command line, take a look at the <a href="https://jestjs.io/docs/cli">Jest CLI Options</a> page.</p>
+<h2>Additional Configuration</h2>
+<h3>Generate a basic configuration file</h3>
+<p>Based on your project, Jest will ask you a few questions and will create a basic configuration file with a short description for each option:</p>
+<pre><code class="language-bash">yarn create jest
+</code></pre>
+<h3>Using Babel</h3>
+<p>To use <a href="https://babeljs.io/">Babel</a>, install required dependencies via <code>yarn</code>:</p>
+<pre><code class="language-bash">yarn add --dev babel-jest @babel/core @babel/preset-env
+</code></pre>
+<p>Configure Babel to target your current version of Node by creating a <code>babel.config.js</code> file in the root of your project:</p>
+<pre><code class="language-javascript">// babel.config.js
+module.exports = {
+  presets: [[&#39;@babel/preset-env&#39;, {targets: {node: &#39;current&#39;}}]],
+};
+</code></pre>
+<p>The ideal configuration for Babel will depend on your project. See <a href="https://babeljs.io/docs/en/">Babel&#39;s docs</a> for more details.</p>
+<details>
+  <summary markdown="span"><strong>Making your Babel config jest-aware</strong></summary><p>Jest will set <code>process.env.NODE_ENV</code> to <code>&#39;test&#39;</code> if it&#39;s not set to something else. You can use that in your configuration to conditionally setup only the compilation needed for Jest, e.g.</p>
+<pre><code class="language-javascript">// babel.config.js
+module.exports = api =&gt; {
+  const isTest = api.env(&#39;test&#39;);
+  // You can use isTest to determine what presets and plugins to use.
+
+  return {
+    // ...
+  };
+};
+</code></pre>
+<blockquote>
+<p>Note: <code>babel-jest</code> is automatically installed when installing Jest and will automatically transform files if a babel configuration exists in your project. To avoid this behavior, you can explicitly reset the <code>transform</code> configuration option:</p>
+</blockquote>
+<pre><code class="language-javascript">// jest.config.js
+module.exports = {
+  transform: {},
+};
+</code></pre>
+</details><!-- Note that the Babel 6 section in the Getting Started was removed --><h3>Using webpack</h3>
+<p>Jest can be used in projects that use <a href="https://webpack.js.org/">webpack</a> to manage assets, styles, and compilation. webpack does offer some unique challenges over other tools. Refer to the <a href="https://jestjs.io/docs/webpack">webpack guide</a> to get started.</p>
+<h3>Using Vite</h3>
+<p>Jest can be used in projects that use <a href="https://vitejs.dev/">vite</a> to serves source code over native ESM to provide some frontend tooling, vite is an opinionated tool and does offer some out-of-the box workflows. Jest is not fully supported by vite due to how the <a href="https://github.com/vitejs/vite/issues/1955#issuecomment-776009094">plugin system</a> from vite works, but there is some working examples for first-class jest integration using the <code>vite-jest</code>, since this is not fully supported, you might as well read the <a href="https://github.com/sodatea/vite-jest/tree/main/packages/vite-jest#limitations-and-differences-with-commonjs-tests">limitation of the <code>vite-jest</code></a>. Refer to the <a href="https://vitejs.dev/guide/">vite guide</a> to get started.</p>
+<h3>Using Parcel</h3>
+<p>Jest can be used in projects that use <a href="https://parceljs.org/">parcel-bundler</a> to manage assets, styles, and compilation similar to webpack. Parcel requires zero configuration. Refer to the official <a href="https://parceljs.org/docs/">docs</a> to get started.</p>
+<h3>Using TypeScript</h3>
+<p>Jest supports TypeScript, via Babel. First, make sure you followed the instructions on <a href="#using-babel">using Babel</a> above. Next, install the <code>@babel/preset-typescript</code> via <code>yarn</code>:</p>
+<pre><code class="language-bash">yarn add --dev @babel/preset-typescript
+</code></pre>
+<p>Then add <code>@babel/preset-typescript</code> to the list of presets in your <code>babel.config.js</code>.</p>
+<pre><code class="language-diff">// babel.config.js
+module.exports = {
+  presets: [
+    [&#39;@babel/preset-env&#39;, {targets: {node: &#39;current&#39;}}],
++    &#39;@babel/preset-typescript&#39;,
+  ],
+};
+</code></pre>
+<p>However, there are some <a href="https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats">caveats</a> to using TypeScript with Babel. Because TypeScript support in Babel is purely transpilation, Jest will not type-check your tests as they are run. If you want that, you can use <a href="https://github.com/kulshekhar/ts-jest">ts-jest</a> instead, or just run the TypeScript compiler <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html">tsc</a> separately (or as part of your build process).</p>
+<!-- end copied --><h2>Documentation</h2>
+<p>Learn more about using <a href="https://jestjs.io">Jest on the official site!</a></p>
+<ul>
+<li><a href="https://jestjs.io/docs/getting-started">Getting Started</a></li>
+<li><a href="https://jestjs.io/docs/snapshot-testing">Guides</a></li>
+<li><a href="https://jestjs.io/docs/api">API Reference</a></li>
+<li><a href="https://jestjs.io/docs/configuration">Configuring Jest</a></li>
+</ul>
+<h2>Badge</h2>
+<p>Show the world you&#39;re using <em>Jest</em> <code>→</code> <a href="https://github.com/jestjs/jest"><img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="tested with jest"></a> <a href="https://github.com/jestjs/jest"><img src="https://img.shields.io/badge/Jest-tested-eee.svg?logo=jest&labelColor=99424f" alt="jest tested"></a> <a href="https://github.com/jestjs/jest"><img src="https://jestjs.io/img/jest-badge.svg" alt="jest"></a></p>
+<!-- prettier-ignore -->
+<pre><code class="language-md">[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg?logo=jest)](https://github.com/jestjs/jest)
+[![jest tested](https://img.shields.io/badge/Jest-tested-eee.svg?logo=jest&amp;labelColor=99424f)](https://github.com/jestjs/jest)
+[![jest](https://jestjs.io/img/jest-badge.svg)](https://github.com/jestjs/jest)
+</code></pre>
+<h2>Contributing</h2>
+<p>Development of Jest happens in the open on GitHub, and we are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving Jest.</p>
+<h3><a href="https://code.facebook.com/codeofconduct">Code of Conduct</a></h3>
+<p>Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read <a href="https://code.facebook.com/codeofconduct">the full text</a> so that you can understand what actions will and will not be tolerated.</p>
+<h3><a href="CONTRIBUTING.md">Contributing Guide</a></h3>
+<p>Read our <a href="CONTRIBUTING.md">contributing guide</a> to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Jest.</p>
+<h3><a href="https://github.com/jestjs/jest/labels/good%20first%20issue">Good First Issues</a></h3>
+<p>To help you get your feet wet and get you familiar with our contribution process, we have a list of <a href="https://github.com/jestjs/jest/labels/good%20first%20issue">good first issues</a> that contain bugs which have a relatively limited scope. This is a great place to get started.</p>
+<h2>Credits</h2>
+<p>This project exists thanks to all the people who <a href="CONTRIBUTING.md">contribute</a>.</p>
+<p><a href="https://github.com/jestjs/jest/graphs/contributors"><img src="https://opencollective.com/jest/contributors.svg?width=890&button=false" /></a></p>
+<h3><a href="https://opencollective.com/jest#backer">Backers</a></h3>
+<p>Thank you to all our backers! 🙏</p>
+<p><a href="https://opencollective.com/jest#backers" target="_blank"><img src="https://opencollective.com/jest/backers.svg?width=890"></a></p>
+<h3><a href="https://opencollective.com/jest#sponsor">Sponsors</a></h3>
+<p>Support this project by becoming a sponsor. Your logo will show up here with a link to your website.</p>
+<p><a href="https://opencollective.com/jest/sponsor/0/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/1/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/1/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/2/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/2/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/3/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/3/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/4/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/4/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/5/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/5/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/6/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/6/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/7/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/7/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/8/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/8/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/9/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/9/avatar.svg"></a></p>
+<h2>License</h2>
+<p>Jest is <a href="./LICENSE">MIT licensed</a>.</p>
+<h2>Copyright</h2>
+<p>Copyright Contributors to the Jest project.</p>
+
+          </article>
+        </div>
+        <div class="footer">
+          <p>&copy; 2026 OSS Project. Open Source MIT License.</p>
+          <p>Privacy Policy | Terms of Service</p>
+        </div>
+      </body>
+      </html>
+      

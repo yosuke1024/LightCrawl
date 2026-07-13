@@ -1,0 +1,984 @@
+{
+  "metadata": {
+    "timestamp": "2026-07-13T07:59:46.558Z",
+    "nodeVersion": "v25.5.0",
+    "os": "darwin",
+    "arch": "arm64",
+    "tokenizerName": "js-tiktoken",
+    "tokenizerVersion": "o200k_base",
+    "gitCommitSha": "ebe8f8062d49b2fde739187b5e844012cf20207c",
+    "manifestSha256": "9739b9d28b08241b12f9d1d5c4261770bcb2c5e967d662fbf26a222c86befd2c",
+    "datasetType": "synthetic"
+  },
+  "offline": {
+    "fixturesCount": 25,
+    "conditionMetrics": {
+      "raw_html": {
+        "macro_fact_retention": 1,
+        "micro_fact_retention": 1,
+        "macro_median_reduction": -0.11422413793103448,
+        "weighted_total_reduction": -0.11287737109270646,
+        "total_tokens": 58317
+      },
+      "body_text": {
+        "macro_fact_retention": 1,
+        "micro_fact_retention": 1,
+        "macro_median_reduction": 0,
+        "weighted_total_reduction": 0,
+        "total_tokens": 52402
+      },
+      "lightcrawl_full": {
+        "macro_fact_retention": 1,
+        "micro_fact_retention": 1,
+        "macro_median_reduction": 0.009516837481698404,
+        "weighted_total_reduction": 0.010457616121522073,
+        "total_tokens": 51854
+      },
+      "lightcrawl_article": {
+        "macro_fact_retention": 1,
+        "micro_fact_retention": 1,
+        "macro_median_reduction": 0.036002149382052706,
+        "weighted_total_reduction": 0.036048242433494915,
+        "total_tokens": 50513
+      },
+      "lightcrawl_auto_candidate": {
+        "macro_fact_retention": 1,
+        "micro_fact_retention": 1,
+        "macro_median_reduction": 0.036002149382052706,
+        "weighted_total_reduction": 0.036048242433494915,
+        "total_tokens": 50513
+      }
+    },
+    "results": [
+      {
+        "id": "tech-doc-en-01",
+        "category": "technical-documentation",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2072,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.11939492166396537
+          },
+          "body_text": {
+            "tokens": 1851,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1837,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.0075634792004322104
+          },
+          "lightcrawl_article": {
+            "tokens": 1784,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03619665045921128
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1784,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03619665045921128
+          }
+        }
+      },
+      {
+        "id": "tech-doc-en-02",
+        "category": "technical-documentation",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2985,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.09260614934114209
+          },
+          "body_text": {
+            "tokens": 2732,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2706,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.009516837481698404
+          },
+          "lightcrawl_article": {
+            "tokens": 2653,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.028916544655929743
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2653,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.028916544655929743
+          }
+        }
+      },
+      {
+        "id": "tech-doc-en-03",
+        "category": "technical-documentation",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2618,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.1013883045856121
+          },
+          "body_text": {
+            "tokens": 2377,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2355,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.009255363904080771
+          },
+          "lightcrawl_article": {
+            "tokens": 2302,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.031552376945729876
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2302,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.031552376945729876
+          }
+        }
+      },
+      {
+        "id": "tech-doc-ja-01",
+        "category": "technical-documentation",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2081,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.11821601289629236
+          },
+          "body_text": {
+            "tokens": 1861,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1847,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.007522837184309461
+          },
+          "lightcrawl_article": {
+            "tokens": 1794,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.036002149382052706
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1794,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.036002149382052706
+          }
+        }
+      },
+      {
+        "id": "tech-doc-ja-02",
+        "category": "technical-documentation",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2629,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.10046044370029295
+          },
+          "body_text": {
+            "tokens": 2389,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2367,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.009208874005860235
+          },
+          "lightcrawl_article": {
+            "tokens": 2314,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03139388865634152
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2314,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03139388865634152
+          }
+        }
+      },
+      {
+        "id": "tech-doc-ja-03",
+        "category": "technical-documentation",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2988,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.09210526315789469
+          },
+          "body_text": {
+            "tokens": 2736,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2710,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.009502923976608235
+          },
+          "lightcrawl_article": {
+            "tokens": 2657,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.028874269005847997
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2657,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.028874269005847997
+          }
+        }
+      },
+      {
+        "id": "api-ref-en-01",
+        "category": "api-reference",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2620,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.10037799244015111
+          },
+          "body_text": {
+            "tokens": 2381,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2359,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.009239815203695878
+          },
+          "lightcrawl_article": {
+            "tokens": 2306,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.031499370012599726
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2306,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.031499370012599726
+          }
+        }
+      },
+      {
+        "id": "api-ref-ja-01",
+        "category": "api-reference",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2629,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.10046044370029295
+          },
+          "body_text": {
+            "tokens": 2389,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2367,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.009208874005860235
+          },
+          "lightcrawl_article": {
+            "tokens": 2314,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03139388865634152
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2314,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03139388865634152
+          }
+        }
+      },
+      {
+        "id": "code-heavy-en-01",
+        "category": "code-heavy",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2089,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.12493268712977912
+          },
+          "body_text": {
+            "tokens": 1857,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1845,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.00646203554119551
+          },
+          "lightcrawl_article": {
+            "tokens": 1792,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03500269251480881
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1792,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03500269251480881
+          }
+        }
+      },
+      {
+        "id": "code-heavy-ja-01",
+        "category": "code-heavy",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2631,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.100836820083682
+          },
+          "body_text": {
+            "tokens": 2390,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2368,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.009205020920502127
+          },
+          "lightcrawl_article": {
+            "tokens": 2315,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03138075313807531
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2315,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03138075313807531
+          }
+        }
+      },
+      {
+        "id": "table-en-01",
+        "category": "table-heavy",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1750,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.16822429906542058
+          },
+          "body_text": {
+            "tokens": 1498,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1487,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.007343124165554049
+          },
+          "lightcrawl_article": {
+            "tokens": 1421,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.051401869158878455
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1421,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.051401869158878455
+          }
+        }
+      },
+      {
+        "id": "table-ja-01",
+        "category": "table-heavy",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1760,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.16788321167883202
+          },
+          "body_text": {
+            "tokens": 1507,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1496,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.007299270072992692
+          },
+          "lightcrawl_article": {
+            "tokens": 1428,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.05242203052422034
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1428,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.05242203052422034
+          }
+        }
+      },
+      {
+        "id": "blog-en-01",
+        "category": "blog",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 3875,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.07489597780859913
+          },
+          "body_text": {
+            "tokens": 3605,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 3565,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.01109570041608876
+          },
+          "lightcrawl_article": {
+            "tokens": 3513,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.025520110957004127
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 3513,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.025520110957004127
+          }
+        }
+      },
+      {
+        "id": "blog-ja-01",
+        "category": "blog",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 3893,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.07511737089201875
+          },
+          "body_text": {
+            "tokens": 3621,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 3581,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.011046672190002771
+          },
+          "lightcrawl_article": {
+            "tokens": 3529,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.02540734603700634
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 3529,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.02540734603700634
+          }
+        }
+      },
+      {
+        "id": "news-en-01",
+        "category": "news",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2604,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.09642105263157896
+          },
+          "body_text": {
+            "tokens": 2375,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2349,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.010947368421052595
+          },
+          "lightcrawl_article": {
+            "tokens": 2297,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.032842105263157895
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2297,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.032842105263157895
+          }
+        }
+      },
+      {
+        "id": "news-ja-01",
+        "category": "news",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2611,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.0956777171632397
+          },
+          "body_text": {
+            "tokens": 2383,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2357,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.01091061686949224
+          },
+          "lightcrawl_article": {
+            "tokens": 2305,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03273185060847672
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2305,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03273185060847672
+          }
+        }
+      },
+      {
+        "id": "landing-en-01",
+        "category": "landing-page",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1694,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.1331103678929766
+          },
+          "body_text": {
+            "tokens": 1495,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1479,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.010702341137123761
+          },
+          "lightcrawl_article": {
+            "tokens": 1427,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045484949832775956
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1427,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045484949832775956
+          }
+        }
+      },
+      {
+        "id": "landing-ja-01",
+        "category": "landing-page",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1702,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.13315579227696395
+          },
+          "body_text": {
+            "tokens": 1502,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1486,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.010652463382157085
+          },
+          "lightcrawl_article": {
+            "tokens": 1434,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045272969374167804
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1434,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045272969374167804
+          }
+        }
+      },
+      {
+        "id": "nav-heavy-en-01",
+        "category": "nav-heavy",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2371,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.15097087378640772
+          },
+          "body_text": {
+            "tokens": 2060,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2018,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.020388349514563142
+          },
+          "lightcrawl_article": {
+            "tokens": 1966,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045631067961165006
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1966,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045631067961165006
+          }
+        }
+      },
+      {
+        "id": "nav-heavy-ja-01",
+        "category": "nav-heavy",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2380,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.1497584541062802
+          },
+          "body_text": {
+            "tokens": 2070,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2028,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.020289855072463725
+          },
+          "lightcrawl_article": {
+            "tokens": 1976,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.04541062801932372
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1976,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.04541062801932372
+          }
+        }
+      },
+      {
+        "id": "faq-en-01",
+        "category": "faq",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2063,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.11393088552915764
+          },
+          "body_text": {
+            "tokens": 1852,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1832,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.010799136069114423
+          },
+          "lightcrawl_article": {
+            "tokens": 1780,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.0388768898488121
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1780,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.0388768898488121
+          }
+        }
+      },
+      {
+        "id": "faq-ja-01",
+        "category": "faq",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2068,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.11422413793103448
+          },
+          "body_text": {
+            "tokens": 1856,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1836,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.010775862068965525
+          },
+          "lightcrawl_article": {
+            "tokens": 1784,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03879310344827591
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1784,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03879310344827591
+          }
+        }
+      },
+      {
+        "id": "readme-en-01",
+        "category": "readme",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2077,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.11907327586206895
+          },
+          "body_text": {
+            "tokens": 1856,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1840,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.008620689655172376
+          },
+          "lightcrawl_article": {
+            "tokens": 1787,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03717672413793105
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1787,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.03717672413793105
+          }
+        }
+      },
+      {
+        "id": "hard-readability-ja-01",
+        "category": "hard-readability",
+        "language": "ja",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1730,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": -0.14493712772998024
+          },
+          "body_text": {
+            "tokens": 1511,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1495,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.010589013898080757
+          },
+          "lightcrawl_article": {
+            "tokens": 1443,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045003309066843133
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1443,
+            "factRetentionRate": 1,
+            "foundFacts": 2,
+            "tokenReduction": 0.045003309066843133
+          }
+        }
+      },
+      {
+        "id": "short-en-01",
+        "category": "short-text",
+        "language": "en",
+        "conditions": {
+          "raw_html": {
+            "tokens": 397,
+            "factRetentionRate": 1,
+            "foundFacts": 1,
+            "tokenReduction": -0.6008064516129032
+          },
+          "body_text": {
+            "tokens": 248,
+            "factRetentionRate": 1,
+            "foundFacts": 1,
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 244,
+            "factRetentionRate": 1,
+            "foundFacts": 1,
+            "tokenReduction": 0.016129032258064502
+          },
+          "lightcrawl_article": {
+            "tokens": 192,
+            "factRetentionRate": 1,
+            "foundFacts": 1,
+            "tokenReduction": 0.22580645161290325
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 192,
+            "factRetentionRate": 1,
+            "foundFacts": 1,
+            "tokenReduction": 0.22580645161290325
+          }
+        }
+      }
+    ]
+  },
+  "agent": {
+    "tasksCount": 4,
+    "results": []
+  }
+}

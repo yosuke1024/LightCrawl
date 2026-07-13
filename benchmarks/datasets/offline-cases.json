@@ -1,0 +1,782 @@
+[
+  {
+    "id": "tech-doc-en-01",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "tech-doc-en-01.html",
+    "requiredFacts": [
+      "The default port is 3000.",
+      "API_KEY must be set in the environment."
+    ],
+    "requiredCodeFragments": [
+      "npm run build"
+    ],
+    "requiredHeadings": [
+      "Installation Guide"
+    ]
+  },
+  {
+    "id": "tech-doc-en-02",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "tech-doc-en-02.html",
+    "requiredFacts": [
+      "Authentication requires a Bearer token.",
+      "Rate limit is 100 requests per hour."
+    ],
+    "requiredCodeFragments": [
+      "const auth = new Auth();"
+    ],
+    "requiredHeadings": [
+      "Authentication Setup"
+    ]
+  },
+  {
+    "id": "tech-doc-en-03",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "tech-doc-en-03.html",
+    "requiredFacts": [
+      "WebSockets run on wss://.",
+      "Connection timeout is 30s."
+    ],
+    "requiredCodeFragments": [
+      "socket.connect();"
+    ],
+    "requiredHeadings": [
+      "WebSocket API"
+    ]
+  },
+  {
+    "id": "tech-doc-ja-01",
+    "language": "ja",
+    "category": "technical-documentation",
+    "fixture": "tech-doc-ja-01.html",
+    "requiredFacts": [
+      "デフォルトのタイムアウトは45秒です。",
+      "環境変数 MAX_RETRIES を設定します。"
+    ],
+    "requiredCodeFragments": [
+      "systemctl restart app"
+    ],
+    "requiredHeadings": [
+      "設定ガイド"
+    ]
+  },
+  {
+    "id": "tech-doc-ja-02",
+    "language": "ja",
+    "category": "technical-documentation",
+    "fixture": "tech-doc-ja-02.html",
+    "requiredFacts": [
+      "データベース接続にはTLSが必須です。",
+      "ポートは5432を使用します。"
+    ],
+    "requiredCodeFragments": [
+      "psql -U admin"
+    ],
+    "requiredHeadings": [
+      "データベース設定"
+    ]
+  },
+  {
+    "id": "tech-doc-ja-03",
+    "language": "ja",
+    "category": "technical-documentation",
+    "fixture": "tech-doc-ja-03.html",
+    "requiredFacts": [
+      "キャッシュの有効期限は1時間です。",
+      "RedisサーバーのIPを指定します。"
+    ],
+    "requiredCodeFragments": [
+      "redis-cli ping"
+    ],
+    "requiredHeadings": [
+      "キャッシュ設定"
+    ]
+  },
+  {
+    "id": "api-ref-en-01",
+    "language": "en",
+    "category": "api-reference",
+    "fixture": "api-ref-en-01.html",
+    "requiredFacts": [
+      "Returns a 200 OK on success.",
+      "Endpoint is /api/v1/users."
+    ],
+    "requiredCodeFragments": [
+      "GET /api/v1/users"
+    ],
+    "requiredHeadings": [
+      "Endpoints"
+    ]
+  },
+  {
+    "id": "api-ref-ja-01",
+    "language": "ja",
+    "category": "api-reference",
+    "fixture": "api-ref-ja-01.html",
+    "requiredFacts": [
+      "成功時には 200 OK を返します。",
+      "エンドポイントは /api/v1/items です。"
+    ],
+    "requiredCodeFragments": [
+      "GET /api/v1/items"
+    ],
+    "requiredHeadings": [
+      "エンドポイント仕様"
+    ]
+  },
+  {
+    "id": "code-heavy-en-01",
+    "language": "en",
+    "category": "code-heavy",
+    "fixture": "code-heavy-en-01.html",
+    "requiredFacts": [
+      "This example uses Express.js.",
+      "App listens on port 8080."
+    ],
+    "requiredCodeFragments": [
+      "app.listen(8080);",
+      "const express = require(\"express\");"
+    ],
+    "requiredHeadings": [
+      "Express Example"
+    ]
+  },
+  {
+    "id": "code-heavy-ja-01",
+    "language": "ja",
+    "category": "code-heavy",
+    "fixture": "code-heavy-ja-01.html",
+    "requiredFacts": [
+      "この例ではNext.jsを使用します。",
+      "ページはSSRでレンダリングされます。"
+    ],
+    "requiredCodeFragments": [
+      "export const getServerSideProps = async () => {};"
+    ],
+    "requiredHeadings": [
+      "Next.jsの例"
+    ]
+  },
+  {
+    "id": "table-en-01",
+    "language": "en",
+    "category": "table-heavy",
+    "fixture": "table-en-01.html",
+    "requiredFacts": [
+      "Basic plan costs $10.",
+      "Pro plan costs $20."
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "Pricing Table"
+    ]
+  },
+  {
+    "id": "table-ja-01",
+    "language": "ja",
+    "category": "table-heavy",
+    "fixture": "table-ja-01.html",
+    "requiredFacts": [
+      "基本プランは1000円です。",
+      "プロプランは2000円です。"
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "料金表"
+    ]
+  },
+  {
+    "id": "blog-en-01",
+    "language": "en",
+    "category": "blog",
+    "fixture": "blog-en-01.html",
+    "requiredFacts": [
+      "I started learning Rust in 2023.",
+      "The compiler is very helpful."
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "My Rust Journey"
+    ]
+  },
+  {
+    "id": "blog-ja-01",
+    "language": "ja",
+    "category": "blog",
+    "fixture": "blog-ja-01.html",
+    "requiredFacts": [
+      "2023年にRustの学習を始めました。",
+      "コンパイラのエラーメッセージが親切です。"
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "Rust学習記"
+    ]
+  },
+  {
+    "id": "news-en-01",
+    "language": "en",
+    "category": "news",
+    "fixture": "news-en-01.html",
+    "requiredFacts": [
+      "Company X has announced its IPO.",
+      "The share price is set to $50."
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "Company X goes public"
+    ]
+  },
+  {
+    "id": "news-ja-01",
+    "language": "ja",
+    "category": "news",
+    "fixture": "news-ja-01.html",
+    "requiredFacts": [
+      "株式会社Yが新規上場しました。",
+      "公開価格は1株あたり5000円です。"
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "株式会社Yの上場"
+    ]
+  },
+  {
+    "id": "landing-en-01",
+    "language": "en",
+    "category": "landing-page",
+    "fixture": "landing-en-01.html",
+    "requiredFacts": [
+      "The best app in the world.",
+      "We guarantee 99.9% uptime."
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "Welcome to SuperApp"
+    ]
+  },
+  {
+    "id": "landing-ja-01",
+    "language": "ja",
+    "category": "landing-page",
+    "fixture": "landing-ja-01.html",
+    "requiredFacts": [
+      "世界最高のアプリケーションです。",
+      "稼働率99.9%を保証します。"
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "SuperAppへようこそ"
+    ]
+  },
+  {
+    "id": "nav-heavy-en-01",
+    "language": "en",
+    "category": "nav-heavy",
+    "fixture": "nav-heavy-en-01.html",
+    "requiredFacts": [
+      "Actual article content.",
+      "Important story detail."
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "Real Content"
+    ]
+  },
+  {
+    "id": "nav-heavy-ja-01",
+    "language": "ja",
+    "category": "nav-heavy",
+    "fixture": "nav-heavy-ja-01.html",
+    "requiredFacts": [
+      "実際の記事コンテンツです。",
+      "重要なニュースの詳細です。"
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "実際のニュース"
+    ]
+  },
+  {
+    "id": "faq-en-01",
+    "language": "en",
+    "category": "faq",
+    "fixture": "faq-en-01.html",
+    "requiredFacts": [
+      "You can reset your password from the settings page.",
+      "Refunds are processed within 5-7 business days."
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "Frequently Asked Questions"
+    ]
+  },
+  {
+    "id": "faq-ja-01",
+    "language": "ja",
+    "category": "faq",
+    "fixture": "faq-ja-01.html",
+    "requiredFacts": [
+      "設定画面からパスワードをリセットできます。",
+      "返金には5〜7営業日かかります。"
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "よくある質問"
+    ]
+  },
+  {
+    "id": "readme-en-01",
+    "language": "en",
+    "category": "readme",
+    "fixture": "readme-en-01.html",
+    "requiredFacts": [
+      "This is a popular open source library.",
+      "To contribute, please read CONTRIBUTING.md."
+    ],
+    "requiredCodeFragments": [
+      "git clone https://github.com/example/lib.git"
+    ],
+    "requiredHeadings": [
+      "Introduction"
+    ]
+  },
+  {
+    "id": "hard-readability-ja-01",
+    "language": "ja",
+    "category": "hard-readability",
+    "fixture": "hard-readability-ja-01.html",
+    "requiredFacts": [
+      "重要なテキストが深くネストされています。",
+      "これはReadabilityが失敗しやすい構造です。"
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "複雑なレイアウト"
+    ]
+  },
+  {
+    "id": "short-en-01",
+    "language": "en",
+    "category": "short-text",
+    "fixture": "short-en-01.html",
+    "requiredFacts": [
+      "Hello world."
+    ],
+    "requiredCodeFragments": [],
+    "requiredHeadings": [
+      "Short text"
+    ]
+  },
+  {
+    "id": "real-react-readme",
+    "dataset": "real_world",
+    "sourceRepository": "facebook/react",
+    "sourceCommit": "HEAD",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-react-readme.html",
+    "requiredHeadings": [
+      "Installation",
+      "Documentation",
+      "Examples"
+    ],
+    "requiredCodeFragments": [
+      "import { createRoot } from 'react-dom/client';\n\nfunction HelloMessage({ name }) {\n  return <div>Hello {name}</div>;\n}\n\nconst root = createRoot(document.getElementById('container'));\nroot.render(<HelloMessage name=\"Taylor\" />);"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-express-guide",
+    "dataset": "real_world",
+    "sourceRepository": "expressjs/express",
+    "sourceCommit": "ae6dd37680e3a00618d6c8a3e522f0ee4eeba1a4",
+    "sourcePath": "Readme.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-express-guide.html",
+    "requiredHeadings": [
+      "Table of contents",
+      "Installation",
+      "Features"
+    ],
+    "requiredCodeFragments": [
+      "import express from 'express'\n\nconst app = express()\n\napp.get('/', (req, res) => {\n  res.send('Hello World')\n})\n\napp.listen(3000, () => {\n  console.log('Server is running on http://localhost:3000')\n})",
+      "npm install express"
+    ],
+    "requiredFacts": [
+      "Installation is done using the"
+    ]
+  },
+  {
+    "id": "real-vue-readme",
+    "dataset": "real_world",
+    "sourceRepository": "vuejs/core",
+    "sourceCommit": "9e03beb6b4c85a9d5b49b731c08263aa648e2a2a",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-vue-readme.html",
+    "requiredHeadings": [
+      "Getting Started",
+      "Sponsors",
+      "Questions"
+    ],
+    "requiredCodeFragments": [],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-fastapi-readme",
+    "dataset": "real_world",
+    "sourceRepository": "tiangolo/fastapi",
+    "sourceCommit": "HEAD",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-fastapi-readme.html",
+    "requiredHeadings": [
+      "Sponsors",
+      "Keystone Sponsor",
+      "Gold Sponsors"
+    ],
+    "requiredCodeFragments": [
+      "$ pip install \"fastapi[standard]\"\n\n---> 100%",
+      "from fastapi import FastAPI\n\napp = FastAPI()\n\n\n@app.get(\"/\")\ndef read_root():\n    return {\"Hello\": \"World\"}\n\n\n@app.get(\"/items/{item_id}\")\ndef read_item(item_id: int, q: str | None = None):\n    return {\"item_id\": item_id, \"q\": q}"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-node-readme",
+    "dataset": "real_world",
+    "sourceRepository": "nodejs/node",
+    "sourceCommit": "e631709909a52e3ca4265219ce9a568bf47a5829",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-node-readme.html",
+    "requiredHeadings": [
+      "Table of contents",
+      "Support",
+      "Release types"
+    ],
+    "requiredCodeFragments": [
+      "curl -fsLo \"/path/to/nodejs-keyring.kbx\" \"https://github.com/nodejs/release-keys/raw/HEAD/gpg/pubring.kbx\"",
+      "curl -fsO \"https://nodejs.org/dist/${VERSION}/SHASUMS256.txt.asc\" \\\n&& gpgv --keyring=\"/path/to/nodejs-keyring.kbx\" --output SHASUMS256.txt < SHASUMS256.txt.asc \\\n&& shasum --check SHASUMS256.txt --ignore-missing"
+    ],
+    "requiredFacts": [
+      "You can use the keyring the project maintains at",
+      "to ensure individuals who act as security stewards have the"
+    ]
+  },
+  {
+    "id": "real-webpack-readme",
+    "dataset": "real_world",
+    "sourceRepository": "webpack/webpack",
+    "sourceCommit": "eea930807955d5c037db43343b2c90c252b5bac4",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-webpack-readme.html",
+    "requiredHeadings": [
+      "Table of Contents",
+      "Install",
+      "Introduction"
+    ],
+    "requiredCodeFragments": [
+      "npm install --save-dev webpack",
+      "yarn add webpack --dev"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-babel-readme",
+    "dataset": "real_world",
+    "sourceRepository": "babel/babel",
+    "sourceCommit": "c86e9e4b272be7a8b9242bb310b26719393d700a",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-babel-readme.html",
+    "requiredHeadings": [
+      "Sponsors",
+      "Intro",
+      "FAQ"
+    ],
+    "requiredCodeFragments": [
+      "// ES2020 nullish coalescing\nfunction greet(input) {\n  return input ?? \"Hello world\";\n}",
+      "function greet(input) {\n  return input != null ? input : \"Hello world\";\n}"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-lodash-readme",
+    "dataset": "real_world",
+    "sourceRepository": "lodash/lodash",
+    "sourceCommit": "a666ba591064c8011988275790ad7d625279f09c",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-lodash-readme.html",
+    "requiredHeadings": [
+      "Download",
+      "Installation",
+      "Why Lodash?"
+    ],
+    "requiredCodeFragments": [
+      "$ npm run build\n$ lodash -o ./dist/lodash.js\n$ lodash core -o ./dist/lodash.core.js",
+      "<script src=\"lodash.js\"></script>"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-typescript-readme",
+    "dataset": "real_world",
+    "sourceRepository": "microsoft/TypeScript",
+    "sourceCommit": "637d5746b70257028fb95aad32ddec6b26ab0a14",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-typescript-readme.html",
+    "requiredHeadings": [
+      "Installing",
+      "Contribute",
+      "Documentation"
+    ],
+    "requiredCodeFragments": [
+      "npm install -D typescript",
+      "npm install -D typescript@next"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-jest-readme",
+    "dataset": "real_world",
+    "sourceRepository": "jestjs/jest",
+    "sourceCommit": "f49721c78e195558b40913977c9230f5b7f559d8",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-jest-readme.html",
+    "requiredHeadings": [
+      "Table of Contents",
+      "Getting Started",
+      "Running from command line"
+    ],
+    "requiredCodeFragments": [
+      "yarn add --dev jest",
+      "npm install --save-dev jest"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-svelte-readme",
+    "dataset": "real_world",
+    "sourceRepository": "sveltejs/svelte",
+    "sourceCommit": "b4d1583ae20f3869a88a731d9a265c546c099f66",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-svelte-readme.html",
+    "requiredHeadings": [
+      "What is Svelte?",
+      "Supporting Svelte",
+      "Roadmap"
+    ],
+    "requiredCodeFragments": [],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-redux-readme",
+    "dataset": "real_world",
+    "sourceRepository": "reduxjs/redux",
+    "sourceCommit": "5d65348e26635b6ec627b1030732ed38797e88e9",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-redux-readme.html",
+    "requiredHeadings": [
+      "Installation",
+      "Create a React Redux App",
+      "Documentation"
+    ],
+    "requiredCodeFragments": [
+      "# Vite with our Redux+TS template\n# (using the `degit` tool to clone and extract the template)\nnpx degit reduxjs/redux-templates/packages/vite-template-redux my-app\n\n# Next.js using the `with-redux` template\nnpx create-next-app --example with-redux my-app",
+      "npm install @reduxjs/toolkit react-redux"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-tailwind-readme",
+    "dataset": "real_world",
+    "sourceRepository": "tailwindlabs/tailwindcss",
+    "sourceCommit": "35a3e9c5159bea77af0d48f0c8849279211cc7e9",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-tailwind-readme.html",
+    "requiredHeadings": [
+      "Documentation",
+      "Community",
+      "Contributing"
+    ],
+    "requiredCodeFragments": [],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-eslint-readme",
+    "dataset": "real_world",
+    "sourceRepository": "eslint/eslint",
+    "sourceCommit": "c5963f74bfa82a5b7ccc0607dcdcc695b8c97a31",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-eslint-readme.html",
+    "requiredHeadings": [
+      "Table of Contents",
+      "Installation and Usage",
+      "Prerequisites"
+    ],
+    "requiredCodeFragments": [
+      "npm init @eslint/config@latest",
+      "npx eslint yourfile.js"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-prettier-readme",
+    "dataset": "real_world",
+    "sourceRepository": "prettier/prettier",
+    "sourceCommit": "41a8b99bb8d7d68c00d90d5b8fbaed20511d4cfd",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-prettier-readme.html",
+    "requiredHeadings": [
+      "Intro",
+      "Input",
+      "Output"
+    ],
+    "requiredCodeFragments": [
+      "foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());",
+      "foo(\n  reallyLongArg(),\n  omgSoManyParameters(),\n  IShouldRefactorThis(),\n  isThereSeriouslyAnotherOne(),\n);"
+    ],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-vite-readme",
+    "dataset": "real_world",
+    "sourceRepository": "vitejs/vite",
+    "sourceCommit": "fef682d3f067d534a559faf6fd9baedda2e9f8f1",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-vite-readme.html",
+    "requiredHeadings": [
+      "Packages",
+      "Contribution",
+      "License"
+    ],
+    "requiredCodeFragments": [],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-electron-readme",
+    "dataset": "real_world",
+    "sourceRepository": "electron/electron",
+    "sourceCommit": "8215b5aa536ec6ae121003bc618bdd825bdbbb0f",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-electron-readme.html",
+    "requiredHeadings": [
+      "Installation",
+      "Platform support",
+      "Electron Fiddle"
+    ],
+    "requiredCodeFragments": [
+      "npm install electron --save-dev",
+      "const electron = require('electron')\nconst proc = require('node:child_process')\n\n// will print something similar to /Users/maf/.../Electron\nconsole.log(electron)\n\n// spawn Electron\nconst child = proc.spawn(electron)"
+    ],
+    "requiredFacts": [
+      "This project adheres to the Contributor Covenant"
+    ]
+  },
+  {
+    "id": "real-react-native-readme",
+    "dataset": "real_world",
+    "sourceRepository": "facebook/react-native",
+    "sourceCommit": "HEAD",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-react-native-readme.html",
+    "requiredHeadings": [
+      "Contents",
+      "📋 Requirements",
+      "🎉 Building your first React Native app"
+    ],
+    "requiredCodeFragments": [],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-docker-docs",
+    "dataset": "real_world",
+    "sourceRepository": "docker/docs",
+    "sourceCommit": "0d16886d1aeece98825cd2f81edb15988afda035",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "en",
+    "category": "technical-documentation",
+    "fixture": "real-docker-docs.html",
+    "requiredHeadings": [
+      "Provide feedback",
+      "Contribute to Docker docs",
+      "Copyright and license"
+    ],
+    "requiredCodeFragments": [],
+    "requiredFacts": []
+  },
+  {
+    "id": "real-vue-ja",
+    "dataset": "real_world",
+    "sourceRepository": "vuejs-translations/docs-ja",
+    "sourceCommit": "d7ab922c8a3a565db43eeecb5bb145127817239e",
+    "sourcePath": "README.md",
+    "license": "MIT",
+    "language": "ja",
+    "category": "technical-documentation",
+    "fixture": "real-vue-ja.html",
+    "requiredHeadings": [
+      "貢献する",
+      "コンテンツに関する作業",
+      "テーマに関する作業"
+    ],
+    "requiredCodeFragments": [
+      "pnpm i\npnpm run dev",
+      "corepack enable"
+    ],
+    "requiredFacts": []
+  }
+]

@@ -1,0 +1,5309 @@
+{
+  "metadata": {
+    "timestamp": "2026-07-13T08:44:26.770Z",
+    "nodeVersion": "v25.5.0",
+    "os": "darwin",
+    "arch": "arm64",
+    "tokenizerName": "js-tiktoken",
+    "tokenizerVersion": "o200k_base"
+  },
+  "offline": {
+    "datasetMetrics": {
+      "synthetic": {
+        "fixturesCount": 25,
+        "conditions": {
+          "raw_html": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 1,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": -0.11422413793103448,
+            "weighted_total_reduction": -0.11287737109270646,
+            "total_tokens": 58317
+          },
+          "body_text": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 1,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0,
+            "weighted_total_reduction": 0,
+            "total_tokens": 52402
+          },
+          "lightcrawl_full": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 1,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0.009516837481698404,
+            "weighted_total_reduction": 0.010457616121522073,
+            "total_tokens": 51854
+          },
+          "lightcrawl_article": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 1,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0.036002149382052706,
+            "weighted_total_reduction": 0.036048242433494915,
+            "total_tokens": 50513
+          },
+          "lightcrawl_auto_candidate": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 1,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0.036002149382052706,
+            "weighted_total_reduction": 0.036048242433494915,
+            "total_tokens": 50513
+          }
+        }
+      },
+      "real_world": {
+        "fixturesCount": 20,
+        "conditions": {
+          "raw_html": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 0.6296296296296297,
+            "heading_retention_rate": 1,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": -2.149812734082397,
+            "weighted_total_reduction": -2.4803623106701242,
+            "total_tokens": 92602
+          },
+          "body_text": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.9666666666666667,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0,
+            "weighted_total_reduction": 0,
+            "total_tokens": 26607
+          },
+          "lightcrawl_full": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.9666666666666667,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": -1.0156739811912225,
+            "weighted_total_reduction": -1.4333446085616566,
+            "total_tokens": 64744
+          },
+          "lightcrawl_article": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.95,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": -0.9706457925636007,
+            "weighted_total_reduction": -1.3349118652986056,
+            "total_tokens": 62125
+          },
+          "lightcrawl_auto_candidate": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.95,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": -0.9706457925636007,
+            "weighted_total_reduction": -1.3349118652986056,
+            "total_tokens": 62125
+          }
+        }
+      },
+      "combined": {
+        "fixturesCount": 45,
+        "conditions": {
+          "raw_html": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 0.7435897435897436,
+            "heading_retention_rate": 1,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": -0.16788321167883202,
+            "weighted_total_reduction": -0.9101494766419016,
+            "total_tokens": 150919
+          },
+          "body_text": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.9764705882352941,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0,
+            "weighted_total_reduction": 0,
+            "total_tokens": 79009
+          },
+          "lightcrawl_full": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.9764705882352941,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0.007343124165554049,
+            "weighted_total_reduction": -0.4757559265400144,
+            "total_tokens": 116598
+          },
+          "lightcrawl_article": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.9647058823529412,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0.028874269005847997,
+            "weighted_total_reduction": -0.4256350542343277,
+            "total_tokens": 112638
+          },
+          "lightcrawl_auto_candidate": {
+            "macro_fact_retention": 1,
+            "micro_fact_retention": 1,
+            "code_retention_rate": 1,
+            "heading_retention_rate": 0.9647058823529412,
+            "table_cell_retention_rate": 1,
+            "link_target_retention_rate": 1,
+            "macro_median_reduction": 0.028874269005847997,
+            "weighted_total_reduction": -0.4256350542343277,
+            "total_tokens": 112638
+          }
+        }
+      }
+    },
+    "results": [
+      {
+        "id": "tech-doc-en-01",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2072,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.11939492166396537
+          },
+          "body_text": {
+            "tokens": 1851,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1837,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.0075634792004322104
+          },
+          "lightcrawl_article": {
+            "tokens": 1784,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03619665045921128
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1784,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03619665045921128
+          }
+        }
+      },
+      {
+        "id": "tech-doc-en-02",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2985,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.09260614934114209
+          },
+          "body_text": {
+            "tokens": 2732,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2706,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.009516837481698404
+          },
+          "lightcrawl_article": {
+            "tokens": 2653,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.028916544655929743
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2653,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.028916544655929743
+          }
+        }
+      },
+      {
+        "id": "tech-doc-en-03",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2618,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.1013883045856121
+          },
+          "body_text": {
+            "tokens": 2377,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2355,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.009255363904080771
+          },
+          "lightcrawl_article": {
+            "tokens": 2302,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.031552376945729876
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2302,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.031552376945729876
+          }
+        }
+      },
+      {
+        "id": "tech-doc-ja-01",
+        "category": "technical-documentation",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2081,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.11821601289629236
+          },
+          "body_text": {
+            "tokens": 1861,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1847,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.007522837184309461
+          },
+          "lightcrawl_article": {
+            "tokens": 1794,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.036002149382052706
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1794,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.036002149382052706
+          }
+        }
+      },
+      {
+        "id": "tech-doc-ja-02",
+        "category": "technical-documentation",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2629,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.10046044370029295
+          },
+          "body_text": {
+            "tokens": 2389,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2367,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.009208874005860235
+          },
+          "lightcrawl_article": {
+            "tokens": 2314,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03139388865634152
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2314,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03139388865634152
+          }
+        }
+      },
+      {
+        "id": "tech-doc-ja-03",
+        "category": "technical-documentation",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2988,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.09210526315789469
+          },
+          "body_text": {
+            "tokens": 2736,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2710,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.009502923976608235
+          },
+          "lightcrawl_article": {
+            "tokens": 2657,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.028874269005847997
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2657,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.028874269005847997
+          }
+        }
+      },
+      {
+        "id": "api-ref-en-01",
+        "category": "api-reference",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2620,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.10037799244015111
+          },
+          "body_text": {
+            "tokens": 2381,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2359,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.009239815203695878
+          },
+          "lightcrawl_article": {
+            "tokens": 2306,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.031499370012599726
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2306,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.031499370012599726
+          }
+        }
+      },
+      {
+        "id": "api-ref-ja-01",
+        "category": "api-reference",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2629,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.10046044370029295
+          },
+          "body_text": {
+            "tokens": 2389,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2367,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.009208874005860235
+          },
+          "lightcrawl_article": {
+            "tokens": 2314,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03139388865634152
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2314,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03139388865634152
+          }
+        }
+      },
+      {
+        "id": "code-heavy-en-01",
+        "category": "code-heavy",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2089,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.12493268712977912
+          },
+          "body_text": {
+            "tokens": 1857,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1845,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.00646203554119551
+          },
+          "lightcrawl_article": {
+            "tokens": 1792,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03500269251480881
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1792,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03500269251480881
+          }
+        }
+      },
+      {
+        "id": "code-heavy-ja-01",
+        "category": "code-heavy",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2631,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.100836820083682
+          },
+          "body_text": {
+            "tokens": 2390,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2368,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.009205020920502127
+          },
+          "lightcrawl_article": {
+            "tokens": 2315,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03138075313807531
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2315,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03138075313807531
+          }
+        }
+      },
+      {
+        "id": "table-en-01",
+        "category": "table-heavy",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1750,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.16822429906542058
+          },
+          "body_text": {
+            "tokens": 1498,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1487,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.007343124165554049
+          },
+          "lightcrawl_article": {
+            "tokens": 1421,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.051401869158878455
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1421,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.051401869158878455
+          }
+        }
+      },
+      {
+        "id": "table-ja-01",
+        "category": "table-heavy",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1760,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.16788321167883202
+          },
+          "body_text": {
+            "tokens": 1507,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1496,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.007299270072992692
+          },
+          "lightcrawl_article": {
+            "tokens": 1428,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.05242203052422034
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1428,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.05242203052422034
+          }
+        }
+      },
+      {
+        "id": "blog-en-01",
+        "category": "blog",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 3875,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.07489597780859913
+          },
+          "body_text": {
+            "tokens": 3605,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 3565,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.01109570041608876
+          },
+          "lightcrawl_article": {
+            "tokens": 3513,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.025520110957004127
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 3513,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.025520110957004127
+          }
+        }
+      },
+      {
+        "id": "blog-ja-01",
+        "category": "blog",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 3893,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.07511737089201875
+          },
+          "body_text": {
+            "tokens": 3621,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 3581,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.011046672190002771
+          },
+          "lightcrawl_article": {
+            "tokens": 3529,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.02540734603700634
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 3529,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.02540734603700634
+          }
+        }
+      },
+      {
+        "id": "news-en-01",
+        "category": "news",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2604,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.09642105263157896
+          },
+          "body_text": {
+            "tokens": 2375,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2349,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.010947368421052595
+          },
+          "lightcrawl_article": {
+            "tokens": 2297,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.032842105263157895
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2297,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.032842105263157895
+          }
+        }
+      },
+      {
+        "id": "news-ja-01",
+        "category": "news",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2611,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.0956777171632397
+          },
+          "body_text": {
+            "tokens": 2383,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2357,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.01091061686949224
+          },
+          "lightcrawl_article": {
+            "tokens": 2305,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03273185060847672
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2305,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03273185060847672
+          }
+        }
+      },
+      {
+        "id": "landing-en-01",
+        "category": "landing-page",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1694,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.1331103678929766
+          },
+          "body_text": {
+            "tokens": 1495,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1479,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.010702341137123761
+          },
+          "lightcrawl_article": {
+            "tokens": 1427,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045484949832775956
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1427,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045484949832775956
+          }
+        }
+      },
+      {
+        "id": "landing-ja-01",
+        "category": "landing-page",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1702,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.13315579227696395
+          },
+          "body_text": {
+            "tokens": 1502,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1486,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.010652463382157085
+          },
+          "lightcrawl_article": {
+            "tokens": 1434,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045272969374167804
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1434,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045272969374167804
+          }
+        }
+      },
+      {
+        "id": "nav-heavy-en-01",
+        "category": "nav-heavy",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2371,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.15097087378640772
+          },
+          "body_text": {
+            "tokens": 2060,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2018,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.020388349514563142
+          },
+          "lightcrawl_article": {
+            "tokens": 1966,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045631067961165006
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1966,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045631067961165006
+          }
+        }
+      },
+      {
+        "id": "nav-heavy-ja-01",
+        "category": "nav-heavy",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2380,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.1497584541062802
+          },
+          "body_text": {
+            "tokens": 2070,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2028,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.020289855072463725
+          },
+          "lightcrawl_article": {
+            "tokens": 1976,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.04541062801932372
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1976,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.04541062801932372
+          }
+        }
+      },
+      {
+        "id": "faq-en-01",
+        "category": "faq",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2063,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.11393088552915764
+          },
+          "body_text": {
+            "tokens": 1852,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1832,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.010799136069114423
+          },
+          "lightcrawl_article": {
+            "tokens": 1780,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.0388768898488121
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1780,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.0388768898488121
+          }
+        }
+      },
+      {
+        "id": "faq-ja-01",
+        "category": "faq",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2068,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.11422413793103448
+          },
+          "body_text": {
+            "tokens": 1856,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1836,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.010775862068965525
+          },
+          "lightcrawl_article": {
+            "tokens": 1784,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03879310344827591
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1784,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03879310344827591
+          }
+        }
+      },
+      {
+        "id": "readme-en-01",
+        "category": "readme",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2077,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.11907327586206895
+          },
+          "body_text": {
+            "tokens": 1856,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1840,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.008620689655172376
+          },
+          "lightcrawl_article": {
+            "tokens": 1787,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03717672413793105
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1787,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.03717672413793105
+          }
+        }
+      },
+      {
+        "id": "hard-readability-ja-01",
+        "category": "hard-readability",
+        "language": "ja",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1730,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.14493712772998024
+          },
+          "body_text": {
+            "tokens": 1511,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1495,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.010589013898080757
+          },
+          "lightcrawl_article": {
+            "tokens": 1443,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045003309066843133
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1443,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.045003309066843133
+          }
+        }
+      },
+      {
+        "id": "short-en-01",
+        "category": "short-text",
+        "language": "en",
+        "dataset": "synthetic",
+        "conditions": {
+          "raw_html": {
+            "tokens": 397,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.6008064516129032
+          },
+          "body_text": {
+            "tokens": 248,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 244,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.016129032258064502
+          },
+          "lightcrawl_article": {
+            "tokens": 192,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.22580645161290325
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 192,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 1,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0.22580645161290325
+          }
+        }
+      },
+      {
+        "id": "real-react-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1871,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 0,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.70767004341534
+          },
+          "body_text": {
+            "tokens": 691,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1271,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.8393632416787264
+          },
+          "lightcrawl_article": {
+            "tokens": 1020,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.47612156295224306
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1020,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 1,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.47612156295224306
+          }
+        }
+      },
+      {
+        "id": "real-express-guide",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 4448,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 0.5,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2.314456035767511
+          },
+          "body_text": {
+            "tokens": 1342,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2905,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.1646795827123695
+          },
+          "lightcrawl_article": {
+            "tokens": 2847,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.1214605067064083
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2847,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.1214605067064083
+          }
+        }
+      },
+      {
+        "id": "real-vue-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1109,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -3.047445255474453
+          },
+          "body_text": {
+            "tokens": 274,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 623,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.2737226277372264
+          },
+          "lightcrawl_article": {
+            "tokens": 478,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.7445255474452555
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 478,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.7445255474452555
+          }
+        }
+      },
+      {
+        "id": "real-fastapi-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 8089,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 0,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.6696369636963695
+          },
+          "body_text": {
+            "tokens": 3030,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 5460,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.801980198019802
+          },
+          "lightcrawl_article": {
+            "tokens": 5401,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.7825082508250825
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 5401,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.7825082508250825
+          }
+        }
+      },
+      {
+        "id": "real-node-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 24232,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 0,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.685878962536023
+          },
+          "body_text": {
+            "tokens": 9022,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 17932,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.9875859011305697
+          },
+          "lightcrawl_article": {
+            "tokens": 17882,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.982043892706717
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 17882,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 2,
+              "foundFacts": 2,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.982043892706717
+          }
+        }
+      },
+      {
+        "id": "real-webpack-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 23033,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -9.333333333333334
+          },
+          "body_text": {
+            "tokens": 2229,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 17047,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -6.6478241363840285
+          },
+          "lightcrawl_article": {
+            "tokens": 16277,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -6.3023777478689995
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 16277,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -6.3023777478689995
+          }
+        }
+      },
+      {
+        "id": "real-babel-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2939,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 0,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -4.1834215167548505
+          },
+          "body_text": {
+            "tokens": 567,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 2077,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2.6631393298059964
+          },
+          "lightcrawl_article": {
+            "tokens": 2027,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2.5749559082892417
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 2027,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2.5749559082892417
+          }
+        }
+      },
+      {
+        "id": "real-lodash-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1613,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 0.5,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2.156555772994129
+          },
+          "body_text": {
+            "tokens": 511,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1059,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.072407045009785
+          },
+          "lightcrawl_article": {
+            "tokens": 1007,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.9706457925636007
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1007,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.9706457925636007
+          }
+        }
+      },
+      {
+        "id": "real-typescript-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1379,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2.3470873786407767
+          },
+          "body_text": {
+            "tokens": 412,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 870,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.1116504854368934
+          },
+          "lightcrawl_article": {
+            "tokens": 817,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.983009708737864
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 817,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.983009708737864
+          }
+        }
+      },
+      {
+        "id": "real-jest-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 4659,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.9210031347962384
+          },
+          "body_text": {
+            "tokens": 1595,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 3215,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.0156739811912225
+          },
+          "lightcrawl_article": {
+            "tokens": 3146,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.9724137931034482
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 3146,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.9724137931034482
+          }
+        }
+      },
+      {
+        "id": "real-svelte-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 841,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2.149812734082397
+          },
+          "body_text": {
+            "tokens": 267,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 425,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.5917602996254681
+          },
+          "lightcrawl_article": {
+            "tokens": 378,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.4157303370786516
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 378,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.4157303370786516
+          }
+        }
+      },
+      {
+        "id": "real-redux-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2697,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.1219512195121952
+          },
+          "body_text": {
+            "tokens": 1271,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1962,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.5436664044059796
+          },
+          "lightcrawl_article": {
+            "tokens": 1881,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.4799370574350905
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1881,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.4799370574350905
+          }
+        }
+      },
+      {
+        "id": "real-tailwind-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 811,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -5.702479338842975
+          },
+          "body_text": {
+            "tokens": 121,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 361,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.9834710743801653
+          },
+          "lightcrawl_article": {
+            "tokens": 311,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 0.6666666666666666,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 2,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.5702479338842976
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 311,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 0.6666666666666666,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 2,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.5702479338842976
+          }
+        }
+      },
+      {
+        "id": "real-eslint-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 6555,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.5436554132712454
+          },
+          "body_text": {
+            "tokens": 2577,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 4528,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.757081878152891
+          },
+          "lightcrawl_article": {
+            "tokens": 3961,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.5370585952658129
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 3961,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.5370585952658129
+          }
+        }
+      },
+      {
+        "id": "real-prettier-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1463,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -3.1327683615819213
+          },
+          "body_text": {
+            "tokens": 354,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 899,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.5395480225988702
+          },
+          "lightcrawl_article": {
+            "tokens": 849,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.3983050847457625
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 849,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.3983050847457625
+          }
+        }
+      },
+      {
+        "id": "real-vite-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1415,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -4.2407407407407405
+          },
+          "body_text": {
+            "tokens": 270,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 755,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.7962962962962963
+          },
+          "lightcrawl_article": {
+            "tokens": 699,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.588888888888889
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 699,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.588888888888889
+          }
+        }
+      },
+      {
+        "id": "real-electron-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 1761,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 0.5,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 1,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.3293650793650795
+          },
+          "body_text": {
+            "tokens": 756,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1173,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.5515873015873016
+          },
+          "lightcrawl_article": {
+            "tokens": 1124,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.48677248677248675
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1124,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 1,
+              "foundFacts": 1,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.48677248677248675
+          }
+        }
+      },
+      {
+        "id": "real-react-native-readme",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 2125,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.7490297542043987
+          },
+          "body_text": {
+            "tokens": 773,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 1413,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.8279430789133246
+          },
+          "lightcrawl_article": {
+            "tokens": 1354,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.7516170763260026
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 1354,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.7516170763260026
+          }
+        }
+      },
+      {
+        "id": "real-docker-docs",
+        "category": "technical-documentation",
+        "language": "en",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 770,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -1.7402135231316724
+          },
+          "body_text": {
+            "tokens": 281,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 411,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.46263345195729544
+          },
+          "lightcrawl_article": {
+            "tokens": 357,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.2704626334519573
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 357,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 0,
+              "foundCodeFragments": 0,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.2704626334519573
+          }
+        }
+      },
+      {
+        "id": "real-vue-ja",
+        "category": "technical-documentation",
+        "language": "ja",
+        "dataset": "real_world",
+        "conditions": {
+          "raw_html": {
+            "tokens": 792,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 1,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 3,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -2
+          },
+          "body_text": {
+            "tokens": 264,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 0.3333333333333333,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": 0
+          },
+          "lightcrawl_full": {
+            "tokens": 358,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 0.3333333333333333,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.35606060606060597
+          },
+          "lightcrawl_article": {
+            "tokens": 309,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 0.3333333333333333,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.17045454545454541
+          },
+          "lightcrawl_auto_candidate": {
+            "tokens": 309,
+            "retention": {
+              "factRetentionRate": 1,
+              "codeRetentionRate": 1,
+              "headingRetentionRate": 0.3333333333333333,
+              "tableCellRetentionRate": 1,
+              "linkTargetRetentionRate": 1,
+              "totalRequiredFacts": 0,
+              "foundFacts": 0,
+              "totalRequiredCodeFragments": 2,
+              "foundCodeFragments": 2,
+              "totalRequiredHeadings": 3,
+              "foundHeadings": 1,
+              "totalRequiredTableCells": 0,
+              "foundTableCells": 0,
+              "totalRequiredLinks": 0,
+              "foundLinks": 0
+            },
+            "tokenReduction": -0.17045454545454541
+          }
+        }
+      }
+    ]
+  },
+  "agent": {
+    "tasksCount": 4,
+    "results": [
+      {
+        "task_id": "api-migration",
+        "condition": "body_text",
+        "repetition": 1,
+        "success": false,
+        "documentation_estimated_tokens": 27,
+        "prompt_input_tokens": 92,
+        "cached_input_tokens": null,
+        "output_tokens": 0,
+        "thinking_tokens": null,
+        "total_tokens": 0,
+        "api_request_count": 3,
+        "turn_count": 1,
+        "test_attempt_count": 1,
+        "generation_duration_ms": 0,
+        "test_duration_ms": 0,
+        "time_to_green_ms": null,
+        "error_category": "rate_limit",
+        "estimated_cost_usd": 0,
+        "model_requested": "gemini-2.5-flash",
+        "model_version": null,
+        "sdk_version": "@google/genai@2.11.0"
+      }
+    ]
+  }
+}
